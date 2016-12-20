@@ -250,3 +250,11 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+#SDL
+SDL/
+SDL_image/
+SDL_mixer/
+
+#Game
+Game/
