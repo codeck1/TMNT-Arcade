@@ -26,10 +26,15 @@ public:
 	Animation* current_animation = nullptr;
 	Animation idle;
 	Animation up;
+	Animation upLeft;
+	Animation right;
+	Animation left;
 	Animation down;
 	iPoint position;
 	bool destroyed = false;
 	Collider* collider;
+	bool faceRight = true;
+
 };
 
 #endif

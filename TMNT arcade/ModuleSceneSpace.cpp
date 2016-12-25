@@ -21,7 +21,7 @@ bool ModuleSceneSpace::Start()
 {
 	LOG("Loading space scene");
 	
-	background = App->textures->Load("rtype/background.png");
+	background = App->textures->Load("rtype/stage.png");
 
 	App->player->Enable();
 	App->particles->Enable();
@@ -54,10 +54,10 @@ bool ModuleSceneSpace::CleanUp()
 update_status ModuleSceneSpace::Update()
 {
 	// Move camera forward -----------------------------
-	int scroll_speed = 1;
+	int scroll_speed = 0;
 
-	App->player->position.x += 1;
-	App->renderer->camera.x -= 3;
+	//App->player->position.x += 1;
+	//App->renderer->camera.x -= 3;
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);

@@ -13,19 +13,63 @@
 ModulePlayer::ModulePlayer(bool active) : Module(active)
 {
 	// idle animation (just the ship)
-	idle.frames.push_back({66, 1, 32, 14});
+	idle.frames.push_back({0, 25, 103, 75});
+	idle.frames.push_back({ 103, 25, 103, 75 });
+	idle.frames.push_back({ 206, 25, 103, 75 });
+	idle.frames.push_back({ 309, 25, 103, 75 });
+	idle.frames.push_back({ 412, 25, 103, 75 });
+	idle.loop = true;
+	idle.speed = 0.05f;
 
 	// move upwards
-	up.frames.push_back({100, 1, 32, 14});
-	up.frames.push_back({132, 0, 32, 14});
-	up.loop = false;
-	up.speed = 0.1f;
+	up.frames.push_back({718, 638, 103, 75});
+	up.frames.push_back({ 821, 638, 103, 75 });
+	up.frames.push_back({ 924, 638, 103, 75 });
+	up.frames.push_back({ 0, 739, 103, 75 });
+	up.frames.push_back({ 103, 739, 103, 75 });
+	up.frames.push_back({ 206, 739, 103, 75 });
+	up.frames.push_back({ 309, 739, 103, 75 });
+	up.frames.push_back({ 412, 739, 103, 75 });
+	up.loop = true;
+	up.speed = 0.15f;
 
-	// Move down
-	down.frames.push_back({33, 1, 32, 14});
-	down.frames.push_back({0, 1, 32, 14});
-	down.loop = false;
-	down.speed = 0.1f;
+	// move upwardsLeft
+	upLeft.frames.push_back({ 206, 1936, 103, 75 });
+	upLeft.frames.push_back({ 103, 1936, 103, 75 });
+	upLeft.frames.push_back({ 0, 1936, 103, 75 });
+	upLeft.frames.push_back({ 924, 2035, 103, 75 });
+	upLeft.frames.push_back({ 821, 2035, 103, 75 });
+	upLeft.frames.push_back({ 718, 2035, 103, 75 });
+	upLeft.frames.push_back({ 615, 2035, 103, 75 });
+	upLeft.frames.push_back({ 512, 2035, 103, 75 });
+	upLeft.loop = true;
+	upLeft.speed = 0.15f;
+
+	// move right
+	right.frames.push_back({927,537,103,75});
+	right.frames.push_back({ 0,636,103,75 });
+	right.frames.push_back({ 103,636,103,75 });
+	right.frames.push_back({ 206,636,103,75 });
+	right.frames.push_back({ 309,636,103,75 });
+	right.frames.push_back({ 412,636,103,75 });
+	right.frames.push_back({ 515,636,103,75 });
+	right.frames.push_back({ 618,636,103,75 });
+	right.loop = true;
+	right.speed = 0.15f;
+
+
+	// move left
+	left.frames.push_back({ 0,1835,103,75 });
+	left.frames.push_back({ 927,1935,103,75 });
+	left.frames.push_back({ 824,1935,103,75 });
+	left.frames.push_back({ 721,1935,103,75 });
+	left.frames.push_back({ 618,1935,103,75 });
+	left.frames.push_back({ 515,1935,103,75 });
+	left.frames.push_back({ 412,1935,103,75 });
+	left.frames.push_back({ 309,1935,103,75 });
+	left.loop = true;
+	left.speed = 0.15f;
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -36,7 +80,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("rtype/donatello1.png");
 
 	destroyed = false;
 	position.x = 150;
@@ -60,36 +104,63 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 1;
+	int speed = 2;
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		position.x -= speed;
+		if (current_animation != &left )
+		{
+			left.Reset();
+			current_animation = &left;
+			faceRight = false;
+		}
+		
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		position.x += speed;
+		if (current_animation != &right && current_animation != &up)
+		{
+			right.Reset();
+			current_animation = &right;
+			faceRight = true;
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		position.y += speed;
-		if(current_animation != &down)
+		if(current_animation != &down && faceRight == true)
 		{
-			down.Reset();
-			current_animation = &down;
+			//right.Reset();
+			current_animation = &right;
+		}
+		else
+		{
+			current_animation = &left;
 		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		position.y -= speed;
-		if(current_animation != &up)
+		if(current_animation != &up && faceRight == true)
 		{
 			up.Reset();
 			current_animation = &up;
 		}
+		else
+		{
+			if (current_animation != &up)
+			{
+				//upLeft.Reset();
+				current_animation = &upLeft;
+			}
+		}
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -98,7 +169,9 @@ update_status ModulePlayer::Update()
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
+	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
+		&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE
+		&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
 		current_animation = &idle;
 
 	// Draw everything --------------------------------------
