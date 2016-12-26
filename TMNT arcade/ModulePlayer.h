@@ -16,6 +16,7 @@ public:
 	bool Start();
 	update_status Update();
 	void OnCollision(Collider* c1, Collider* c2);
+	void onTimePassed(int time);
 	bool CleanUp();
 	
 
@@ -27,6 +28,7 @@ public:
 	Animation idle;
 	Animation idleLeft;
 	Animation up;
+	Animation jump;
 	Animation upLeft;
 	Animation right;
 	Animation left;
@@ -35,6 +37,7 @@ public:
 	bool destroyed = false;
 	Collider* collider;
 	bool faceRight = true;
+	bool inAir = false;
 
 };
 

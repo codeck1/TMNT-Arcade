@@ -66,8 +66,6 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	right.loop = true;
 	right.speed = 0.15f;
 
-
-
 	// move left
 	left.frames.push_back({ 0,1835,103,75 });
 	left.frames.push_back({ 927,1935,103,75 });
@@ -79,6 +77,20 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	left.frames.push_back({ 309,1935,103,75 });
 	left.loop = true;
 	left.speed = 0.15f;
+
+	// Jump
+	jump.frames.push_back({ 618,328,103,75 });
+	jump.frames.push_back({ 721,328,103,75 });
+	jump.frames.push_back({ 824,328,103,75 });
+	jump.frames.push_back({ 927,328,103,75 });
+	jump.frames.push_back({ 0,438,103,75 });
+	jump.frames.push_back({ 103,438,103,75 });
+	jump.frames.push_back({ 206,438,103,75 });
+	jump.frames.push_back({ 309,438,103,75 });
+	jump.frames.push_back({ 412,438,103,75 });
+	jump.frames.push_back({ 515,438,103,75 });
+	jump.loop = false;
+	jump.speed = 0.2f;
 
 }
 
@@ -177,6 +189,23 @@ update_status ModulePlayer::Update()
 
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+	{
+		
+		if (current_animation != &jump && faceRight == true)
+		{
+			position.y += speed;
+			jump.Reset();
+			current_animation = &jump;
+			inAir = true;
+		}
+	}
+
+	if (current_animation == &jump && current_animation->Finished())
+	{
+		inAir = false;
+	}
+
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		App->particles->AddParticle(App->particles->laser,  position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
@@ -185,7 +214,8 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE
-		&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
+		&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE
+		&& inAir == false)
 	{
 		if (faceRight == true)
 			current_animation = &idle;
@@ -210,4 +240,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		destroyed = true;
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y, COLLIDER_NONE);
 	}
+}
+
+void ModulePlayer::onTimePassed(int time)
+{
+
 }

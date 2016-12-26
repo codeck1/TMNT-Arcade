@@ -68,6 +68,8 @@ public:
 	// Callbacks ---
 	virtual void OnCollision(Collider* col1, Collider* col2)
 	{ }
+	virtual void onTimePassed(int time)
+	{ }
 
 private:
 	bool active = true;
