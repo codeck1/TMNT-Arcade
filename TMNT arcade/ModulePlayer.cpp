@@ -12,14 +12,23 @@
 
 ModulePlayer::ModulePlayer(bool active) : Module(active)
 {
-	// idle animation (just the ship)
-	idle.frames.push_back({0, 25, 103, 75});
-	idle.frames.push_back({ 103, 25, 103, 75 });
-	idle.frames.push_back({ 206, 25, 103, 75 });
-	idle.frames.push_back({ 309, 25, 103, 75 });
-	idle.frames.push_back({ 412, 25, 103, 75 });
+	// idle animation
+	idle.frames.push_back({0, 38, 103, 61});
+	idle.frames.push_back({ 103, 38, 103, 61 });
+	idle.frames.push_back({ 206, 38, 103, 61 });
+	idle.frames.push_back({ 309, 38, 103, 61 });
+	idle.frames.push_back({ 412, 38, 103, 61 });
 	idle.loop = true;
 	idle.speed = 0.05f;
+
+	// idleLeft animation
+	idleLeft.frames.push_back({ 924, 1339, 103, 61 });
+	idleLeft.frames.push_back({ 821, 1339, 103, 61 });
+	idleLeft.frames.push_back({ 718, 1339, 103, 61 });
+	idleLeft.frames.push_back({ 615, 1339, 103, 61 });
+	idleLeft.frames.push_back({ 512, 1339, 103, 61 });
+	idleLeft.loop = true;
+	idleLeft.speed = 0.05f;
 
 	// move upwards
 	up.frames.push_back({718, 638, 103, 75});
@@ -56,6 +65,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	right.frames.push_back({ 618,636,103,75 });
 	right.loop = true;
 	right.speed = 0.15f;
+
 
 
 	// move left
@@ -110,7 +120,7 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		position.x -= speed;
-		if (current_animation != &left )
+		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT)
 		{
 			left.Reset();
 			current_animation = &left;
@@ -122,7 +132,7 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		position.x += speed;
-		if (current_animation != &right && current_animation != &up)
+		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT)
 		{
 			right.Reset();
 			current_animation = &right;
@@ -133,14 +143,18 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		position.y += speed;
-		if(current_animation != &down && faceRight == true)
+		if(current_animation != &right && faceRight == true)
 		{
-			//right.Reset();
+			right.Reset();
 			current_animation = &right;
 		}
 		else
 		{
-			current_animation = &left;
+			if (current_animation != &left && faceRight == false)
+			{
+				left.Reset();
+				current_animation = &left;
+			}
 		}
 	}
 
@@ -154,9 +168,9 @@ update_status ModulePlayer::Update()
 		}
 		else
 		{
-			if (current_animation != &up)
+			if (current_animation != &upLeft && faceRight == false)
 			{
-				//upLeft.Reset();
+				upLeft.Reset();
 				current_animation = &upLeft;
 			}
 		}
@@ -168,11 +182,17 @@ update_status ModulePlayer::Update()
 		App->particles->AddParticle(App->particles->laser,  position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
+		&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE)
-		current_animation = &idle;
+	{
+		if (faceRight == true)
+			current_animation = &idle;
+		else
+			current_animation = &idleLeft;
+	}
+	
 
 	// Draw everything --------------------------------------
 	if(destroyed == false)
@@ -182,7 +202,6 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
-// TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	if (destroyed == false)
@@ -192,6 +211,3 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		App->particles->AddParticle(App->particles->explosion, position.x, position.y, COLLIDER_NONE);
 	}
 }
-// TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
-// then fade away back to the first screen (use the "destroyed" bool already created 
-// You will need to create, update and destroy the collider with the player

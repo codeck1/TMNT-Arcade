@@ -25,6 +25,7 @@ public:
 	SDL_Texture* graphics = nullptr;
 	Animation* current_animation = nullptr;
 	Animation idle;
+	Animation idleLeft;
 	Animation up;
 	Animation upLeft;
 	Animation right;
