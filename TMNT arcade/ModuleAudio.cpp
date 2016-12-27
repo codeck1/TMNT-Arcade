@@ -88,7 +88,8 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 		Mix_FreeMusic(music);
 	}
 
-	music = Mix_LoadMUS(path);
+	//music = Mix_LoadMUS(path);
+	music = nullptr;
 
 	if(music == nullptr)
 	{
@@ -123,7 +124,8 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 unsigned int ModuleAudio::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
+	//Mix_Chunk* chunk = Mix_LoadWAV(path);
+	Mix_Chunk* chunk = nullptr;
 
 	if(chunk == nullptr)
 	{

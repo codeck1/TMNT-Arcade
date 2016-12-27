@@ -8,6 +8,9 @@ class Animation
 public:
 	bool loop = true;
 	float speed = 1.0f;
+	int pivot = 0;
+	int pivotY = 0;
+	int mirror = 1;
 	vector<SDL_Rect> frames;
 
 private:
@@ -42,6 +45,7 @@ public:
 
 	void Reset()
 	{
+		loops = 0;
 		current_frame = 0.0f;
 	}
 };

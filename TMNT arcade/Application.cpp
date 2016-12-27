@@ -23,6 +23,7 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(audio = new ModuleAudio());
+	
 
 	// Game Modules
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
