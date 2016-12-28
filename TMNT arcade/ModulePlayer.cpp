@@ -116,47 +116,73 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jumpLeft.loop = false;
 	jumpLeft.speed = 0.2f;
 
-	// Atack1
-	atack1.frames.push_back({ 640,134,59,75 });
-	atack1.frames.push_back({ 739,134,67,75 });
-	atack1.frames.push_back({ 841,134,69,75 });
-	atack1.frames.push_back({ 927,134,103,75 });
-	atack1.pivot = -32;
-	atack1.loop = false;
-	atack1.speed = 0.2f;
+	// attack1
+	attack1.frames.push_back({ 640,134,59,75 });
+	attack1.frames.push_back({ 739,134,67,75 });
+	attack1.frames.push_back({ 841,134,69,75 });
+	attack1.frames.push_back({ 927,134,103,75 });
+	attack1.pivot = -32;
+	attack1.loop = false;
+	attack1.speed = 0.2f;
 
-	// Atack1Left
-	atack1Left.frames.push_back({ 298,1433,103,75 });
-	atack1Left.frames.push_back({ 196,1433,103,75 });
-	atack1Left.frames.push_back({ 93,1433,103,75 });
-	atack1Left.frames.push_back({ 301,2516,103,75 });
-	atack1Left.pivot = 20;
-	atack1Left.loop = false;
-	atack1Left.speed = 0.2f;
+	// attack1Left
+	attack1Left.frames.push_back({ 298,1433,103,75 });
+	attack1Left.frames.push_back({ 196,1433,103,75 });
+	attack1Left.frames.push_back({ 93,1433,103,75 });
+	attack1Left.frames.push_back({ 301,2516,103,75 });
+	attack1Left.pivot = 20;
+	attack1Left.loop = false;
+	attack1Left.speed = 0.2f;
 
-	// Atack2
-	atack2.frames.push_back({ 38,234,37,75 });
-	atack2.frames.push_back({ 135,234,42,75 });
-	atack2.frames.push_back({ 227,234,60,75 });
-	atack2.frames.push_back({ 318,234,86,75 });
-	atack2.frames.push_back({ 413,234,100,75 });
-	atack2.frames.push_back({ 538,234,56,75 });
-	atack2.frames.push_back({ 652,234,37,75 });
-	atack2.pivot = -40;
-	atack2.loop = false;
-	atack2.speed = 0.27f;
+	// attack2
+	attack2.frames.push_back({ 38,234,37,75 });
+	attack2.frames.push_back({ 135,234,42,75 });
+	attack2.frames.push_back({ 227,234,60,75 });
+	attack2.frames.push_back({ 318,234,86,75 });
+	attack2.frames.push_back({ 413,234,100,75 });
+	attack2.frames.push_back({ 538,234,56,75 });
+	attack2.frames.push_back({ 652,234,37,75 });
+	attack2.pivot = -40;
+	attack2.loop = false;
+	attack2.speed = 0.3f;
 
-	// Atack2Left
-	atack2Left.frames.push_back({ 902,1535,97,75 });
-	atack2Left.frames.push_back({ 810,1535,97,75 });
-	atack2Left.frames.push_back({ 719,1535,97,75 });
-	atack2Left.frames.push_back({ 624,1535,97,75 });
-	atack2Left.frames.push_back({ 523,1535,97,75 });
-	atack2Left.frames.push_back({ 401,1535,97,75 });
-	atack2Left.frames.push_back({ 301,1535,97,75 });
-	atack2Left.pivot = 22;
-	atack2Left.loop = false;
-	atack2Left.speed = 0.27f;
+	// attack2Left
+	attack2Left.frames.push_back({ 902,1535,97,75 });
+	attack2Left.frames.push_back({ 810,1535,97,75 });
+	attack2Left.frames.push_back({ 719,1535,97,75 });
+	attack2Left.frames.push_back({ 624,1535,97,75 });
+	attack2Left.frames.push_back({ 523,1535,97,75 });
+	attack2Left.frames.push_back({ 401,1535,97,75 });
+	attack2Left.frames.push_back({ 301,1535,97,75 });
+	attack2Left.pivot = 22;
+	attack2Left.loop = false;
+	attack2Left.speed = 0.3f;
+
+	// attackAir
+	attackAir.frames.push_back({ 927,435,103,75 });
+	attackAir.frames.push_back({ 0,527,103,75 });
+	attackAir.frames.push_back({ 103,527,103,75 });
+	attackAir.loop = false;
+	attackAir.speed = 0.2f;
+
+	// attackAirLeft
+	attackAirLeft.frames.push_back({ 0,1735,103,75 });
+	attackAirLeft.frames.push_back({ 927,1827,103,75 });
+	attackAirLeft.frames.push_back({ 824,1827,103,75 });
+	attackAirLeft.loop = false;
+	attackAirLeft.speed = 0.2f;
+
+	// attackAir2
+	attackAir2.frames.push_back({ 206,529,103,75 });
+	attackAir2.frames.push_back({ 309,529,103,75 });
+	attackAir2.frames.push_back({ 412,529,103,75 });
+	attackAir2.frames.push_back({ 515,529,103,75 });
+	attackAir2.frames.push_back({ 582,529,132,75 });
+	attackAir2.frames.push_back({ 716,529,97,75 });
+	attackAir2.frames.push_back({ 824,529,103,75 });
+	attackAir2.pivot = 10;
+	attackAir2.loop = false;
+	attackAir2.speed = 0.2f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -266,8 +292,6 @@ update_status ModulePlayer::Update()
 				}
 			}
 		}
-		
-
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
@@ -300,35 +324,112 @@ update_status ModulePlayer::Update()
 		uniform_real_distribution<double> unif(0, 1);
 		randomVar = unif(range2);
 
-		if (current_animation != &atack2 && current_animation != &atack1 && !jumped && faceRight == true)
+		if (current_animation != &attack2 && current_animation != &attack1 && !jumped && faceRight == true)
 		{
 			if (randomVar >= 0.5)
 			{
-				atack1.Reset();
-				current_animation = &atack1;
+				attack1.Reset();
+				current_animation = &attack1;
 				attacking = true;
 			}
 			else
 			{
-				atack2.Reset();
-				current_animation = &atack2;
+				attack2.Reset();
+				current_animation = &attack2;
 				attacking = true;
 			}
 
 		}
-		if (current_animation != &atack2Left && current_animation != &atack1Left && !jumped && faceRight == false)
+		if (current_animation != &attack2Left && current_animation != &attack1Left && !jumped && faceRight == false)
 		{
 			if (randomVar >= 0.5)
 			{
-				atack1Left.Reset();
-				current_animation = &atack1Left;
+				attack1Left.Reset();
+				current_animation = &attack1Left;
 				attacking = true;
 			}
 			else
 			{
-				atack2Left.Reset();
-				current_animation = &atack2Left;
+				attack2Left.Reset();
+				current_animation = &attack2Left;
 				attacking = true;
+			}
+		}
+		if (current_animation != &attackAir && jumped)
+		{
+			if (goingDown == false)
+			{
+				if (position.y > jumpPos + 40)
+				{
+					if (faceRight && current_animation != &attackAir)
+					{
+						attackAir.Reset();
+						current_animation = &attackAir;
+						attacking = true;
+						goingDown = true;
+						jumpPos = position.y;
+						attackingAirX = 3;
+					}
+					if (!faceRight && current_animation != &attackAirLeft)
+					{
+						attackAirLeft.Reset();
+						current_animation = &attackAirLeft;
+						attacking = true;
+						goingDown = true;
+						jumpPos = position.y;
+						attackingAirX = -3;
+					}
+				}
+				else
+				{
+					if (faceRight && current_animation != &attackAir2)
+					{
+						attackAir2.Reset();
+						current_animation = &attackAir2;
+						attacking = true;
+						goingDown = true;
+						jumpPos = position.y;
+					}
+				}
+
+			}
+			else
+			{
+				if (goingDown == true)
+				{
+					if (position.y < jumpInit.y - 40)
+					{
+						if (faceRight && current_animation != &attackAir)
+						{
+							attackAir.Reset();
+							current_animation = &attackAir;
+							attacking = true;
+							goingDown = true;
+							jumpPos = position.y;
+							attackingAirX = 3;
+						}
+						if (!faceRight && current_animation != &attackAirLeft)
+						{
+							attackAirLeft.Reset();
+							current_animation = &attackAirLeft;
+							attacking = true;
+							goingDown = true;
+							jumpPos = position.y;
+							attackingAirX = -3;
+						}
+					}
+					else
+					{
+						if (faceRight && current_animation != &attackAir2)
+						{
+							attackAir2.Reset();
+							current_animation = &attackAir2;
+							attacking = true;
+							goingDown = true;
+							jumpPos = position.y;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -336,35 +437,35 @@ update_status ModulePlayer::Update()
 	//jumping
 	if (inAir == false && jumped)
 	{
-		jumpPos = position.y;
-		jumpPos -= 128;
+		jumpPos = position.y - 150;
+		jumpInit = position;
 		inAir = true;
 	}
 	if (inAir == true && jumped)
 	{
-		if (position.y >= jumpPos && goingDown == false)
+		if (position.y > jumpPos && goingDown == false)
 		{
 			position.y -= 4;
 		}
 		else
 		{
 			position.y += 4;
+			position.x += attackingAirX;
 			goingDown = true;
-			if (position.y >= jumpPos + 128)
+			if (position.y >= jumpInit.y)
 			{
 				goingDown = false;
+				inAir = false;
+				jumped = false;
+				attackingAirX = 0;
 			}
 		}
 	}
 
 	//ending of actions
-	if ((current_animation == &jump || current_animation == &jumpLeft)  && current_animation->Finished())
-	{
-		inAir = false;
-		jumped = false;
-	}
 
-	if ((current_animation == &atack1 || current_animation == &atack2 || current_animation == &atack2Left || current_animation == &atack1Left)&& current_animation->Finished())
+
+	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2)&& current_animation->Finished())
 		attacking = false;
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)

@@ -36,10 +36,13 @@ public:
 	Animation upLeft;
 	Animation right;
 	Animation left;
-	Animation atack1;
-	Animation atack1Left;
-	Animation atack2;
-	Animation atack2Left;
+	Animation attack1;
+	Animation attack1Left;
+	Animation attack2;
+	Animation attack2Left;
+	Animation attackAir;
+	Animation attackAirLeft;
+	Animation attackAir2;
 	Animation down;
 	iPoint position;
 	bool destroyed = false;
@@ -50,6 +53,8 @@ public:
 	bool goingDown = false;
 	bool attacking = false;
 	int jumpPos;
+	int attackingAirX = 0;
+	iPoint jumpInit;
 
 	uint64_t timeSeed2;
 	mt19937_64 range2;
