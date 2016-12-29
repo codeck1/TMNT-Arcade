@@ -219,8 +219,8 @@ bool ModulePlayer::Start()
 
 	destroyed = false;
 	position.x = 150;
-	position.y = 120;
-	collider = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_PLAYER, this);
+	position.y = 150;
+	collider = App->collision->AddCollider({ position.x, position.y+50, 32, 14 }, COLLIDER_PLAYER, this);
 
 
 	return true;
@@ -534,17 +534,40 @@ update_status ModulePlayer::Update()
 	if(destroyed == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 
-	collider->SetPos(position.x, position.y);
+	collider->SetPos(position.x+10, position.y+50);
 	return UPDATE_CONTINUE;
 }
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	if (destroyed == false)
+	//left
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
 	{
-		//App->fade->FadeToBlack((Module*)App->scene_space, (Module*)App->scene_intro);
-		destroyed = true;
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y, COLLIDER_NONE);
+		position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+	}
+	else
+	{
+		//right
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+		{
+			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+		}
+		else
+		{
+			//down
+			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && c2->type == COLLIDER_WALL)
+			{
+				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+			}
+			else
+			{
+				//up
+				if (c1->rect.h + c1->rect.y > c2->rect.y && c2->type == COLLIDER_WALL)
+				{
+					position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+				}
+			}
+		}
 	}
 }
 

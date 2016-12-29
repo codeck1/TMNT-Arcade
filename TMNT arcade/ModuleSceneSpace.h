@@ -18,7 +18,9 @@ public:
 	int blockCamera = SCREEN_WIDTH*2;
 	bool enemiesClear = true;
 	int stageCamera = SCREEN_WIDTH/2;
-
+	Collider* wallLeft;
+	Collider* wallRight;
+	int wallRightLimit, wallLeftLimit;
 public:
 	
 	SDL_Texture* background = nullptr;

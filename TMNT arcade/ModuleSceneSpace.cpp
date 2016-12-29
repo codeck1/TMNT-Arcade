@@ -29,10 +29,12 @@ bool ModuleSceneSpace::Start()
 
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 	
-	App->collision->AddCollider({ 0,224,3930, 16 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 142, 192, 63, 48 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 1376, 0, 560, 15 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 1376, 15, 112, 79 }, COLLIDER_WALL);
+	wallLeftLimit = 0;
+	wallRightLimit = SCREEN_WIDTH;
+	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 127 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
+	wallLeft = App->collision->AddCollider({ wallLeftLimit,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
+	wallRight = App->collision->AddCollider({ wallRightLimit,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
 
 	return true;
 }
@@ -56,6 +58,10 @@ update_status ModuleSceneSpace::Update()
 	if (blockCamera - (App->player->position.x) >=stageCamera && (-App->renderer->camera.x / 3 + SCREEN_WIDTH) - (App->player->position.x) <=(stageCamera))
 		{
 			App->renderer->camera.x -= 6;
+			wallLeftLimit += 2;
+			wallRightLimit += 2;
+			wallLeft->SetPos(wallLeftLimit, 0);
+			wallRight->SetPos(wallRightLimit, 0);
 		}
 	
 	// Draw everything --------------------------------------
