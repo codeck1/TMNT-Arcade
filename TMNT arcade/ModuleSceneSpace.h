@@ -15,6 +15,9 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	int blockCamera = SCREEN_WIDTH*2;
+	bool enemiesClear = true;
+	int stageCamera = SCREEN_WIDTH/2;
 
 public:
 	

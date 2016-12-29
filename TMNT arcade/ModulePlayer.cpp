@@ -21,6 +21,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	idle.frames.push_back({ 309, 38, 103, 61 });
 	idle.frames.push_back({ 412, 38, 103, 61 });
 	idle.pivotY = -5;
+	idle.pivot = 30;
 	idle.loop = true;
 	idle.speed = 0.05f;
 
@@ -31,6 +32,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	idleLeft.frames.push_back({ 615, 1339, 103, 61 });
 	idleLeft.frames.push_back({ 512, 1339, 103, 61 });
 	idleLeft.pivotY = -5;
+	idleLeft.pivot = 25;
 	idleLeft.loop = true;
 	idleLeft.speed = 0.05f;
 
@@ -43,6 +45,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	up.frames.push_back({ 206, 739, 103, 75 });
 	up.frames.push_back({ 309, 739, 103, 75 });
 	up.frames.push_back({ 412, 739, 103, 75 });
+	up.pivot = 25;
 	up.loop = true;
 	up.speed = 0.15f;
 
@@ -55,6 +58,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	upLeft.frames.push_back({ 718, 2035, 103, 75 });
 	upLeft.frames.push_back({ 615, 2035, 103, 75 });
 	upLeft.frames.push_back({ 512, 2035, 103, 75 });
+	upLeft.pivot = 35;
 	upLeft.loop = true;
 	upLeft.speed = 0.15f;
 
@@ -67,6 +71,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	right.frames.push_back({ 412,636,103,75 });
 	right.frames.push_back({ 515,636,103,75 });
 	right.frames.push_back({ 618,636,103,75 });
+	right.pivot = 35;
 	right.loop = true;
 	right.speed = 0.15f;
 
@@ -79,6 +84,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	left.frames.push_back({ 515,1935,103,75 });
 	left.frames.push_back({ 412,1935,103,75 });
 	left.frames.push_back({ 309,1935,103,75 });
+	left.pivot = 35;
 	left.loop = true;
 	left.speed = 0.15f;
 
@@ -96,6 +102,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jump.frames.push_back({ 309,438,103,75 });
 	jump.frames.push_back({ 412,438,103,75 });
 	jump.frames.push_back({ 515,438,103,75 });
+	jump.pivot = 35;
 	jump.loop = false;
 	jump.speed = 0.2f;
 
@@ -113,6 +120,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jumpLeft.frames.push_back({ 618,1738,103,75 });
 	jumpLeft.frames.push_back({ 515,1738,103,75 });
 	jumpLeft.frames.push_back({ 412,1738,103,75 });
+	jumpLeft.pivot = 35;
 	jumpLeft.loop = false;
 	jumpLeft.speed = 0.2f;
 
@@ -121,7 +129,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack1.frames.push_back({ 739,134,67,75 });
 	attack1.frames.push_back({ 841,134,69,75 });
 	attack1.frames.push_back({ 927,134,103,75 });
-	attack1.pivot = -32;
+	attack1.pivot = 0;
 	attack1.loop = false;
 	attack1.speed = 0.2f;
 
@@ -130,7 +138,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack1Left.frames.push_back({ 196,1433,103,75 });
 	attack1Left.frames.push_back({ 93,1433,103,75 });
 	attack1Left.frames.push_back({ 301,2516,103,75 });
-	attack1Left.pivot = 20;
+	attack1Left.pivot = 40;
 	attack1Left.loop = false;
 	attack1Left.speed = 0.2f;
 
@@ -142,7 +150,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack2.frames.push_back({ 413,234,100,75 });
 	attack2.frames.push_back({ 538,234,56,75 });
 	attack2.frames.push_back({ 652,234,37,75 });
-	attack2.pivot = -40;
+	attack2.pivot = -10;
 	attack2.loop = false;
 	attack2.speed = 0.3f;
 
@@ -154,7 +162,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack2Left.frames.push_back({ 523,1535,97,75 });
 	attack2Left.frames.push_back({ 401,1535,97,75 });
 	attack2Left.frames.push_back({ 301,1535,97,75 });
-	attack2Left.pivot = 22;
+	attack2Left.pivot = 42;
 	attack2Left.loop = false;
 	attack2Left.speed = 0.3f;
 
@@ -162,6 +170,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attackAir.frames.push_back({ 927,435,103,75 });
 	attackAir.frames.push_back({ 0,527,103,75 });
 	attackAir.frames.push_back({ 103,527,103,75 });
+	attackAir.pivot = 30;
 	attackAir.loop = false;
 	attackAir.speed = 0.2f;
 
@@ -169,20 +178,33 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attackAirLeft.frames.push_back({ 0,1735,103,75 });
 	attackAirLeft.frames.push_back({ 927,1827,103,75 });
 	attackAirLeft.frames.push_back({ 824,1827,103,75 });
+	attackAirLeft.pivot = 30;
 	attackAirLeft.loop = false;
 	attackAirLeft.speed = 0.2f;
 
 	// attackAir2
 	attackAir2.frames.push_back({ 206,529,103,75 });
 	attackAir2.frames.push_back({ 309,529,103,75 });
-	attackAir2.frames.push_back({ 412,529,103,75 });
+	attackAir2.frames.push_back({ 430,529,103,75 });
 	attackAir2.frames.push_back({ 515,529,103,75 });
-	attackAir2.frames.push_back({ 582,529,132,75 });
-	attackAir2.frames.push_back({ 716,529,97,75 });
-	attackAir2.frames.push_back({ 824,529,103,75 });
-	attackAir2.pivot = 10;
+	attackAir2.frames.push_back({ 620,529,103,75 });
+	attackAir2.frames.push_back({ 588,1219,132,75 });
+	attackAir2.frames.push_back({ 843,529,103,75 });
+	attackAir2.pivot = 30;
 	attackAir2.loop = false;
-	attackAir2.speed = 0.2f;
+	attackAir2.speed = 0.25f;
+
+	// attackAir2Left
+	attackAir2Left.frames.push_back({ 715,1830,103,75 });
+	attackAir2Left.frames.push_back({ 617,1830,103,75 });
+	attackAir2Left.frames.push_back({ 504,1830,103,75 });
+	attackAir2Left.frames.push_back({ 401,1830,103,75 });
+	attackAir2Left.frames.push_back({ 270,1830,103,75 });
+	attackAir2Left.frames.push_back({ 66,2617,103,75 });
+	attackAir2Left.frames.push_back({ 82,1830,103,75 });
+	attackAir2Left.pivot = 30;
+	attackAir2Left.loop = false;
+	attackAir2Left.speed = 0.25f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -224,16 +246,17 @@ update_status ModulePlayer::Update()
 	{
 		if(!attacking)
 		{
+			faceRight = false;
 			position.x -= speed;
 			if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT && !jumped)
 			{
-				left.Reset();
-				current_animation = &left;
-				faceRight = false;
+				if (!jumped)
+				{
+					left.Reset();
+					current_animation = &left;
+				}				
 			}
-		}
-		
-		
+		}		
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -241,12 +264,16 @@ update_status ModulePlayer::Update()
 		if (!attacking)
 		{
 			position.x += speed;
-			if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT && !jumped)
+			faceRight = true;
+			if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT)
 			{
-				right.Reset();
-				current_animation = &right;
-				faceRight = true;
+				if (!jumped)
+				{
+					right.Reset();
+					current_animation = &right;
+				}
 			}
+
 		}
 		
 	}
@@ -390,6 +417,14 @@ update_status ModulePlayer::Update()
 						goingDown = true;
 						jumpPos = position.y;
 					}
+					if (!faceRight && current_animation != &attackAir2Left)
+					{
+						attackAir2Left.Reset();
+						current_animation = &attackAir2Left;
+						attacking = true;
+						goingDown = true;
+						jumpPos = position.y;
+					}
 				}
 
 			}
@@ -424,6 +459,14 @@ update_status ModulePlayer::Update()
 						{
 							attackAir2.Reset();
 							current_animation = &attackAir2;
+							attacking = true;
+							goingDown = true;
+							jumpPos = position.y;
+						}
+						if (!faceRight && current_animation != &attackAir2Left)
+						{
+							attackAir2Left.Reset();
+							current_animation = &attackAir2Left;
 							attacking = true;
 							goingDown = true;
 							jumpPos = position.y;
@@ -465,7 +508,7 @@ update_status ModulePlayer::Update()
 	//ending of actions
 
 
-	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2)&& current_animation->Finished())
+	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left)&& current_animation->Finished())
 		attacking = false;
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)

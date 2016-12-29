@@ -53,11 +53,10 @@ bool ModuleSceneSpace::CleanUp()
 // Update: draw background
 update_status ModuleSceneSpace::Update()
 {
-	// Move camera forward -----------------------------
-	int scroll_speed = 0;
-
-	//App->player->position.x += 1;
-	//App->renderer->camera.x -= 3;
+	if (blockCamera - (App->player->position.x) >=stageCamera && (-App->renderer->camera.x / 3 + SCREEN_WIDTH) - (App->player->position.x) <=(stageCamera))
+		{
+			App->renderer->camera.x -= 6;
+		}
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);

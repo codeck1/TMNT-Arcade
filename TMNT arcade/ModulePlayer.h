@@ -43,6 +43,7 @@ public:
 	Animation attackAir;
 	Animation attackAirLeft;
 	Animation attackAir2;
+	Animation attackAir2Left;
 	Animation down;
 	iPoint position;
 	bool destroyed = false;
