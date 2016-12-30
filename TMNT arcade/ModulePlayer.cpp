@@ -240,199 +240,166 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	int speed = 2;
-	
-
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		if(!attacking)
+		faceRight = false;
+		direction = LEFT;
+		currentState = WALKING;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		
+		faceRight = true;
+		direction = RIGHT;
+		currentState = WALKING;
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		direction = DOWN;
+		currentState = WALKING;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		direction = UP;
+		currentState = WALKING;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+	{
+		currentState = JUMPING;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		currentState = ATTACKING;
+	}
+
+
+	switch (currentState)
+	{
+		case IDLE:
 		{
-			faceRight = false;
-			position.x -= speed;
-			if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT && !jumped)
+			if (faceRight == true)
 			{
-				if (!jumped)
+				current_animation = &idle;
+			}
+			else
+			{
+				current_animation = &idleLeft;
+			}
+			break;
+		}
+			
+
+		case WALKING:
+		{
+			if (faceRight == false && direction == LEFT)
+			{
+				position.x -= speed;
+				if (current_animation != &left)
 				{
 					left.Reset();
 					current_animation = &left;
-				}				
+				}
 			}
-		}		
-	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if (!attacking)
-		{
-			position.x += speed;
-			faceRight = true;
-			if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT)
+			if (faceRight == true && direction == RIGHT)
 			{
-				if (!jumped)
+				position.x += speed;
+				if (current_animation != &right)
 				{
 					right.Reset();
 					current_animation = &right;
 				}
 			}
 
-		}
-		
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		if(!jumped && !attacking)
-		{
-			position.y += speed;
-			if (current_animation != &right && faceRight == true)
+			if (direction == DOWN)
 			{
-				right.Reset();
-				current_animation = &right;
-			}
-			else
-			{
-				if (current_animation != &left && faceRight == false)
+				position.y += speed;
+				if (current_animation != &right && faceRight == true)
 				{
-					left.Reset();
-					current_animation = &left;
-				}
-			}
-		}
-		}
-		
-
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		if (!jumped && !attacking)
-		{
-			position.y -= speed;
-			if (current_animation != &up && faceRight == true)
-			{
-				up.Reset();
-				current_animation = &up;
-			}
-			else
-			{
-				if (current_animation != &upLeft && faceRight == false)
-				{
-					upLeft.Reset();
-					current_animation = &upLeft;
-				}
-			}
-		}
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-	{
-		
-		if (!jumped && !attacking)
-		{
-			jumped = true;
-			if (current_animation != &jump && faceRight == true)
-			{
-				jump.Reset();
-				current_animation = &jump;
-			}
-			else
-			{
-				if(current_animation != &jumpLeft)
-				jumpLeft.Reset();
-				current_animation = &jumpLeft;
-			}
-			
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-	{
-		seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
-
-		timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
-		range2.seed(ss);
-		uniform_real_distribution<double> unif(0, 1);
-		randomVar = unif(range2);
-
-		if (current_animation != &attack2 && current_animation != &attack1 && !jumped && faceRight == true)
-		{
-			if (randomVar >= 0.5)
-			{
-				attack1.Reset();
-				current_animation = &attack1;
-				attacking = true;
-			}
-			else
-			{
-				attack2.Reset();
-				current_animation = &attack2;
-				attacking = true;
-			}
-
-		}
-		if (current_animation != &attack2Left && current_animation != &attack1Left && !jumped && faceRight == false)
-		{
-			if (randomVar >= 0.5)
-			{
-				attack1Left.Reset();
-				current_animation = &attack1Left;
-				attacking = true;
-			}
-			else
-			{
-				attack2Left.Reset();
-				current_animation = &attack2Left;
-				attacking = true;
-			}
-		}
-		if (current_animation != &attackAir && jumped)
-		{
-			if (goingDown == false)
-			{
-				if (position.y > jumpPos + 40)
-				{
-					if (faceRight && current_animation != &attackAir)
-					{
-						attackAir.Reset();
-						current_animation = &attackAir;
-						attacking = true;
-						goingDown = true;
-						jumpPos = position.y;
-						attackingAirX = 3;
-					}
-					if (!faceRight && current_animation != &attackAirLeft)
-					{
-						attackAirLeft.Reset();
-						current_animation = &attackAirLeft;
-						attacking = true;
-						goingDown = true;
-						jumpPos = position.y;
-						attackingAirX = -3;
-					}
+					right.Reset();
+					current_animation = &right;
 				}
 				else
 				{
-					if (faceRight && current_animation != &attackAir2)
+					if (current_animation != &left && faceRight == false)
 					{
-						attackAir2.Reset();
-						current_animation = &attackAir2;
-						attacking = true;
-						goingDown = true;
-						jumpPos = position.y;
+						left.Reset();
+						current_animation = &left;
 					}
-					if (!faceRight && current_animation != &attackAir2Left)
+				}
+			}
+
+			if (direction == UP)
+			{
+				position.y -= speed;
+				if (current_animation != &up && faceRight == true)
+				{
+					up.Reset();
+					current_animation = &up;
+				}
+				else
+				{
+					if (current_animation != &upLeft && faceRight == false)
 					{
-						attackAir2Left.Reset();
-						current_animation = &attackAir2Left;
-						attacking = true;
-						goingDown = true;
-						jumpPos = position.y;
+						upLeft.Reset();
+						current_animation = &upLeft;
 					}
+				}
+			}
+			break;
+		}
+			
+		case ATTACKING:
+		{
+			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
+
+			timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
+			range2.seed(ss);
+			uniform_real_distribution<double> unif(0, 1);
+			randomVar = unif(range2);
+
+			if (current_animation != &attack2 && current_animation != &attack1 && !jumped && faceRight == true)
+			{
+				if (randomVar >= 0.5)
+				{
+					attack1.Reset();
+					current_animation = &attack1;
+					attacking = true;
+				}
+				else
+				{
+					attack2.Reset();
+					current_animation = &attack2;
+					attacking = true;
 				}
 
 			}
-			else
+			if (current_animation != &attack2Left && current_animation != &attack1Left && !jumped && faceRight == false)
 			{
-				if (goingDown == true)
+				if (randomVar >= 0.5)
 				{
-					if (position.y < jumpInit.y - 40)
+					attack1Left.Reset();
+					current_animation = &attack1Left;
+					attacking = true;
+				}
+				else
+				{
+					attack2Left.Reset();
+					current_animation = &attack2Left;
+					attacking = true;
+				}
+			}
+			if (current_animation != &attackAir && jumped)
+			{
+				if (goingDown == false)
+				{
+					if (position.y > jumpPos + 40)
 					{
 						if (faceRight && current_animation != &attackAir)
 						{
@@ -472,9 +439,78 @@ update_status ModulePlayer::Update()
 							jumpPos = position.y;
 						}
 					}
+
+				}
+				else
+				{
+					if (goingDown == true)
+					{
+						if (position.y < jumpInit.y - 40)
+						{
+							if (faceRight && current_animation != &attackAir)
+							{
+								attackAir.Reset();
+								current_animation = &attackAir;
+								attacking = true;
+								goingDown = true;
+								jumpPos = position.y;
+								attackingAirX = 3;
+							}
+							if (!faceRight && current_animation != &attackAirLeft)
+							{
+								attackAirLeft.Reset();
+								current_animation = &attackAirLeft;
+								attacking = true;
+								goingDown = true;
+								jumpPos = position.y;
+								attackingAirX = -3;
+							}
+						}
+						else
+						{
+							if (faceRight && current_animation != &attackAir2)
+							{
+								attackAir2.Reset();
+								current_animation = &attackAir2;
+								attacking = true;
+								goingDown = true;
+								jumpPos = position.y;
+							}
+							if (!faceRight && current_animation != &attackAir2Left)
+							{
+								attackAir2Left.Reset();
+								current_animation = &attackAir2Left;
+								attacking = true;
+								goingDown = true;
+								jumpPos = position.y;
+							}
+						}
+					}
 				}
 			}
+			break; 
 		}
+		case JUMPING:
+		{
+			jumped = true;
+			if (current_animation != &jump && faceRight == true)
+			{
+				jump.Reset();
+				current_animation = &jump;
+			}
+			else
+			{
+				if (current_animation != &jumpLeft && faceRight == false)
+				{
+					jumpLeft.Reset();
+					current_animation = &jumpLeft;
+				}
+			}
+			break;
+		}
+			
+	default:
+		break;
 	}
 
 	//jumping
@@ -506,14 +542,10 @@ update_status ModulePlayer::Update()
 	}
 
 	//ending of actions
-
-
-	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left)&& current_animation->Finished())
-		attacking = false;
-
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left) && current_animation->Finished())
 	{
-		App->particles->AddParticle(App->particles->laser,  position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
+		attacking = false;
+		currentState = IDLE;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
@@ -524,9 +556,15 @@ update_status ModulePlayer::Update()
 		&& attacking == false)
 	{
 		if (faceRight == true)
+		{
 			current_animation = &idle;
+			currentState = IDLE;
+		}
 		else
+		{
 			current_animation = &idleLeft;
+			currentState = IDLE;
+		}
 	}
 	
 
@@ -534,7 +572,7 @@ update_status ModulePlayer::Update()
 	if(destroyed == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 
-	collider->SetPos(position.x+10, position.y+50);
+	//collider->SetPos(position.x+10, position.y+50);
 	return UPDATE_CONTINUE;
 }
 
