@@ -149,6 +149,14 @@ Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, COLLIDER_TYPE type,
 	return ret;
 }
 
+Collider* ModuleCollision::DeleteCollider(Collider * collider)
+{
+	colliders.remove(collider);
+	RELEASE(collider);
+
+	return nullptr;
+}
+
 // -----------------------------------------------------
 
 bool Collider::CheckCollision(const SDL_Rect& r) const

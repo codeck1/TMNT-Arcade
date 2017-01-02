@@ -102,7 +102,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jump.frames.push_back({ 309,438,103,75 });
 	jump.frames.push_back({ 412,438,103,75 });
 	jump.frames.push_back({ 515,438,103,75 });
-	jump.pivot = 35;
+	jump.pivot = 20;
 	jump.loop = false;
 	jump.speed = 0.2f;
 
@@ -504,27 +504,42 @@ update_status ModulePlayer::Update()
 	//jumping
 	if (inAir == false && jumped)
 	{
+
 		jumpPos = position.y - 150;
 		jumpInit = position;
 		inAir = true;
+		colliderFeet = App->collision->DeleteCollider(colliderFeet);
+		colliderBody = App->collision->DeleteCollider(colliderBody);
+		colliderJump = App->collision->AddCollider({ position.x, position.y , 32, 45 }, COLLIDER_PLAYER_JUMP, this);
 	}
+
 	if (inAir == true && jumped)
 	{
 		if (position.y > jumpPos && goingDown == false)
 		{
-			position.y -= 4;
+			position.y -= 4;	
+			colliderJump->SetPos(position.x + 10, position.y +20 );
 		}
 		else
 		{
 			position.y += 4;
 			position.x += attackingAirX;
 			goingDown = true;
+			colliderJump->SetPos(position.x + 10, position.y + 20);
+			
 			if (position.y >= jumpInit.y)
 			{
 				goingDown = false;
 				inAir = false;
 				jumped = false;
 				attackingAirX = 0;
+				if (colliderJump != nullptr)
+				{
+					colliderJump = App->collision->DeleteCollider(colliderJump);
+					colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
+					colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
+
+				}
 			}
 		}
 	}
@@ -555,8 +570,12 @@ update_status ModulePlayer::Update()
 	if(eliminated == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 
-	colliderFeet->SetPos(position.x+10, position.y+50);
-	colliderBody->SetPos(position.x + 10, position.y + 5);
+
+	if (colliderFeet != nullptr && colliderBody != nullptr)
+	{
+		colliderFeet->SetPos(position.x + 10, position.y + 50);
+		colliderBody->SetPos(position.x + 10, position.y + 5);
+	}
 	return UPDATE_CONTINUE;
 }
 

@@ -57,6 +57,7 @@ public:
 	Collider* colliderFeet;
 	Collider* colliderBody;
 	Collider* colliderWeapon;
+	Collider* colliderJump;
 	bool faceRight = true;
 	bool inAir = false;
 	bool jumped = false;
