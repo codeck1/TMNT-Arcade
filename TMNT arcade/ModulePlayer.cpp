@@ -349,12 +349,16 @@ update_status ModulePlayer::Update()
 					attack1.Reset();
 					current_animation = &attack1;
 					attacking = true;
+					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 				}
 				else
 				{
 					attack2.Reset();
 					current_animation = &attack2;
 					attacking = true;
+					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 				}
 
 			}
@@ -365,12 +369,16 @@ update_status ModulePlayer::Update()
 					attack1Left.Reset();
 					current_animation = &attack1Left;
 					attacking = true;
+					colliderWeapon = App->collision->AddCollider({ position.x -40, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 				}
 				else
 				{
 					attack2Left.Reset();
 					current_animation = &attack2Left;
 					attacking = true;
+					colliderWeapon = App->collision->AddCollider({ position.x - 40, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 				}
 			}
 			if (current_animation != &attackAir && jumped)
@@ -499,6 +507,9 @@ update_status ModulePlayer::Update()
 	{
 		attacking = false;
 		currentState = IDLE;
+		if(colliderWeapon != nullptr)
+			colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+		
 	}
 
 	//jumping
