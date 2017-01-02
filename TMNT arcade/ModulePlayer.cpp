@@ -32,7 +32,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	idleLeft.frames.push_back({ 615, 1339, 103, 61 });
 	idleLeft.frames.push_back({ 512, 1339, 103, 61 });
 	idleLeft.pivotY = -5;
-	idleLeft.pivot = 25;
+	idleLeft.pivot = 30;
 	idleLeft.loop = true;
 	idleLeft.speed = 0.05f;
 
@@ -45,7 +45,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	up.frames.push_back({ 206, 739, 103, 75 });
 	up.frames.push_back({ 309, 739, 103, 75 });
 	up.frames.push_back({ 412, 739, 103, 75 });
-	up.pivot = 25;
+	up.pivot = 15;
 	up.loop = true;
 	up.speed = 0.15f;
 
@@ -58,7 +58,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	upLeft.frames.push_back({ 718, 2035, 103, 75 });
 	upLeft.frames.push_back({ 615, 2035, 103, 75 });
 	upLeft.frames.push_back({ 512, 2035, 103, 75 });
-	upLeft.pivot = 35;
+	upLeft.pivot = 45;
 	upLeft.loop = true;
 	upLeft.speed = 0.15f;
 
@@ -71,7 +71,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	right.frames.push_back({ 412,636,103,75 });
 	right.frames.push_back({ 515,636,103,75 });
 	right.frames.push_back({ 618,636,103,75 });
-	right.pivot = 35;
+	right.pivot = 25;
 	right.loop = true;
 	right.speed = 0.15f;
 
@@ -217,11 +217,11 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("rtype/donatello1.png");
 
-	destroyed = false;
+	eliminated = false;
 	position.x = 150;
 	position.y = 150;
-	collider = App->collision->AddCollider({ position.x, position.y+50, 32, 14 }, COLLIDER_PLAYER, this);
-
+	colliderFeet = App->collision->AddCollider({ position.x, position.y+50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
+	colliderBody = App->collision->AddCollider({ position.x, position.y +10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
 
 	return true;
 }
@@ -535,7 +535,8 @@ update_status ModulePlayer::Update()
 		&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE
 		&& inAir == false
-		&& attacking == false)
+		&& attacking == false
+		&& currentState == IDLE)
 	{
 		if (faceRight == true)
 		{
@@ -551,10 +552,11 @@ update_status ModulePlayer::Update()
 	
 
 	// Draw everything --------------------------------------
-	if(destroyed == false)
+	if(eliminated == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 
-	collider->SetPos(position.x+10, position.y+50);
+	colliderFeet->SetPos(position.x+10, position.y+50);
+	colliderBody->SetPos(position.x + 10, position.y + 5);
 	return UPDATE_CONTINUE;
 }
 

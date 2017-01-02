@@ -53,8 +53,10 @@ public:
 	Animation attackAir2Left;
 	Animation down;
 	iPoint position;
-	bool destroyed = false;
-	Collider* collider;
+	bool eliminated = false;
+	Collider* colliderFeet;
+	Collider* colliderBody;
+	Collider* colliderWeapon;
 	bool faceRight = true;
 	bool inAir = false;
 	bool jumped = false;
