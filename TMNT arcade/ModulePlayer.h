@@ -15,15 +15,7 @@ enum State
 {
 	IDLE,
 	JUMPING,
-	ATTACKING,
-	WALKING
-};
-enum Direction
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
+	ATTACKING
 };
 
 class ModulePlayer : public Module
@@ -72,7 +64,6 @@ public:
 	int attackingAirX = 0;
 	iPoint jumpInit;
 	State currentState = IDLE;
-	Direction direction = RIGHT;
 
 	uint64_t timeSeed2;
 	mt19937_64 range2;

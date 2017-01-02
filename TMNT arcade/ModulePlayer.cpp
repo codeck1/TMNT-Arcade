@@ -240,118 +240,96 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	int speed = 2;
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		faceRight = false;
-		direction = LEFT;
-		currentState = WALKING;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		
-		faceRight = true;
-		direction = RIGHT;
-		currentState = WALKING;
-	}
-
-
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		direction = DOWN;
-		currentState = WALKING;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		direction = UP;
-		currentState = WALKING;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-	{
-		currentState = JUMPING;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-	{
-		currentState = ATTACKING;
-	}
-
-
+	
 	switch (currentState)
 	{
 		case IDLE:
 		{
-			if (faceRight == true)
-			{
-				current_animation = &idle;
-			}
-			else
-			{
-				current_animation = &idleLeft;
-			}
-			break;
-		}
-			
 
-		case WALKING:
-		{
-			if (faceRight == false && direction == LEFT)
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 			{
+				faceRight = false;
 				position.x -= speed;
-				if (current_animation != &left)
+				if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT && !jumped)
 				{
-					left.Reset();
-					current_animation = &left;
-				}
-			}
-
-			if (faceRight == true && direction == RIGHT)
-			{
-				position.x += speed;
-				if (current_animation != &right)
-				{
-					right.Reset();
-					current_animation = &right;
-				}
-			}
-
-			if (direction == DOWN)
-			{
-				position.y += speed;
-				if (current_animation != &right && faceRight == true)
-				{
-					right.Reset();
-					current_animation = &right;
-				}
-				else
-				{
-					if (current_animation != &left && faceRight == false)
+					if (!jumped)
 					{
 						left.Reset();
 						current_animation = &left;
 					}
+
 				}
 			}
 
-			if (direction == UP)
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			{
-				position.y -= speed;
-				if (current_animation != &up && faceRight == true)
+				faceRight = true;
+				position.x += speed;
+				if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) != KEY_REPEAT)
 				{
-					up.Reset();
-					current_animation = &up;
-				}
-				else
-				{
-					if (current_animation != &upLeft && faceRight == false)
+					if (!jumped)
 					{
-						upLeft.Reset();
-						current_animation = &upLeft;
+						right.Reset();
+						current_animation = &right;
+					}
+
+				}
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			{
+				position.y += speed;
+				if (!jumped)
+				{
+					if (current_animation != &right && faceRight == true)
+					{
+						right.Reset();
+						current_animation = &right;
+					}
+					else
+					{
+						if (current_animation != &left && faceRight == false)
+						{
+							left.Reset();
+							current_animation = &left;
+						}
 					}
 				}
 			}
+
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			{
+				if (!jumped)
+				{
+					position.y -= speed;
+					if (current_animation != &up && faceRight == true)
+					{
+						up.Reset();
+						current_animation = &up;
+					}
+					else
+					{
+						if (current_animation != &upLeft && faceRight == false)
+						{
+							upLeft.Reset();
+							current_animation = &upLeft;
+						}
+					}
+				}
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
+			{
+				currentState = JUMPING;
+				jumped = true;
+			}
+
+
+			if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+			{
+				currentState = ATTACKING;
+			}
+
 			break;
 		}
 			
@@ -397,7 +375,7 @@ update_status ModulePlayer::Update()
 			}
 			if (current_animation != &attackAir && jumped)
 			{
-				if (goingDown == false)
+				if (goingDown == false && !attacking)
 				{
 					if (position.y > jumpPos + 40)
 					{
@@ -443,7 +421,7 @@ update_status ModulePlayer::Update()
 				}
 				else
 				{
-					if (goingDown == true)
+					if (goingDown == true && !attacking)
 					{
 						if (position.y < jumpInit.y - 40)
 						{
@@ -492,7 +470,6 @@ update_status ModulePlayer::Update()
 		}
 		case JUMPING:
 		{
-			jumped = true;
 			if (current_animation != &jump && faceRight == true)
 			{
 				jump.Reset();
@@ -506,11 +483,22 @@ update_status ModulePlayer::Update()
 					current_animation = &jumpLeft;
 				}
 			}
+			currentState = IDLE;
+			
 			break;
 		}
 			
 	default:
 		break;
+	}
+
+	
+
+	//ending of actions
+	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left) && current_animation->Finished())
+	{
+		attacking = false;
+		currentState = IDLE;
 	}
 
 	//jumping
@@ -541,12 +529,6 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	//ending of actions
-	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left) && current_animation->Finished())
-	{
-		attacking = false;
-		currentState = IDLE;
-	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
@@ -572,7 +554,7 @@ update_status ModulePlayer::Update()
 	if(destroyed == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 
-	//collider->SetPos(position.x+10, position.y+50);
+	collider->SetPos(position.x+10, position.y+50);
 	return UPDATE_CONTINUE;
 }
 
