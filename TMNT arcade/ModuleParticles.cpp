@@ -18,7 +18,7 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("rtype/particles.png");
+	graphics = App->textures->Load("rtype/stagepart.png");
 
 	// Explosion particle
 	explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
@@ -35,13 +35,30 @@ bool ModuleParticles::Start()
 
 
 	// Laser particle
-	laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
-	laser.anim.frames.push_back({ 200, 120, 32, 12 });
-	laser.anim.frames.push_back({ 230, 120, 32, 12 });
-	laser.anim.loop = true;
-	laser.speed.x = 7;
-	laser.speed.y = 0;
-	laser.anim.speed = 0.05f;
+	fire.anim.frames.push_back({ 17, 430, 304, 65 });
+	fire.anim.frames.push_back({ 335, 430, 304, 65 });
+	fire.anim.frames.push_back({ 17, 495, 304, 65 });
+	fire.anim.frames.push_back({ 335, 495, 304, 65 });
+	fire.anim.frames.push_back({ 17, 560, 304, 65 });
+	fire.anim.frames.push_back({ 335, 560, 304, 65 });
+	fire.anim.frames.push_back({ 710, 533, 304, 65 });
+	fire.anim.frames.push_back({ 1029, 533, 304, 65 });
+	fire.speed.x = 0;
+	fire.speed.y = 0;
+	fire.anim.loop = true;
+	fire.anim.speed = 0.09f;
+
+	//fire2
+	fire2.anim.frames.push_back({ 335, 560, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 560, 304, 65 });
+	fire2.anim.frames.push_back({ 335, 495, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 495, 304, 65 });
+	fire2.anim.frames.push_back({ 335, 430, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 430, 304, 65 });
+	fire2.speed.x = 0;
+	fire2.speed.y = 0;
+	fire2.anim.loop = true;
+	fire2.anim.speed = 0.09f;
 
 	return true;
 }
@@ -119,8 +136,6 @@ Particle::~Particle()
 bool Particle::Update()
 {
 	bool ret = true;
-	if (anim.Finished())
-		ret = false;
 	position.x += speed.x;
 	position.y += speed.y;
 	if (collider != NULL)
