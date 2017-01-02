@@ -395,6 +395,8 @@ update_status ModulePlayer::Update()
 							goingDown = true;
 							jumpPos = position.y;
 							attackingAirX = 3;
+							colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 						}
 						if (!faceRight && current_animation != &attackAirLeft)
 						{
@@ -404,6 +406,7 @@ update_status ModulePlayer::Update()
 							goingDown = true;
 							jumpPos = position.y;
 							attackingAirX = -3;
+							colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 						}
 					}
 					else
@@ -415,6 +418,8 @@ update_status ModulePlayer::Update()
 							attacking = true;
 							goingDown = true;
 							jumpPos = position.y;
+							colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 						}
 						if (!faceRight && current_animation != &attackAir2Left)
 						{
@@ -423,6 +428,7 @@ update_status ModulePlayer::Update()
 							attacking = true;
 							goingDown = true;
 							jumpPos = position.y;
+							colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
 						}
 					}
 
@@ -441,6 +447,8 @@ update_status ModulePlayer::Update()
 								goingDown = true;
 								jumpPos = position.y;
 								attackingAirX = 3;
+								colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 							}
 							if (!faceRight && current_animation != &attackAirLeft)
 							{
@@ -450,6 +458,8 @@ update_status ModulePlayer::Update()
 								goingDown = true;
 								jumpPos = position.y;
 								attackingAirX = -3;
+								colliderWeapon = App->collision->AddCollider({ position.x - 40, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 							}
 						}
 						else
@@ -461,6 +471,8 @@ update_status ModulePlayer::Update()
 								attacking = true;
 								goingDown = true;
 								jumpPos = position.y;
+								colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 							}
 							if (!faceRight && current_animation != &attackAir2Left)
 							{
@@ -469,6 +481,8 @@ update_status ModulePlayer::Update()
 								attacking = true;
 								goingDown = true;
 								jumpPos = position.y;
+								colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+
 							}
 						}
 					}
@@ -552,6 +566,19 @@ update_status ModulePlayer::Update()
 
 				}
 			}
+		}
+		if (attacking)
+		{
+			if(faceRight )
+				if(current_animation == &attackAir)
+					colliderWeapon->SetPos(position.x + 42, position.y + 60);
+				else
+					colliderWeapon->SetPos(position.x + 42, position.y + 40);
+			else
+				if (current_animation == &attackAirLeft)
+					colliderWeapon->SetPos(position.x -20, position.y + 60);
+				else
+					colliderWeapon->SetPos(position.x - 40, position.y + 40);
 		}
 	}
 
