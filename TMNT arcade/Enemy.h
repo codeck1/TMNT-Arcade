@@ -24,7 +24,10 @@ enum State
 {
 	IDLE,
 	JUMPING,
-	ATTACKING
+	ATTACKING, 
+	GOINGY,
+	GOINGX,
+	ATTACK
 };
 
 class Enemy

@@ -16,9 +16,9 @@ ModuleEnemy::~ModuleEnemy()
 bool ModuleEnemy::Start()
 {
 	LOG("Loading enemies");
-	enemy1.graphics = App->textures->Load("rtype/stagepart.png");
+	enemy1.graphics = App->textures->Load("rtype/enemy1.png");
 	// Explosion particle
-
+	enemy1.right.frames.push_back({ 206,529,103,75 });
 
 	return false;
 }
