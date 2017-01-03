@@ -68,6 +68,7 @@ public:
 	int attackingAirX = 0;
 	iPoint jumpInit;
 	State currentState = IDLE;
+	EnemyType eType;
 
 
 
