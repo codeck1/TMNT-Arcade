@@ -46,9 +46,6 @@
     <ClInclude Include="Point.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ModulePlayer.h">
-      <Filter>Game Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleInput.h">
       <Filter>Core Modules</Filter>
     </ClInclude>
@@ -64,7 +61,13 @@
     <ClInclude Include="ModuleSceneIntro.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneSpace.h">
+    <ClInclude Include="ModuleStage1.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePlayer.h">
       <Filter>Game Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,9 +96,6 @@
     <ClCompile Include="Log.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ModulePlayer.cpp">
-      <Filter>Game Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleInput.cpp">
       <Filter>Core Modules</Filter>
     </ClCompile>
@@ -108,7 +108,13 @@
     <ClCompile Include="ModuleSceneIntro.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSceneSpace.cpp">
+    <ClCompile Include="ModuleStage1.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePlayer.cpp">
       <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>

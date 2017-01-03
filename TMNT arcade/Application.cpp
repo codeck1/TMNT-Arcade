@@ -9,7 +9,7 @@
 #include "ModuleParticles.h"
 
 #include "ModuleSceneIntro.h"
-#include "ModuleSceneSpace.h"
+#include "ModuleStage1.h"
 #include "ModulePlayer.h"
 
 using namespace std;
@@ -27,7 +27,7 @@ Application::Application()
 
 	// Game Modules
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
-	modules.push_back(scene_space = new ModuleSceneSpace(false));
+	modules.push_back(scene_space = new ModuleStage1(false));
 	modules.push_back(player = new ModulePlayer(false));
 
 	// Modules to draw on top of game logic

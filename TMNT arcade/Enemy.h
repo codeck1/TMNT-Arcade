@@ -1,14 +1,24 @@
-#ifndef __Player_H__
-#define __Player_H__
+#ifndef __Enemy_H_
+#define __Enemy_H_
 
+
+#include<list>
+#include "Globals.h"
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-#include <random>
-#include <chrono>
-#include <time.h>
+#include "ModuleCollision.h"
+
+
 
 struct SDL_Texture;
+
+enum EnemyType
+{
+	TYPE1,
+	TYPE2,
+	TYPE3
+};
 
 enum State
 {
@@ -17,17 +27,14 @@ enum State
 	ATTACKING
 };
 
-class ModulePlayer : public Module
+class Enemy
 {
 public:
-	ModulePlayer(bool active = true);
-	~ModulePlayer();
-
+	Enemy();
+	Enemy(const Enemy& e);
+	~Enemy();
 	bool Start();
-	update_status Update();
-	void OnCollision(Collider* c1, Collider* c2);
-	bool CleanUp();
-	
+	bool Update();
 
 
 public:
@@ -37,8 +44,6 @@ public:
 	Animation idle;
 	Animation idleLeft;
 	Animation up;
-	Animation jump;
-	Animation jumpLeft;
 	Animation upLeft;
 	Animation right;
 	Animation left;
@@ -48,9 +53,6 @@ public:
 	Animation attack2Left;
 	Animation attackAir;
 	Animation attackAirLeft;
-	Animation attackAir2;
-	Animation attackAir2Left;
-	Animation down;
 	iPoint position;
 	bool eliminated = false;
 	Collider* colliderFeet;
@@ -67,9 +69,6 @@ public:
 	iPoint jumpInit;
 	State currentState = IDLE;
 
-	uint64_t timeSeed2;
-	mt19937_64 range2;
-	double randomVar;
 
 
 };

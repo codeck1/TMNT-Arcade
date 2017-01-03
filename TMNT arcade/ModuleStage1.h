@@ -1,16 +1,16 @@
-#ifndef __MODULESCENESPACE_H__
-#define __MODULESCENESPACE_H__
+#ifndef __ModuleStage1_H__
+#define __ModuleStage1_H__
 
 #include "Module.h"
 
 struct SDL_Texture;
 struct Collider;
 
-class ModuleSceneSpace : public Module
+class ModuleStage1 : public Module
 {
 public:
-	ModuleSceneSpace(bool active = true);
-	~ModuleSceneSpace();
+	ModuleStage1(bool active = true);
+	~ModuleStage1();
 
 	bool Start();
 	update_status Update();
@@ -27,4 +27,4 @@ public:
 	SDL_Texture* stars = nullptr;
 };
 
-#endif // __MODULESCENESPACE_H__
+#endif // __ModuleStage1_H__
