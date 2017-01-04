@@ -45,6 +45,10 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->fire2, 301, 168);
 	App->particles->AddParticle(App->particles->fire2, 602, 168);
 	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
+	lala.x = 100;
+	lala.y = 100;
+	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
+
 
 	return true;
 }

@@ -151,8 +151,19 @@ bool Enemy::Update()
 	case ENEMYATTACKING:
 		if (App->player->currentState == BEINGATTACKED)
 		{
-			if (colliderWeapon != nullptr)
+			if (colliderWeapon != nullptr && attacking)
+			{
+				if (App->player->faceRight && faceRight)
+					App->player->sameDirection = true;
+				else
+					if(!App->player->faceRight && !faceRight)
+						App->player->sameDirection = true;
+					else
+						App->player->sameDirection = false;
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+
+			}
+				
 			break;
 
 		}
@@ -162,6 +173,7 @@ bool Enemy::Update()
 			{
 				if (current_animation != &attack1)
 				{
+					attacking = true;
 					colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
 					attack1.Reset();
 					current_animation = &attack1;
@@ -171,6 +183,7 @@ bool Enemy::Update()
 			{
 				if (current_animation != &attack1Left)
 				{
+					attacking = true;
 					colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
 					attack1Left.Reset();
 					current_animation = &attack1Left;
@@ -183,6 +196,8 @@ bool Enemy::Update()
 		if ((current_animation == &attack1 || current_animation == &attack1Left) && current_animation->Finished() )
 		{
 			current_animation = &right;
+			attacking = false;
+
 			if (colliderWeapon != nullptr)
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 

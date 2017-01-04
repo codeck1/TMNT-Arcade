@@ -213,7 +213,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	//reciveDamage1.frames.push_back({ 412,834,103,75 });
 	reciveDamage1.pivot = 30;
 	reciveDamage1.loop = false;
-	reciveDamage1.speed = 0.18f;
+	reciveDamage1.speed = 0.2f;
 
 	// reciveDamageLeft
 	reciveDamage1Left.frames.push_back({ 721,2133,103,75 });
@@ -221,7 +221,23 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage1Left.frames.push_back({ 515,2133,103,75 });
 	reciveDamage1Left.pivot = 30;
 	reciveDamage1Left.loop = false;
-	reciveDamage1Left.speed = 0.18f;
+	reciveDamage1Left.speed = 0.2f;
+
+	// reciveDamageLeft
+	reciveDamage2.frames.push_back({ 515,933,103,75 });
+	reciveDamage2.frames.push_back({ 618,933,103,75 });
+	reciveDamage2.frames.push_back({ 721,933,103,75 });
+	reciveDamage2.pivot = 30;
+	reciveDamage2.loop = false;
+	reciveDamage2.speed = 0.2;
+
+	// reciveDamageLeft
+	reciveDamage2Left.frames.push_back({ 412,2233,103,75 });
+	reciveDamage2Left.frames.push_back({ 309,2233,103,75 });
+	reciveDamage2Left.frames.push_back({ 206,2233,103,75 });
+	reciveDamage2Left.pivot = 30;
+	reciveDamage2Left.loop = false;
+	reciveDamage2Left.speed = 0.2;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -530,22 +546,53 @@ update_status ModulePlayer::Update()
 	case BEINGATTACKED:
 		if (faceRight)
 		{
-			if (current_animation != &reciveDamage1)
+			if (sameDirection)
 			{
-				reciveDamage1.Reset();
-				current_animation = &reciveDamage1;
+				position.x += 1;
+				if (current_animation != &reciveDamage2)
+				{
+					reciveDamage2.Reset();
+					current_animation = &reciveDamage2;
+				}
 			}
+			else
+			{
+				position.x -= 1;
+				if (current_animation != &reciveDamage1)
+				{
+					reciveDamage1.Reset();
+					current_animation = &reciveDamage1;
+				}
+			}
+	
 		}
 		else
 		{
-			if (current_animation != &reciveDamage1Left)
+			if (sameDirection)
 			{
-				reciveDamage1Left.Reset();
-				current_animation = &reciveDamage1Left;
+				position.x -= 1;
+				if (current_animation != &reciveDamage2Left)
+				{
+					reciveDamage2Left.Reset();
+					current_animation = &reciveDamage2Left;
+				}
 			}
+			else
+			{
+				position.x += 1;
+				if (current_animation != &reciveDamage1Left)
+				{
+					reciveDamage1Left.Reset();
+					current_animation = &reciveDamage1Left;
+				}
+			}	
 		}
-		if ((current_animation == &reciveDamage1 || current_animation == &reciveDamage1Left) && current_animation->Finished())
+		if ((current_animation == &reciveDamage1 || current_animation == &reciveDamage1Left || current_animation == &reciveDamage2 || current_animation == &reciveDamage2Left) && current_animation->Finished())
 		{
+			if(faceRight)
+				current_animation = &idle;
+			else
+				current_animation = &idleLeft;
 			currentState = IDLE;
 		}
 		break;
@@ -656,7 +703,7 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-
+	
 	if (c2->type == COLLIDER_ENEMY_WEAPON)
 	{
 		currentState = BEINGATTACKED;

@@ -72,10 +72,11 @@ public:
 	int attackingAirX = 0;
 	iPoint jumpInit;
 	State currentState = IDLE;
-
+	int hits = 0;
 	uint64_t timeSeed2;
 	mt19937_64 range2;
 	double randomVar;
+	bool sameDirection = false;
 
 
 };
