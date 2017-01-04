@@ -17,7 +17,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.left.frames.push_back({ 176, 0, 52, 64 });
 	enemy1.left.frames.push_back({ 98, 0, 52, 64 });
 	enemy1.left.frames.push_back({ 17, 0, 52, 64 });
-	enemy1.left.pivotY = -10;
+	enemy1.left.pivotY = -5;
 	enemy1.left.loop = true;
 	enemy1.left.speed = 0.2f;
 
@@ -29,7 +29,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.right.frames.push_back({ 593, 0, 52, 64 });
 	enemy1.right.frames.push_back({ 674, 0, 52, 64 });
 	enemy1.right.frames.push_back({ 751, 0, 52, 64 });
-	enemy1.right.pivotY = -10;
+	enemy1.right.pivotY = -5;
 	enemy1.right.loop = true;
 	enemy1.right.speed = 0.2f;
 
@@ -41,7 +41,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.upLeft.frames.push_back({ 17, 160, 52, 64 });
 	enemy1.upLeft.frames.push_back({ 336, 81, 52, 64 });
 	enemy1.upLeft.frames.push_back({ 256, 81, 52, 64 });
-	enemy1.upLeft.pivotY =- 10;
+	enemy1.upLeft.pivotY =- 5;
 	enemy1.upLeft.loop = true;
 	enemy1.upLeft.speed = 0.2f;
 	
@@ -53,7 +53,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.up.frames.push_back({ 753, 160, 52, 64 });
 	enemy1.up.frames.push_back({ 433, 81, 52, 64 });
 	enemy1.up.frames.push_back({ 512, 81, 52, 64 });
-	enemy1.up.pivotY = -10;
+	enemy1.up.pivotY = -5;
 	enemy1.up.loop = true;
 	enemy1.up.speed = 0.2f;
 
@@ -61,14 +61,14 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.attack1Left.frames.push_back({ 161, 643, 60, 64 });
 	enemy1.attack1Left.frames.push_back({ 91, 643, 60, 64 });
 	enemy1.attack1Left.frames.push_back({ 16, 643, 60, 64 });
-	enemy1.attack1Left.pivotY = -40;
+	enemy1.attack1Left.pivotY = -10;
 	enemy1.attack1Left.loop = true;
 	enemy1.attack1Left.speed = 0.12f;
 
 	enemy1.attack1.frames.push_back({ 577, 643, 60, 64 });
 	enemy1.attack1.frames.push_back({ 668, 643, 60, 64 });
 	enemy1.attack1.frames.push_back({ 753, 643, 60, 64 });
-	enemy1.attack1.pivotY = 1000;
+	enemy1.attack1.pivotY = -10;
 	enemy1.attack1.loop = true;
 	enemy1.attack1.speed = 0.12f;
 }
@@ -99,7 +99,9 @@ update_status ModuleEnemy::Update()
 		}
 		else
 		{
-			App->renderer->Blit(e->graphics, e->position.x, e->position.y-e->current_animation->pivotY, &(e->current_animation->GetCurrentFrame()));
+			e->colliderFeet->SetPos(e->position.x + 10, e->position.y + 50);
+			e->colliderBody->SetPos(e->position.x + 10, e->position.y + 5);
+			App->renderer->Blit(e->graphics, e->position.x, e->position.y - e->current_animation->pivotY, &(e->current_animation->GetCurrentFrame()));
 			++it;
 		}
 	}
@@ -127,7 +129,47 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, EnemyType type)
 	e->position.y = position.y;
 	e->eType = type;
 	e->colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
-	e->colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
+	e->colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_ENEMY_BODY, this);
 
 	active.push_back(e);
+}
+
+void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
+{
+
+	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
+	{
+		Enemy* aux = *it;
+
+		//left
+		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL))
+		{
+			aux->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+		}
+		else
+		{
+			//right
+			if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL ))
+			{
+				aux->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+			}
+			else
+			{
+				//down
+				if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && (c2->type == COLLIDER_WALL))
+				{
+					aux->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+				}
+				else
+				{
+					//up
+					if (c1->rect.h + c1->rect.y > c2->rect.y && (c2->type == COLLIDER_WALL))
+					{
+						aux->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+					}
+				}
+			}
+		}
+		break;
+	}
 }

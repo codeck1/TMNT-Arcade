@@ -11,7 +11,7 @@ attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e
 attackAir(e.attackAir), attackAirLeft(e.attackAirLeft), position(e.position),
 eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody), colliderWeapon(e.colliderWeapon),
 colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir), jumped(e.jumped), goingDown(e.goingDown),
-attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics), current_animation(e.current_animation)
+attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics)
 {
 }
 
@@ -113,7 +113,7 @@ bool Enemy::Update()
 			
 			if ((App->player->position.x - position.x) < 0)
 			{
-				if (abs(App->player->position.x - position.x) <= 25)
+				if (abs(App->player->position.x - position.x) <= 35)
 				{
 					currentState = ENEMYATTACKING;
 					break;
@@ -129,7 +129,7 @@ bool Enemy::Update()
 			{
 				if ((App->player->position.x - position.x) > 0)
 				{
-					if (abs(App->player->position.x - position.x) <= 15)
+					if (abs(App->player->position.x - position.x) <= 25)
 					{
 						currentState = ENEMYATTACKING;
 						break;
@@ -151,7 +151,7 @@ bool Enemy::Update()
 		break;
 		
 	case ENEMYATTACKING:
-		if (abs(App->player->position.x - position.x) <= 25 || abs(App->player->position.x - position.x) <= 15)
+		if (abs(App->player->position.x - position.x) <= 35 || abs(App->player->position.x - position.x) <= 25)
 		{
 			if (faceRight)
 			{

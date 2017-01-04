@@ -68,7 +68,7 @@ public:
 	EnemyState currentState = ENEMYIDLE;
 	EnemyType eType;
 	iPoint walk;
-
+	Collider* collider = NULL;
 
 };
 

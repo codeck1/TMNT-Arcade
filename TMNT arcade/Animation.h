@@ -21,7 +21,7 @@ public:
 	Animation()
 	{}
 
-	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), frames(anim.frames)
+	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), frames(anim.frames), pivot(anim.pivot), pivotY(anim.pivotY)
 	{}
 
 	SDL_Rect& GetCurrentFrame()

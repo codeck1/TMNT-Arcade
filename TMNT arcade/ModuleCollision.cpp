@@ -10,7 +10,7 @@ ModuleCollision::ModuleCollision()
 {
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_BODY] = false;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_FEET] = true;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_WEAPON] = false;
@@ -18,23 +18,23 @@ ModuleCollision::ModuleCollision()
 
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_WALL] = false;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_BODY] = true;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_FEET] = false;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_WEAPON] = false;
 	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_JUMP] = false;
 
-	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_BODY] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY_SHOT] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_FEET] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_WEAPON] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_JUMP] = true;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_WALL] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_BODY] = true;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY_BODY] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_ENEMY_SHOT] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_FEET] = true;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_WEAPON] = true;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_JUMP] = true;
 
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_BODY] = true;
-	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_BODY] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_FEET] = true;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_WEAPON] = false;
@@ -42,15 +42,15 @@ ModuleCollision::ModuleCollision()
 
 	matrix[COLLIDER_PLAYER_FEET][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER_FEET][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_PLAYER_FEET][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_FEET][COLLIDER_ENEMY_BODY] = true;
 	matrix[COLLIDER_PLAYER_FEET][COLLIDER_ENEMY_SHOT] = true;
-	matrix[COLLIDER_PLAYER_FEET][COLLIDER_PLAYER_FEET] = false;
+	matrix[COLLIDER_PLAYER_FEET][COLLIDER_PLAYER_FEET] = true;
 	matrix[COLLIDER_PLAYER_FEET][COLLIDER_PLAYER_WEAPON] = false;
 	matrix[COLLIDER_PLAYER_FEET][COLLIDER_PLAYER_JUMP] = false;
 
 	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_WALL] = false;
 	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_ENEMY_BODY] = true;
 	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_PLAYER_FEET] = false;
 	matrix[COLLIDER_PLAYER_WEAPON][COLLIDER_PLAYER_WEAPON] = false;
@@ -58,7 +58,7 @@ ModuleCollision::ModuleCollision()
 
 	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_WALL] = false;
 	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_PLAYER_BODY] = false;
-	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_ENEMY_BODY] = true;
 	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_PLAYER_FEET] = false;
 	matrix[COLLIDER_PLAYER_JUMP][COLLIDER_PLAYER_WEAPON] = false;
@@ -124,7 +124,25 @@ update_status ModuleCollision::Update()
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+	{
+		if ((*it)->type == COLLIDER_PLAYER_FEET)
+		{
+			App->renderer->DrawQuad((*it)->rect, 0, 0, 0, 80);
+		}
+		else
+		{
+			if ((*it)->type == COLLIDER_PLAYER_WEAPON)
+			{
+				App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
+			}
+			else
+				App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+
+		}
+			
+		
+	}
+		
 }
 
 // Called before quitting

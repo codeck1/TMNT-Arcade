@@ -21,6 +21,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void OnCollision(Collider*, Collider*);
 
 	void AddEnemy(const Enemy& enemy, iPoint position, EnemyType type);
 
