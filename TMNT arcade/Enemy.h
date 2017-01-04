@@ -9,8 +9,6 @@
 #include "Point.h"
 #include "ModuleCollision.h"
 
-
-
 struct SDL_Texture;
 
 enum EnemyType
@@ -20,14 +18,13 @@ enum EnemyType
 	TYPE3
 };
 
-enum State
+enum EnemyState
 {
-	IDLE,
-	JUMPING,
-	ATTACKING, 
+	ENEMYIDLE,
+	ENEMYJUMPING,
+	ENEMYATTACKING, 
 	GOINGY,
-	GOINGX,
-	ATTACK
+	GOINGX
 };
 
 class Enemy
@@ -70,9 +67,8 @@ public:
 	int jumpPos;
 	int attackingAirX = 0;
 	iPoint jumpInit;
-	State currentState = IDLE;
+	EnemyState currentState = ENEMYIDLE;
 	EnemyType eType;
-
 
 
 };

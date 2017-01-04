@@ -7,6 +7,21 @@
 
 ModuleEnemy::ModuleEnemy()
 {
+
+	//Animaciones de cada enemigo y sonidos. Prototipos
+
+
+	enemy1.left.frames.push_back({ 17, 0, 52, 64 });
+	enemy1.left.frames.push_back({ 98, 0, 52, 64 });
+	enemy1.left.frames.push_back({ 176, 0, 52, 64 });
+	enemy1.left.frames.push_back({ 253, 0, 52, 64 });
+	enemy1.left.frames.push_back({ 337, 0, 52, 64 });
+	enemy1.left.frames.push_back({ 19, 80, 52, 64 });
+	enemy1.left.frames.push_back({ 96, 80, 52, 64 });
+	enemy1.left.frames.push_back({ 172, 80, 52, 64 });
+	enemy1.left.loop = true;
+	enemy1.left.speed = 0.05f;
+	
 }
 
 ModuleEnemy::~ModuleEnemy()
@@ -18,9 +33,8 @@ bool ModuleEnemy::Start()
 	LOG("Loading enemies");
 	enemy1.graphics = App->textures->Load("rtype/enemy1.png");
 	// Explosion particle
-	enemy1.right.frames.push_back({ 206,529,103,75 });
 
-	return false;
+	return true;
 }
 
 update_status ModuleEnemy::Update()

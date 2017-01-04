@@ -7,6 +7,7 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleStage1.h"
+#include "ModuleEnemy.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -28,7 +29,9 @@ bool ModuleStage1::Start()
 	App->collision->Enable();
 
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
-	
+	iPoint lala;
+	lala.x = 200;
+	lala.y = 150;
 	wallLeftLimit = 0;
 	wallRightLimit = SCREEN_WIDTH;
 	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 127 }, COLLIDER_WALL, this);
@@ -41,6 +44,7 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->fire2, 0, 168);
 	App->particles->AddParticle(App->particles->fire2, 301, 168);
 	App->particles->AddParticle(App->particles->fire2, 602, 168);
+	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
 
 	return true;
 }

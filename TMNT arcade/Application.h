@@ -16,6 +16,7 @@ class ModuleParticles;
 
 // Game modules ---
 class ModulePlayer;
+class ModuleEnemy;
 class ModuleSceneIntro;
 class ModuleStage1;
 
@@ -42,6 +43,7 @@ public:
 
 	// Game modules ---
 	ModulePlayer* player;
+	ModuleEnemy* enemy;
 	ModuleSceneIntro* scene_intro;
 	ModuleStage1* scene_space;
 
