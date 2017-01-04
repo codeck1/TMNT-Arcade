@@ -104,14 +104,17 @@ bool Enemy::Update()
 		
 		break;
 	case GOINGX:
-		
 		if(abs(App->player->position.y - position.y) == 0 || abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 		{
-			
 			if ((App->player->position.x - position.x) < 0)
 			{
 				faceRight = false;
-
+				if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 200)
+				{
+					faceRight = true;
+					walk.x = +1;
+					break;
+				}
 				if (abs(App->player->position.x - position.x) <= 25)
 				{
 					currentState = ENEMYATTACKING;
@@ -128,6 +131,12 @@ bool Enemy::Update()
 				if ((App->player->position.x - position.x) > 0)
 				{
 					faceRight = true;
+					if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 200)
+					{
+						faceRight = false;
+						walk.x = -1;
+						break;
+					}
 					if (abs(App->player->position.x - position.x) <= 25)
 					{
 						currentState = ENEMYATTACKING;
@@ -141,7 +150,6 @@ bool Enemy::Update()
 				}
 				else
 					currentState = ENEMYIDLE;
-
 			}
 		}
 		else
@@ -161,7 +169,7 @@ bool Enemy::Update()
 					else
 						App->player->sameDirection = false;
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
-
+				App->player->hits += 1;
 			}
 				
 			break;

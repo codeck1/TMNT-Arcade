@@ -210,7 +210,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage1.frames.push_back({ 103,834,103,75 });
 	reciveDamage1.frames.push_back({ 206,834,103,75 });
 	reciveDamage1.frames.push_back({ 309,834,103,75 });
-	//reciveDamage1.frames.push_back({ 412,834,103,75 });
+	reciveDamage1.frames.push_back({ 412,834,103,75 });
 	reciveDamage1.pivot = 30;
 	reciveDamage1.loop = false;
 	reciveDamage1.speed = 0.2f;
@@ -219,25 +219,56 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage1Left.frames.push_back({ 721,2133,103,75 });
 	reciveDamage1Left.frames.push_back({ 618,2133,103,75 });
 	reciveDamage1Left.frames.push_back({ 515,2133,103,75 });
+	reciveDamage1Left.frames.push_back({ 412,2133,103,75 });
 	reciveDamage1Left.pivot = 30;
 	reciveDamage1Left.loop = false;
 	reciveDamage1Left.speed = 0.2f;
 
-	// reciveDamageLeft
+	// recive2Damage
 	reciveDamage2.frames.push_back({ 515,933,103,75 });
 	reciveDamage2.frames.push_back({ 618,933,103,75 });
 	reciveDamage2.frames.push_back({ 721,933,103,75 });
 	reciveDamage2.pivot = 30;
 	reciveDamage2.loop = false;
-	reciveDamage2.speed = 0.2;
+	reciveDamage2.speed = 0.2f;
 
-	// reciveDamageLeft
+	// reciveDamage2Left
 	reciveDamage2Left.frames.push_back({ 412,2233,103,75 });
 	reciveDamage2Left.frames.push_back({ 309,2233,103,75 });
 	reciveDamage2Left.frames.push_back({ 206,2233,103,75 });
 	reciveDamage2Left.pivot = 30;
 	reciveDamage2Left.loop = false;
-	reciveDamage2Left.speed = 0.2;
+	reciveDamage2Left.speed = 0.2f;
+
+	// recive3Damage
+	reciveDamage3.frames.push_back({ 515,834,103,75 });
+	reciveDamage3.frames.push_back({ 618,834,103,75 });
+	reciveDamage3.frames.push_back({ 721,834,103,75 });
+	reciveDamage3.frames.push_back({ 824,834,103,75 });
+	reciveDamage3.frames.push_back({ 927,834,103,75 });
+	reciveDamage3.frames.push_back({ 0,933,103,75 });
+	reciveDamage3.frames.push_back({ 103,933,103,75 });
+	reciveDamage3.frames.push_back({ 206,933,103,75 });
+	reciveDamage3.frames.push_back({ 309,933,103,75 });
+	reciveDamage3.frames.push_back({ 412,933,103,75 });
+	reciveDamage3.pivot = 30;
+	reciveDamage3.loop = false;
+	reciveDamage3.speed = 0.15f;
+
+	// recive3DamageLeft
+	reciveDamage3Left.frames.push_back({ 412,2133,103,75 });
+	reciveDamage3Left.frames.push_back({ 309,2133,103,75 });
+	reciveDamage3Left.frames.push_back({ 206,2133,103,75 });
+	reciveDamage3Left.frames.push_back({ 103,2133,103,75 });
+	reciveDamage3Left.frames.push_back({ 0,2133,103,75 });
+	reciveDamage3Left.frames.push_back({ 927,2233,103,75 });
+	reciveDamage3Left.frames.push_back({ 824,2233,103,75 });
+	reciveDamage3Left.frames.push_back({ 721,2233,103,75 });
+	reciveDamage3Left.frames.push_back({ 618,2233,103,75 });
+	reciveDamage3Left.frames.push_back({ 515,2233,103,75 });
+	reciveDamage3Left.pivot = 30;
+	reciveDamage3Left.loop = false;
+	reciveDamage3Left.speed = 0.15f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -544,6 +575,11 @@ update_status ModulePlayer::Update()
 		}
 			
 	case BEINGATTACKED:
+		if (hits == 3)
+		{
+			currentState = TAKEDDOWN;
+			break;
+		}
 		if (faceRight)
 		{
 			if (sameDirection)
@@ -590,6 +626,48 @@ update_status ModulePlayer::Update()
 		if ((current_animation == &reciveDamage1 || current_animation == &reciveDamage1Left || current_animation == &reciveDamage2 || current_animation == &reciveDamage2Left) && current_animation->Finished())
 		{
 			if(faceRight)
+				current_animation = &idle;
+			else
+				current_animation = &idleLeft;
+			currentState = IDLE;
+		}
+		break;
+
+	case TAKEDDOWN:
+		hits = 0;
+		if (faceRight)
+		{
+			if (sameDirection)
+			{
+			}
+			else
+			{
+				position.x -= 2;
+				if (current_animation != &reciveDamage3)
+				{
+					reciveDamage3.Reset();
+					current_animation = &reciveDamage3;
+				}
+			}
+		}
+		else
+		{
+			if (sameDirection)
+			{
+			}
+			else
+			{
+				position.x += 2;
+				if (current_animation != &reciveDamage3Left)
+				{
+					reciveDamage3Left.Reset();
+					current_animation = &reciveDamage3Left;
+				}
+			}
+		}
+		if ((current_animation == &reciveDamage3 || current_animation == &reciveDamage3Left ) && current_animation->Finished())
+		{
+			if (faceRight)
 				current_animation = &idle;
 			else
 				current_animation = &idleLeft;
