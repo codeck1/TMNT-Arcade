@@ -11,7 +11,7 @@ attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e
 attackAir(e.attackAir), attackAirLeft(e.attackAirLeft), position(e.position),
 eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody), colliderWeapon(e.colliderWeapon),
 colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir), jumped(e.jumped), goingDown(e.goingDown),
-attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics)
+attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics), current_animation(e.current_animation)
 {
 }
 
@@ -61,6 +61,7 @@ bool Enemy::Update()
 		{
 			if ((App->player->position.y - position.y) < 0)
 			{
+				
 				walk.y = -1;
 				if (faceRight)
 				{
@@ -79,6 +80,7 @@ bool Enemy::Update()
 			{
 				if ((App->player->position.y - position.y) > 0)
 				{
+					
 					walk.y = 1;
 					if (faceRight)
 					{
@@ -105,10 +107,17 @@ bool Enemy::Update()
 		
 		break;
 	case GOINGX:
+		
 		if(abs(App->player->position.y - position.y) == 0 || abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 		{
+			
 			if ((App->player->position.x - position.x) < 0)
 			{
+				if (abs(App->player->position.x - position.x) <= 25)
+				{
+					currentState = ENEMYATTACKING;
+					break;
+				}
 				walk.x = -1;
 				if (current_animation != &left)
 				{
@@ -120,6 +129,11 @@ bool Enemy::Update()
 			{
 				if ((App->player->position.x - position.x) > 0)
 				{
+					if (abs(App->player->position.x - position.x) <= 15)
+					{
+						currentState = ENEMYATTACKING;
+						break;
+					}
 					walk.x = 1;
 					if (current_animation != &right)
 					{
@@ -129,14 +143,33 @@ bool Enemy::Update()
 				}
 				else
 					currentState = ENEMYIDLE;
-				
-				
+
 			}
 		}
 		else
 			currentState = ENEMYIDLE;
+		break;
 		
 	case ENEMYATTACKING:
+		if (abs(App->player->position.x - position.x) <= 25 || abs(App->player->position.x - position.x) <= 15)
+		{
+			if (faceRight)
+			{
+				if (current_animation != &attack1)
+				{
+					current_animation = &attack1;
+				}
+			}
+			else
+			{
+				if (current_animation != &attack1Left)
+				{
+					current_animation = &attack1Left;
+				}
+			}
+		}
+		else
+			currentState = ENEMYIDLE;
 		break;
 	}
 
