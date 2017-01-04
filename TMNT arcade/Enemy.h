@@ -40,9 +40,6 @@ public:
 public:
 
 	SDL_Texture* graphics = nullptr;
-	Animation* current_animation = nullptr;
-	Animation idle;
-	Animation idleLeft;
 	Animation up;
 	Animation upLeft;
 	Animation right;
@@ -53,6 +50,7 @@ public:
 	Animation attack2Left;
 	Animation attackAir;
 	Animation attackAirLeft;
+	Animation* current_animation = &right;
 	iPoint position;
 	bool eliminated = false;
 	Collider* colliderFeet;
@@ -69,6 +67,7 @@ public:
 	iPoint jumpInit;
 	EnemyState currentState = ENEMYIDLE;
 	EnemyType eType;
+	iPoint walk;
 
 
 };

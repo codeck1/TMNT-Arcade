@@ -6,9 +6,9 @@ Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(const Enemy & e) : idle(e.idle), idleLeft(e.idleLeft), up(e.up), upLeft(e.upLeft),
-right(e.right), left(e.left), attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),
-attack2Left(e.attack2Left), attackAir(e.attackAir), attackAirLeft(e.attackAirLeft), position(e.position),
+Enemy::Enemy(const Enemy & e) : up(e.up), upLeft(e.upLeft),right(e.right), left(e.left),
+attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e.attack2Left),
+attackAir(e.attackAir), attackAirLeft(e.attackAirLeft), position(e.position),
 eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody), colliderWeapon(e.colliderWeapon),
 colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir), jumped(e.jumped), goingDown(e.goingDown),
 attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics)
@@ -26,10 +26,9 @@ bool Enemy::Start()
 
 bool Enemy::Update()
 {
-	iPoint walk;
+
 	walk.x = 0;
 	walk.y = 0;
-	current_animation = &idleLeft;
 
 	switch (currentState)
 	{
@@ -63,14 +62,42 @@ bool Enemy::Update()
 			if ((App->player->position.y - position.y) < 0)
 			{
 				walk.y = -1;
-
+				if (faceRight)
+				{
+					if (current_animation != &up)
+					{
+						current_animation = &up;
+					}
+				}
+				else
+					if (current_animation != &upLeft)
+					{
+						current_animation = &upLeft;
+					}
 			}
 			else
 			{
 				if ((App->player->position.y - position.y) > 0)
+				{
 					walk.y = 1;
+					if (faceRight)
+					{
+						if (current_animation != &right)
+						{
+							current_animation = &right;
+						}
+					}
+					else
+						if (current_animation != &left)
+						{
+							current_animation = &left;
+						}
+				}
 				else
 					currentState = ENEMYIDLE;
+
+				
+				
 			}
 		}
 		else
@@ -83,17 +110,27 @@ bool Enemy::Update()
 			if ((App->player->position.x - position.x) < 0)
 			{
 				walk.x = -1;
-				if (current_animation != &idleLeft)
+				if (current_animation != &left)
 				{
-					current_animation = &idleLeft;
+					faceRight = false;
+					current_animation = &left;
 				}
 			}
 			else
 			{
 				if ((App->player->position.x - position.x) > 0)
+				{
 					walk.x = 1;
+					if (current_animation != &right)
+					{
+						faceRight = true;
+						current_animation = &right;
+					}
+				}
 				else
 					currentState = ENEMYIDLE;
+				
+				
 			}
 		}
 		else
@@ -102,7 +139,6 @@ bool Enemy::Update()
 	case ENEMYATTACKING:
 		break;
 	}
-	current_animation = &idleLeft;
 
 	position += walk;
 	return true;
