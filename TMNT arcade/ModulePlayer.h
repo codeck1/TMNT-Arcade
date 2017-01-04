@@ -14,7 +14,8 @@ enum State
 {
 	IDLE,
 	JUMPING,
-	ATTACKING
+	ATTACKING,
+	BEINGATTACKED
 };
 
 class ModulePlayer : public Module
@@ -50,7 +51,12 @@ public:
 	Animation attackAirLeft;
 	Animation attackAir2;
 	Animation attackAir2Left;
-	Animation down;
+	Animation reciveDamage1;
+	Animation reciveDamage1Left;
+	Animation reciveDamage2;
+	Animation reciveDamage2Left;
+	Animation reciveDamage3;
+	Animation reciveDamage3Left;
 	iPoint position;
 	bool eliminated = false;
 	Collider* colliderFeet;

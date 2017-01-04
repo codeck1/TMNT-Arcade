@@ -205,6 +205,23 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attackAir2Left.pivot = 30;
 	attackAir2Left.loop = false;
 	attackAir2Left.speed = 0.25f;
+
+	// reciveDamage
+	reciveDamage1.frames.push_back({ 103,834,103,75 });
+	reciveDamage1.frames.push_back({ 206,834,103,75 });
+	reciveDamage1.frames.push_back({ 309,834,103,75 });
+	//reciveDamage1.frames.push_back({ 412,834,103,75 });
+	reciveDamage1.pivot = 30;
+	reciveDamage1.loop = false;
+	reciveDamage1.speed = 0.18f;
+
+	// reciveDamageLeft
+	reciveDamage1Left.frames.push_back({ 721,2133,103,75 });
+	reciveDamage1Left.frames.push_back({ 618,2133,103,75 });
+	reciveDamage1Left.frames.push_back({ 515,2133,103,75 });
+	reciveDamage1Left.pivot = 30;
+	reciveDamage1Left.loop = false;
+	reciveDamage1Left.speed = 0.18f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -510,7 +527,27 @@ update_status ModulePlayer::Update()
 			break;
 		}
 			
-	default:
+	case BEINGATTACKED:
+		if (faceRight)
+		{
+			if (current_animation != &reciveDamage1)
+			{
+				reciveDamage1.Reset();
+				current_animation = &reciveDamage1;
+			}
+		}
+		else
+		{
+			if (current_animation != &reciveDamage1Left)
+			{
+				reciveDamage1Left.Reset();
+				current_animation = &reciveDamage1Left;
+			}
+		}
+		if ((current_animation == &reciveDamage1 || current_animation == &reciveDamage1Left) && current_animation->Finished())
+		{
+			currentState = IDLE;
+		}
 		break;
 	}
 
@@ -619,6 +656,11 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+
+	if (c2->type == COLLIDER_ENEMY_WEAPON)
+	{
+		currentState = BEINGATTACKED;
+	}
 	//left
 	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
 	{

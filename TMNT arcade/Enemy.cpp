@@ -149,7 +149,13 @@ bool Enemy::Update()
 		break;
 		
 	case ENEMYATTACKING:
-		
+		if (App->player->currentState == BEINGATTACKED)
+		{
+			if (colliderWeapon != nullptr)
+				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+			break;
+
+		}
 		if ((abs(App->player->position.x - position.x) <= 25 )&& abs(App->player->position.y - position.y) == 0)
 		{
 			if (faceRight)
@@ -174,7 +180,7 @@ bool Enemy::Update()
 		else
 			currentState = ENEMYIDLE;
 
-		if ((current_animation == &attack1 || current_animation == &attack1Left) && current_animation->Finished())
+		if ((current_animation == &attack1 || current_animation == &attack1Left) && current_animation->Finished() )
 		{
 			current_animation = &right;
 			if (colliderWeapon != nullptr)
