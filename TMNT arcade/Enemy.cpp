@@ -97,9 +97,6 @@ bool Enemy::Update()
 				}
 				else
 					currentState = ENEMYIDLE;
-
-				
-				
 			}
 		}
 		else
@@ -113,7 +110,9 @@ bool Enemy::Update()
 			
 			if ((App->player->position.x - position.x) < 0)
 			{
-				if (abs(App->player->position.x - position.x) <= 35)
+				faceRight = false;
+
+				if (abs(App->player->position.x - position.x) <= 25)
 				{
 					currentState = ENEMYATTACKING;
 					break;
@@ -121,7 +120,6 @@ bool Enemy::Update()
 				walk.x = -1;
 				if (current_animation != &left)
 				{
-					faceRight = false;
 					current_animation = &left;
 				}
 			}
@@ -129,6 +127,7 @@ bool Enemy::Update()
 			{
 				if ((App->player->position.x - position.x) > 0)
 				{
+					faceRight = true;
 					if (abs(App->player->position.x - position.x) <= 25)
 					{
 						currentState = ENEMYATTACKING;
@@ -137,7 +136,6 @@ bool Enemy::Update()
 					walk.x = 1;
 					if (current_animation != &right)
 					{
-						faceRight = true;
 						current_animation = &right;
 					}
 				}
@@ -151,12 +149,15 @@ bool Enemy::Update()
 		break;
 		
 	case ENEMYATTACKING:
-		if (abs(App->player->position.x - position.x) <= 35 || abs(App->player->position.x - position.x) <= 25)
+		
+		if ((abs(App->player->position.x - position.x) <= 25 )&& abs(App->player->position.y - position.y) == 0)
 		{
 			if (faceRight)
 			{
 				if (current_animation != &attack1)
 				{
+					colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+					attack1.Reset();
 					current_animation = &attack1;
 				}
 			}
@@ -164,15 +165,25 @@ bool Enemy::Update()
 			{
 				if (current_animation != &attack1Left)
 				{
+					colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+					attack1Left.Reset();
 					current_animation = &attack1Left;
 				}
 			}
 		}
 		else
 			currentState = ENEMYIDLE;
+
+		if ((current_animation == &attack1 || current_animation == &attack1Left) && current_animation->Finished())
+		{
+			current_animation = &right;
+			if (colliderWeapon != nullptr)
+				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+
+		}
 		break;
 	}
-
+	
 	position += walk;
 	return true;
 }
