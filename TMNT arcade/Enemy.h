@@ -23,6 +23,7 @@ enum EnemyState
 	ENEMYIDLE,
 	ENEMYJUMPING,
 	ENEMYATTACKING, 
+	ENEMYBEINGATTACKED,
 	GOINGY,
 	GOINGX
 };
@@ -48,8 +49,8 @@ public:
 	Animation attack1Left;
 	Animation attack2;
 	Animation attack2Left;
-	Animation attackAir;
-	Animation attackAirLeft;
+	Animation reciveDamage;
+	Animation reciveDamageLeft;
 	Animation* current_animation = &right;
 	iPoint position;
 	bool eliminated = false;

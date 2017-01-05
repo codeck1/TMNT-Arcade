@@ -131,7 +131,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack1.frames.push_back({ 927,134,103,75 });
 	attack1.pivot = 0;
 	attack1.loop = false;
-	attack1.speed = 0.2f;
+	attack1.speed = 0.25f;
 
 	// attack1Left
 	attack1Left.frames.push_back({ 298,1433,103,75 });
@@ -140,7 +140,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack1Left.frames.push_back({ 301,2516,103,75 });
 	attack1Left.pivot = 40;
 	attack1Left.loop = false;
-	attack1Left.speed = 0.2f;
+	attack1Left.speed = 0.25f;
 
 	// attack2
 	attack2.frames.push_back({ 38,234,37,75 });
@@ -152,7 +152,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack2.frames.push_back({ 652,234,37,75 });
 	attack2.pivot = -10;
 	attack2.loop = false;
-	attack2.speed = 0.3f;
+	attack2.speed = 0.35f;
 
 	// attack2Left
 	attack2Left.frames.push_back({ 902,1535,97,75 });
@@ -164,7 +164,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack2Left.frames.push_back({ 301,1535,97,75 });
 	attack2Left.pivot = 42;
 	attack2Left.loop = false;
-	attack2Left.speed = 0.3f;
+	attack2Left.speed = 0.35f;
 
 	// attackAir
 	attackAir.frames.push_back({ 927,435,103,75 });
@@ -247,8 +247,8 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage3.frames.push_back({ 824,834,103,75 });
 	reciveDamage3.frames.push_back({ 927,834,103,75 });
 	reciveDamage3.frames.push_back({ 0,933,103,75 });
-	reciveDamage3.frames.push_back({ 103,933,103,75 });
-	reciveDamage3.frames.push_back({ 206,933,103,75 });
+	//reciveDamage3.frames.push_back({ 103,933,103,75 });
+	//reciveDamage3.frames.push_back({ 206,933,103,75 });
 	reciveDamage3.frames.push_back({ 309,933,103,75 });
 	reciveDamage3.frames.push_back({ 412,933,103,75 });
 	reciveDamage3.pivot = 30;
@@ -262,8 +262,8 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage3Left.frames.push_back({ 103,2133,103,75 });
 	reciveDamage3Left.frames.push_back({ 0,2133,103,75 });
 	reciveDamage3Left.frames.push_back({ 927,2233,103,75 });
-	reciveDamage3Left.frames.push_back({ 824,2233,103,75 });
-	reciveDamage3Left.frames.push_back({ 721,2233,103,75 });
+	//reciveDamage3Left.frames.push_back({ 824,2233,103,75 });
+	//reciveDamage3Left.frames.push_back({ 721,2233,103,75 });
 	reciveDamage3Left.frames.push_back({ 618,2233,103,75 });
 	reciveDamage3Left.frames.push_back({ 515,2233,103,75 });
 	reciveDamage3Left.pivot = 30;
@@ -430,6 +430,7 @@ update_status ModulePlayer::Update()
 			
 		case ATTACKING:
 		{
+			
 			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
 
 			timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -444,7 +445,7 @@ update_status ModulePlayer::Update()
 					attack1.Reset();
 					current_animation = &attack1;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
@@ -452,7 +453,7 @@ update_status ModulePlayer::Update()
 					attack2.Reset();
 					current_animation = &attack2;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 
@@ -464,7 +465,7 @@ update_status ModulePlayer::Update()
 					attack1Left.Reset();
 					current_animation = &attack1Left;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x -40, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x -7, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
@@ -472,7 +473,7 @@ update_status ModulePlayer::Update()
 					attack2Left.Reset();
 					current_animation = &attack2Left;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x - 40, position.y + 20, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 			}
@@ -490,7 +491,7 @@ update_status ModulePlayer::Update()
 							goingDown = true;
 							jumpPos = position.y;
 							attackingAirX = 3;
-							colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+							colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 						}
 						if (!faceRight && current_animation != &attackAirLeft)
@@ -501,7 +502,7 @@ update_status ModulePlayer::Update()
 							goingDown = true;
 							jumpPos = position.y;
 							attackingAirX = -3;
-							colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+							colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 60, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
 						}
 					}
 					else
@@ -770,20 +771,35 @@ update_status ModulePlayer::Update()
 					colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
 
 				}
+				currentState = IDLE;
+				if (attacking)
+				{
+					attacking = false;
+					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+				}
+				
 			}
 		}
 		if (attacking)
 		{
-			if(faceRight )
-				if(current_animation == &attackAir)
+			if(faceRight && colliderWeapon!= NULL)
+			{
+				if (current_animation == &attackAir && colliderWeapon != NULL)
 					colliderWeapon->SetPos(position.x + 42, position.y + 60);
 				else
-					colliderWeapon->SetPos(position.x + 42, position.y + 40);
+					if (colliderWeapon != NULL)
+						colliderWeapon->SetPos(position.x + 42, position.y + 40);
+			}
+				
 			else
-				if (current_animation == &attackAirLeft)
-					colliderWeapon->SetPos(position.x -20, position.y + 60);
+			{
+				if (current_animation == &attackAirLeft && colliderWeapon != NULL)
+					colliderWeapon->SetPos(position.x - 10, position.y + 60);
 				else
-					colliderWeapon->SetPos(position.x - 40, position.y + 40);
+					if (colliderWeapon != NULL)
+						colliderWeapon->SetPos(position.x - 40, position.y + 40);
+			}
+				
 		}
 	}
 
@@ -827,6 +843,14 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	
 	if (c2->type == COLLIDER_ENEMY_WEAPON)
 	{
+		if (currentState == ATTACKING)
+		{
+			attacking = false;
+			if (colliderWeapon != nullptr)
+			{
+				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+			}
+		}
 		currentState = BEINGATTACKED;
 	}
 	//left

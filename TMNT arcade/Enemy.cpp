@@ -8,10 +8,10 @@ Enemy::Enemy()
 
 Enemy::Enemy(const Enemy & e) : up(e.up), upLeft(e.upLeft),right(e.right), left(e.left),
 attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e.attack2Left),
-attackAir(e.attackAir), attackAirLeft(e.attackAirLeft), position(e.position),
-eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody), colliderWeapon(e.colliderWeapon),
-colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir), jumped(e.jumped), goingDown(e.goingDown),
-attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit), currentState(e.currentState), graphics(e.graphics)
+position(e.position),eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody),
+colliderWeapon(e.colliderWeapon),colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir),
+jumped(e.jumped), goingDown(e.goingDown),attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit),
+currentState(e.currentState), graphics(e.graphics), reciveDamage(e.reciveDamage), reciveDamageLeft(e.reciveDamageLeft)
 {
 }
 
@@ -305,6 +305,33 @@ bool Enemy::Update()
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 		}
 		break;
+
+		case ENEMYBEINGATTACKED:
+			if (App->player->colliderWeapon != nullptr)
+			{
+				App->player->colliderWeapon = App->collision->DeleteCollider(App->player->colliderWeapon);
+			}
+			if (faceRight)
+			{
+				if (current_animation != &reciveDamage)
+				{
+					reciveDamage.Reset();
+					current_animation = &reciveDamage;
+				}
+			}
+			else
+			{
+				if (current_animation != &reciveDamageLeft)
+				{
+					reciveDamageLeft.Reset();
+					current_animation = &reciveDamageLeft;
+				}
+			}
+			if ((current_animation == &reciveDamage || current_animation == &reciveDamageLeft) && current_animation->Finished())
+			{
+				currentState = ENEMYIDLE;
+			}
+			break;
 	}
 	
 	position += walk;

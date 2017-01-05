@@ -100,6 +100,24 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.attack2Left.loop = false;
 	enemy1.attack2Left.speed = 0.15f;
 
+	//reciveDamage
+	enemy1.reciveDamage.frames.push_back({ 250, 800, 60, 64 });
+	enemy1.reciveDamage.frames.push_back({ 167, 800, 60, 64 });
+	enemy1.reciveDamage.frames.push_back({ 81, 800, 60, 64 });
+	enemy1.reciveDamage.frames.push_back({ 9, 800, 60, 64 });
+	enemy1.reciveDamage.pivotY = -10;
+	enemy1.reciveDamage.loop = false;
+	enemy1.reciveDamage.speed = 0.15f;
+
+	//reciveDamageLeft
+	enemy1.reciveDamageLeft.frames.push_back({ 508, 800, 60, 64 });
+	enemy1.reciveDamageLeft.frames.push_back({ 584, 800, 60, 64 });
+	enemy1.reciveDamageLeft.frames.push_back({ 658, 800, 60, 64 });
+	enemy1.reciveDamageLeft.frames.push_back({ 746, 800, 60, 64 });
+	enemy1.reciveDamageLeft.pivotY = -10;
+	enemy1.reciveDamageLeft.loop = false;
+	enemy1.reciveDamageLeft.speed = 0.15f;
+
 }
 
 ModuleEnemy::~ModuleEnemy()
@@ -171,6 +189,10 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 	{
 		Enemy* aux = *it;
 		//left
+		if (c2->type == COLLIDER_PLAYER_WEAPON)
+		{
+			aux->currentState = ENEMYBEINGATTACKED;
+		}
 		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL))
 		{
 			aux->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
