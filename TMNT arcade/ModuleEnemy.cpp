@@ -9,6 +9,8 @@ ModuleEnemy::ModuleEnemy()
 {
 
 	//Animaciones de cada enemigo y sonidos. Prototipos
+
+	//going left
 	enemy1.left.frames.push_back({ 172, 80, 52, 64 });
 	enemy1.left.frames.push_back({ 96, 80, 52, 64 });
 	enemy1.left.frames.push_back({ 19, 80, 52, 64 });
@@ -21,6 +23,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.left.loop = true;
 	enemy1.left.speed = 0.2f;
 
+	//going right
 	enemy1.right.frames.push_back({ 589, 80, 52, 64 });
 	enemy1.right.frames.push_back({ 671, 80, 52, 64 });
 	enemy1.right.frames.push_back({ 757, 80, 52, 64 });
@@ -33,6 +36,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.right.loop = true;
 	enemy1.right.speed = 0.2f;
 
+	//going upLeft
 	enemy1.upLeft.frames.push_back({ 14, 240, 52, 64 });
 	enemy1.upLeft.frames.push_back({ 333, 160, 52, 64 });
 	enemy1.upLeft.frames.push_back({ 252, 160, 52, 64 });
@@ -44,7 +48,8 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.upLeft.pivotY =- 5;
 	enemy1.upLeft.loop = true;
 	enemy1.upLeft.speed = 0.2f;
-	
+
+	//going up
 	enemy1.up.frames.push_back({ 749, 240, 52, 64 });
 	enemy1.up.frames.push_back({ 431, 160, 52, 64 });
 	enemy1.up.frames.push_back({ 509, 160, 52, 64 });
@@ -57,7 +62,15 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.up.loop = true;
 	enemy1.up.speed = 0.2f;
 
+	//attack1
+	enemy1.attack1.frames.push_back({ 577, 643, 60, 64 });
+	enemy1.attack1.frames.push_back({ 668, 643, 60, 64 });
+	enemy1.attack1.frames.push_back({ 753, 643, 60, 64 });
+	enemy1.attack1.pivotY = -10;
+	enemy1.attack1.loop = false;
+	enemy1.attack1.speed = 0.07f;
 
+	//attack1Left
 	enemy1.attack1Left.frames.push_back({ 161, 643, 60, 64 });
 	enemy1.attack1Left.frames.push_back({ 91, 643, 60, 64 });
 	enemy1.attack1Left.frames.push_back({ 16, 643, 60, 64 });
@@ -65,12 +78,28 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.attack1Left.loop = false;
 	enemy1.attack1Left.speed = 0.07f;
 
-	enemy1.attack1.frames.push_back({ 577, 643, 60, 64 });
-	enemy1.attack1.frames.push_back({ 668, 643, 60, 64 });
-	enemy1.attack1.frames.push_back({ 753, 643, 60, 64 });
-	enemy1.attack1.pivotY = -10;
-	enemy1.attack1.loop = false;
-	enemy1.attack1.speed = 0.07f;
+	//attack2
+	enemy1.attack2.frames.push_back({ 417, 478, 60, 64 });
+	enemy1.attack2.frames.push_back({ 496, 478, 60, 64 });
+	enemy1.attack2.frames.push_back({ 571, 478, 60, 64 });
+	enemy1.attack2.frames.push_back({ 571, 478, 60, 64 });
+	enemy1.attack2.frames.push_back({ 571, 478, 60, 64 });
+	enemy1.attack2.frames.push_back({ 571, 478, 60, 64 });
+	enemy1.attack2.pivotY = -10;
+	enemy1.attack2.loop = false;
+	enemy1.attack2.speed = 0.15f;
+
+	//attack2Left
+	enemy1.attack2Left.frames.push_back({ 326, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 242, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
+	enemy1.attack2Left.pivotY = -10;
+	enemy1.attack2Left.loop = false;
+	enemy1.attack2Left.speed = 0.15f;
+
 }
 
 ModuleEnemy::~ModuleEnemy()
@@ -136,11 +165,11 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, EnemyType type)
 
 void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 {
+	
 
 	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
 	{
 		Enemy* aux = *it;
-
 		//left
 		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL))
 		{

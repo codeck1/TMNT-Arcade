@@ -269,7 +269,38 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	reciveDamage3Left.pivot = 30;
 	reciveDamage3Left.loop = false;
 	reciveDamage3Left.speed = 0.15f;
+
+	// recive4Damage
+	reciveDamage4.frames.push_back({ 206,1133,103,75 });
+	reciveDamage4.frames.push_back({ 309,1133,103,75 });
+	reciveDamage4.frames.push_back({ 412,1133,103,75 });
+	reciveDamage4.frames.push_back({ 515,1133,103,75 });
+	reciveDamage4.frames.push_back({ 618,1133,103,75 });
+	reciveDamage4.frames.push_back({ 721,1133,103,75 });
+	reciveDamage4.frames.push_back({ 824,1133,103,75 });
+	reciveDamage4.frames.push_back({ 927,1133,103,75 });
+	reciveDamage4.frames.push_back({ 0,1223,103,75 });
+	reciveDamage4.frames.push_back({ 103,1223,103,75 });
+	reciveDamage4.pivot = 30;
+	reciveDamage4.loop = false;
+	reciveDamage4.speed = 0.15f;
+
+	// recive4DamageLeft
+	reciveDamage4Left.frames.push_back({ 721,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 618,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 515,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 412,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 309,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 206,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 103,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 0,2433,103,75 });
+	reciveDamage4Left.frames.push_back({ 927,2533,103,75 });
+	reciveDamage4Left.frames.push_back({ 824,2533,103,75 });
+	reciveDamage4Left.pivot = 30;
+	reciveDamage4Left.loop = false;
+	reciveDamage4Left.speed = 0.15f;
 }
+
 
 ModulePlayer::~ModulePlayer()
 {}
@@ -575,7 +606,7 @@ update_status ModulePlayer::Update()
 		}
 			
 	case BEINGATTACKED:
-		if (hits == 3)
+		if (hits >= 3)
 		{
 			currentState = TAKEDDOWN;
 			break;
@@ -639,6 +670,12 @@ update_status ModulePlayer::Update()
 		{
 			if (sameDirection)
 			{
+				position.x += 2;
+				if (current_animation != &reciveDamage4)
+				{
+					reciveDamage4.Reset();
+					current_animation = &reciveDamage4;
+				}
 			}
 			else
 			{
@@ -654,6 +691,12 @@ update_status ModulePlayer::Update()
 		{
 			if (sameDirection)
 			{
+				position.x -= 2;
+				if (current_animation != &reciveDamage4Left)
+				{
+					reciveDamage4Left.Reset();
+					current_animation = &reciveDamage4Left;
+				}
 			}
 			else
 			{
@@ -665,7 +708,7 @@ update_status ModulePlayer::Update()
 				}
 			}
 		}
-		if ((current_animation == &reciveDamage3 || current_animation == &reciveDamage3Left ) && current_animation->Finished())
+		if ((current_animation == &reciveDamage3 || current_animation == &reciveDamage3Left || current_animation == &reciveDamage4Left || current_animation == &reciveDamage4) && current_animation->Finished())
 		{
 			if (faceRight)
 				current_animation = &idle;

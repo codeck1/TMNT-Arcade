@@ -109,13 +109,20 @@ bool Enemy::Update()
 			if ((App->player->position.x - position.x) < 0)
 			{
 				faceRight = false;
-				if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 200)
+				if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 150)
 				{
 					faceRight = true;
+					current_animation = &right;
 					walk.x = +1;
 					break;
 				}
-				if (abs(App->player->position.x - position.x) <= 25)
+				else
+					if (abs(App->player->position.x - position.x) <= 100 && abs(App->player->position.x - position.x) > 90)
+					{
+						currentState = ENEMYATTACKING;
+						break;
+					}
+				if ((abs(App->player->position.x - position.x) <= 25))
 				{
 					currentState = ENEMYATTACKING;
 					break;
@@ -131,13 +138,20 @@ bool Enemy::Update()
 				if ((App->player->position.x - position.x) > 0)
 				{
 					faceRight = true;
-					if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 200)
+					if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 150)
 					{
 						faceRight = false;
 						walk.x = -1;
+						current_animation = &left;
 						break;
 					}
-					if (abs(App->player->position.x - position.x) <= 25)
+					else
+						if (abs(App->player->position.x - position.x) <= 100 && abs(App->player->position.x - position.x) > 90)
+						{
+							currentState = ENEMYATTACKING;
+							break;
+						}
+					if ((abs(App->player->position.x - position.x) <= 25))
 					{
 						currentState = ENEMYATTACKING;
 						break;
@@ -170,45 +184,120 @@ bool Enemy::Update()
 						App->player->sameDirection = false;
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 				App->player->hits += 1;
+				
 			}
 				
 			break;
-
 		}
-		if ((abs(App->player->position.x - position.x) <= 25 )&& abs(App->player->position.y - position.y) == 0)
+		if (App->player->currentState == TAKEDDOWN)
 		{
-			if (faceRight)
+			if (colliderWeapon != nullptr)
 			{
-				if (current_animation != &attack1)
+				currentState = ENEMYIDLE;
+				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+			}
+		}
+		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0)
+		{
+			if ((abs(App->player->position.x - position.x) <= 25))
+			{
+				if (faceRight)
 				{
-					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
-					attack1.Reset();
-					current_animation = &attack1;
+					if (current_animation != &attack1)
+					{
+						attacking = true;
+						colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+						attack1.Reset();
+						current_animation = &attack1;
+					}
+				}
+				else
+				{
+					if (current_animation != &attack1Left)
+					{
+						attacking = true;
+						colliderWeapon = App->collision->AddCollider({ position.x - 15, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+						attack1Left.Reset();
+						current_animation = &attack1Left;
+					}
 				}
 			}
 			else
 			{
-				if (current_animation != &attack1Left)
+				if ((abs(App->player->position.x - position.x) <= 100) && (abs(App->player->position.x - position.x) > 90))
 				{
-					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
-					attack1Left.Reset();
-					current_animation = &attack1Left;
+					if (faceRight)
+					{
+						if (current_animation != &attack2)
+						{
+							attacking = true;
+							jumped = true;
+							colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+							attack2.Reset();
+							current_animation = &attack2;
+						}
+					}
+					else
+					{
+						if (current_animation != &attack2Left)
+						{
+							attacking = true;
+							jumped = true;
+							colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+							attack2Left.Reset();
+							current_animation = &attack2Left;
+						}
+					}
 				}
 			}
+			
 		}
 		else
 			currentState = ENEMYIDLE;
 
-		if ((current_animation == &attack1 || current_animation == &attack1Left) && current_animation->Finished() )
+		if (jumped)
 		{
+			if (faceRight)
+			{
+				if (position.x == App->player->position.x + 25)
+				{
+					jumped = false;
+					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+					attacking = false;
+					currentState = ENEMYIDLE;
+				}
+				if (colliderWeapon != nullptr)
+				{
+					colliderWeapon->SetPos(position.x + 30, position.y + 20);
+				}
+				walk.x += 3;
+			}
+			else
+			{
+				if (position.x == App->player->position.x - 15)
+				{
+					jumped = false;
+					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+					attacking = false;
+					currentState = ENEMYIDLE;
+				}
+				if (colliderWeapon != nullptr)
+				{
+					colliderWeapon->SetPos(position.x - 15, position.y + 20);
+				}
+				walk.x -= 3;
+			}
+				
+			
+		}
+		if ((current_animation == &attack1 || current_animation == &attack1Left || current_animation == &attack2 || current_animation == &attack2Left) && current_animation->Finished() )
+		{
+			jumped = false;
 			current_animation = &right;
 			attacking = false;
-
+			currentState = ENEMYIDLE;
 			if (colliderWeapon != nullptr)
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
-
 		}
 		break;
 	}

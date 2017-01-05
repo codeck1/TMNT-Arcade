@@ -47,7 +47,7 @@ bool ModuleStage1::Start()
 	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
 	lala.x = 100;
 	lala.y = 100;
-	//App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
+	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
 
 
 	return true;
