@@ -92,10 +92,10 @@ ModuleEnemy::ModuleEnemy()
 	//attack2Left
 	enemy1.attack2Left.frames.push_back({ 326, 478, 60, 64 });
 	enemy1.attack2Left.frames.push_back({ 242, 478, 60, 64 });
-	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
-	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
-	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
-	enemy1.attack2Left.frames.push_back({ 153, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 160, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 160, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 160, 478, 60, 64 });
+	enemy1.attack2Left.frames.push_back({ 160, 478, 60, 64 });
 	enemy1.attack2Left.pivotY = -10;
 	enemy1.attack2Left.loop = false;
 	enemy1.attack2Left.speed = 0.15f;

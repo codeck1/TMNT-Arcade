@@ -197,7 +197,7 @@ bool Enemy::Update()
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 			}
 		}
-		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0)
+		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0 )
 		{
 			if ((abs(App->player->position.x - position.x) <= 25))
 			{
@@ -253,18 +253,23 @@ bool Enemy::Update()
 			
 		}
 		else
-			currentState = ENEMYIDLE;
+		{
+			if(!jumped)
+				currentState = ENEMYIDLE;
+		}
+			
 
 		if (jumped)
 		{
 			if (faceRight)
 			{
-				if (position.x == App->player->position.x + 25)
+				if (abs(App->player->position.x - position.x) <= 25)
 				{
 					jumped = false;
 					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 					attacking = false;
 					currentState = ENEMYIDLE;
+
 				}
 				if (colliderWeapon != nullptr)
 				{
@@ -274,7 +279,7 @@ bool Enemy::Update()
 			}
 			else
 			{
-				if (position.x == App->player->position.x - 15)
+				if (abs(App->player->position.x - position.x) <= 25)
 				{
 					jumped = false;
 					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
