@@ -308,7 +308,12 @@ bool Enemy::Update()
 		break;
 
 		case ENEMYBEINGATTACKED:
-
+			if (attacking)
+			{
+				attacking = false;
+				if (colliderWeapon != nullptr)
+					colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+			}
 			if (App->player->faceRight && faceRight)
 					App->player->sameDirection = true;
 			else
@@ -321,10 +326,6 @@ bool Enemy::Update()
 			{
 				currentState = ENEMYTAKEDOWN;
 				break;
-			}
-			if (App->player->colliderWeapon != nullptr)
-			{
-				App->player->colliderWeapon = App->collision->DeleteCollider(App->player->colliderWeapon);
 			}
 			if (faceRight)
 			{
@@ -355,7 +356,12 @@ bool Enemy::Update()
 			{
 				if (App->player->sameDirection)
 				{
-					
+					position.x += 2;
+					if (current_animation != &reciveDamage3Left)
+					{
+						reciveDamage3Left.Reset();
+						current_animation = &reciveDamage3Left;
+					}
 				}
 				else
 				{
@@ -372,7 +378,12 @@ bool Enemy::Update()
 			{
 				if (App->player->sameDirection)
 				{
-					
+					position.x -= 2;
+					if (current_animation != &reciveDamage3)
+					{
+						reciveDamage3.Reset();
+						current_animation = &reciveDamage3;
+					}
 				}
 				else
 				{
@@ -384,7 +395,7 @@ bool Enemy::Update()
 					}
 				}
 			}
-			if ((current_animation == &reciveDamage2 || current_animation == &reciveDamage2Left) && current_animation->Finished())
+			if ((current_animation == &reciveDamage2 || current_animation == &reciveDamage2Left || current_animation == &reciveDamage3Left || current_animation == &reciveDamage3) && current_animation->Finished())
 			{
 				toDelete = true;
 			}

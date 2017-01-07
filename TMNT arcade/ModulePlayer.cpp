@@ -608,6 +608,12 @@ update_status ModulePlayer::Update()
 		}
 			
 	case BEINGATTACKED:
+		if (attacking)
+		{
+			attacking = false;
+			if (colliderWeapon != nullptr)
+				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
+		}
 		if (hits >= 3)
 		{
 			currentState = TAKEDDOWN;
