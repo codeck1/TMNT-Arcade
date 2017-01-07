@@ -430,6 +430,7 @@ update_status ModulePlayer::Update()
 			
 		case ATTACKING:
 		{
+
 			
 			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
 

@@ -24,6 +24,7 @@ enum EnemyState
 	ENEMYJUMPING,
 	ENEMYATTACKING, 
 	ENEMYBEINGATTACKED,
+	ENEMYTAKEDOWN,
 	GOINGY,
 	GOINGX
 };
@@ -51,6 +52,10 @@ public:
 	Animation attack2Left;
 	Animation reciveDamage;
 	Animation reciveDamageLeft;
+	Animation reciveDamage2;
+	Animation reciveDamage2Left;
+	Animation reciveDamage3;
+	Animation reciveDamage3Left;
 	Animation* current_animation = &right;
 	iPoint position;
 	bool eliminated = false;
@@ -70,6 +75,8 @@ public:
 	EnemyType eType;
 	iPoint walk;
 	Collider* collider = NULL;
+	int hits = 0;
+	bool toDelete = false;
 
 };
 

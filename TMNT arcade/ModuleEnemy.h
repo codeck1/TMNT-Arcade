@@ -25,6 +25,7 @@ public:
 
 	void AddEnemy(const Enemy& enemy, iPoint position, EnemyType type);
 
+
 private:
 	std::list<Enemy*> active;
 

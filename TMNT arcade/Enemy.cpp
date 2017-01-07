@@ -11,7 +11,8 @@ attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e
 position(e.position),eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody),
 colliderWeapon(e.colliderWeapon),colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir),
 jumped(e.jumped), goingDown(e.goingDown),attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit),
-currentState(e.currentState), graphics(e.graphics), reciveDamage(e.reciveDamage), reciveDamageLeft(e.reciveDamageLeft)
+currentState(e.currentState), graphics(e.graphics), reciveDamage(e.reciveDamage), reciveDamageLeft(e.reciveDamageLeft),
+reciveDamage2(e.reciveDamage2), reciveDamage2Left(e.reciveDamage2Left), reciveDamage3(e.reciveDamage3), reciveDamage3Left(e.reciveDamage3Left)
 {
 }
 
@@ -307,6 +308,20 @@ bool Enemy::Update()
 		break;
 
 		case ENEMYBEINGATTACKED:
+
+			if (App->player->faceRight && faceRight)
+					App->player->sameDirection = true;
+			else
+				if (!App->player->faceRight && !faceRight)
+					App->player->sameDirection = true;
+				else
+					App->player->sameDirection = false;
+
+			if (hits >= 2)
+			{
+				currentState = ENEMYTAKEDOWN;
+				break;
+			}
 			if (App->player->colliderWeapon != nullptr)
 			{
 				App->player->colliderWeapon = App->collision->DeleteCollider(App->player->colliderWeapon);
@@ -315,6 +330,7 @@ bool Enemy::Update()
 			{
 				if (current_animation != &reciveDamage)
 				{
+					hits += 1;
 					reciveDamage.Reset();
 					current_animation = &reciveDamage;
 				}
@@ -323,6 +339,7 @@ bool Enemy::Update()
 			{
 				if (current_animation != &reciveDamageLeft)
 				{
+					hits += 1;
 					reciveDamageLeft.Reset();
 					current_animation = &reciveDamageLeft;
 				}
@@ -330,6 +347,46 @@ bool Enemy::Update()
 			if ((current_animation == &reciveDamage || current_animation == &reciveDamageLeft) && current_animation->Finished())
 			{
 				currentState = ENEMYIDLE;
+			}
+			break;
+
+		case ENEMYTAKEDOWN:
+			if (faceRight)
+			{
+				if (App->player->sameDirection)
+				{
+					
+				}
+				else
+				{
+					position.x -= 2;
+					if (current_animation != &reciveDamage2Left)
+					{
+						reciveDamage2Left.Reset();
+						current_animation = &reciveDamage2Left;
+					}
+					
+				}
+			}
+			else
+			{
+				if (App->player->sameDirection)
+				{
+					
+				}
+				else
+				{
+					position.x += 2;
+					if (current_animation != &reciveDamage2)
+					{
+						reciveDamage2.Reset();
+						current_animation = &reciveDamage2;
+					}
+				}
+			}
+			if ((current_animation == &reciveDamage2 || current_animation == &reciveDamage2Left) && current_animation->Finished())
+			{
+				toDelete = true;
 			}
 			break;
 	}

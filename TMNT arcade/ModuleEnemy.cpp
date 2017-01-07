@@ -118,6 +118,52 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.reciveDamageLeft.loop = false;
 	enemy1.reciveDamageLeft.speed = 0.15f;
 
+	//reciveDamage2
+	enemy1.reciveDamage2.frames.push_back({ 16, 1940, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 253, 1855, 60, 64 });
+	enemy1.reciveDamage2.frames.push_back({ 329, 1855, 60, 64 });
+	enemy1.reciveDamage2.pivotY = -10;
+	enemy1.reciveDamage2.loop = false;
+	enemy1.reciveDamage2.speed = 0.15f;
+
+	//reciveDamage2Left
+	enemy1.reciveDamage2Left.frames.push_back({ 738, 1940, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 498, 1855, 60, 64 });
+	enemy1.reciveDamage2Left.frames.push_back({ 414, 1855, 60, 64 });
+	enemy1.reciveDamage2Left.pivotY = -10;
+	enemy1.reciveDamage2Left.loop = false;
+	enemy1.reciveDamage2Left.speed = 0.15f;
+
+	//reciveDamage3
+	enemy1.reciveDamage3.frames.push_back({ 332, 1940, 60, 64 });
+	enemy1.reciveDamage3.frames.push_back({ 251, 1940, 60, 64 });
+	enemy1.reciveDamage3.frames.push_back({ 171, 1940, 60, 64 });
+	enemy1.reciveDamage3.frames.push_back({ 17, 2016, 60, 64 });
+	enemy1.reciveDamage3.frames.push_back({ 91, 2016, 60, 64 });
+	enemy1.reciveDamage3.frames.push_back({ 159, 1998, 60, 64 });
+	enemy1.reciveDamage3.pivotY = -10;
+	enemy1.reciveDamage3.loop = false;
+	enemy1.reciveDamage3.speed = 0.15f;
+
+	//reciveDamage3Left
+	enemy1.reciveDamage3Left.frames.push_back({ 332, 1940, 60, 64 });
+	enemy1.reciveDamage3Left.frames.push_back({ 251, 1940, 60, 64 });
+	enemy1.reciveDamage3Left.frames.push_back({ 171, 1940, 60, 64 });
+	enemy1.reciveDamage3Left.frames.push_back({ 17, 2016, 60, 64 });
+	enemy1.reciveDamage3Left.frames.push_back({ 91, 2016, 60, 64 });
+	enemy1.reciveDamage3Left.frames.push_back({ 159, 1998, 60, 64 });
+	enemy1.reciveDamage3Left.pivotY = -10;
+	enemy1.reciveDamage3Left.loop = false;
+	enemy1.reciveDamage3Left.speed = 0.15f;
+
 }
 
 ModuleEnemy::~ModuleEnemy()
@@ -139,18 +185,28 @@ update_status ModuleEnemy::Update()
 	{
 		Enemy* e = *it;
 
-		if (e->Update() == false)
+		if (e->toDelete == true)
 		{
-			RELEASE(*it);
-			it = active.erase(it);
+			active.remove(e);
+			delete e;
+			break;
 		}
 		else
 		{
-			e->colliderFeet->SetPos(e->position.x + 10, e->position.y + 50);
-			e->colliderBody->SetPos(e->position.x + 10, e->position.y + 5);
-			App->renderer->Blit(e->graphics, e->position.x, e->position.y - e->current_animation->pivotY, &(e->current_animation->GetCurrentFrame()));
-			++it;
+			if (e->Update() == false)
+			{
+				RELEASE(*it);
+				it = active.erase(it);
+			}
+			else
+			{
+				e->colliderFeet->SetPos(e->position.x + 10, e->position.y + 50);
+				e->colliderBody->SetPos(e->position.x + 10, e->position.y + 5);
+				App->renderer->Blit(e->graphics, e->position.x, e->position.y - e->current_animation->pivotY, &(e->current_animation->GetCurrentFrame()));
+				++it;
+			}
 		}
+		
 	}
 	return UPDATE_CONTINUE;
 }
@@ -224,3 +280,4 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 		break;
 	}
 }
+
