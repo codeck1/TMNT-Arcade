@@ -37,7 +37,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE = COLLIDER_NONE); // feel free to expand this call
+	void AddParticle(const Particle& particle, int x, int y, const int speed,  COLLIDER_TYPE = COLLIDER_NONE ); // feel free to expand this call
 
 private:
 
@@ -45,7 +45,7 @@ private:
 	std::list<Particle*> active;
 
 public:
-	Particle explosion;
+	Particle star;
 	Particle fire;
 	Particle fire2;
 

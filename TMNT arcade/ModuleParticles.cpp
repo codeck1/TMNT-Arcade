@@ -21,20 +21,8 @@ bool ModuleParticles::Start()
 	graphics = App->textures->Load("rtype/stagepart.png");
 
 	// Explosion particle
-	explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
-	explosion.anim.frames.push_back({ 274, 296, 33, 30 });
-	explosion.anim.frames.push_back({ 313, 296, 33, 30 });
-	explosion.anim.frames.push_back({ 346, 296, 33, 30 });
-	explosion.anim.frames.push_back({ 382, 296, 33, 30 });
-	explosion.anim.frames.push_back({ 419, 296, 33, 30 });
-	explosion.anim.frames.push_back({ 457, 296, 33, 30 });
-	explosion.speed.x = 0;
-	explosion.speed.y = 0;
-	explosion.anim.loop = false;
-	explosion.anim.speed = 0.3f;
-
-
-	// Laser particle
+	//explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
+	// Fire particle
 	fire.anim.frames.push_back({ 17, 430, 304, 65 });
 	fire.anim.frames.push_back({ 335, 430, 304, 65 });
 	fire.anim.frames.push_back({ 17, 495, 304, 65 });
@@ -60,6 +48,14 @@ bool ModuleParticles::Start()
 	fire2.anim.loop = true;
 	fire2.anim.speed = 0.09f;
 
+	//star
+	star.anim.frames.push_back({ 131, 329, 12, 12 });
+	star.anim.frames.push_back({ 155, 353, 12, 12 });
+	star.anim.frames.push_back({ 180, 328, 12, 12 });
+	star.speed.x = 0;
+	star.speed.y = 0;
+	star.anim.loop = true;
+	star.anim.speed = 0.2f;
 	return true;
 }
 
@@ -104,11 +100,12 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type)
+void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const int speed, COLLIDER_TYPE collider_type)
 {
 	Particle* p = new Particle(particle);
 	p->position.x = x;
 	p->position.y = y;
+	p->speed.x = speed;
 	if (collider_type != COLLIDER_NONE)
 	{
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
@@ -154,12 +151,13 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{	
 		Particle* aux = *it;
-		if (aux->collider == c1)
+		if (aux->collider == c1 && c2->type == COLLIDER_PLAYER_BODY)
 		{
 			delete aux;
 			active.remove(aux);
 			break;
 		}
+		++it;
 
 		
 	}

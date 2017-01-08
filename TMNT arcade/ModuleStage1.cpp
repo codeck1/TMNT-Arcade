@@ -38,12 +38,12 @@ bool ModuleStage1::Start()
 	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
 	wallLeft = App->collision->AddCollider({ wallLeftLimit,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
 	wallRight = App->collision->AddCollider({ wallRightLimit,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
-	App->particles->AddParticle(App->particles->fire, 0, 157);
-	App->particles->AddParticle(App->particles->fire, 301, 157);
-	App->particles->AddParticle(App->particles->fire, 602, 157);
-	App->particles->AddParticle(App->particles->fire2, 0, 168);
-	App->particles->AddParticle(App->particles->fire2, 301, 168);
-	App->particles->AddParticle(App->particles->fire2, 602, 168);
+	App->particles->AddParticle(App->particles->fire, 0, 157, 0);
+	App->particles->AddParticle(App->particles->fire, 301, 157, 0);
+	App->particles->AddParticle(App->particles->fire, 602, 157, 0);
+	App->particles->AddParticle(App->particles->fire2, 0, 168, 0);
+	App->particles->AddParticle(App->particles->fire2, 301, 168, 0);
+	App->particles->AddParticle(App->particles->fire2, 602, 168, 0);
 	//App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
 	lala.x = 100;
 	lala.y = 100;

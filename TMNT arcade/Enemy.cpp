@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Application.h"
 #include "ModulePlayer.h"
+#include "ModuleParticles.h"
 
 Enemy::Enemy()
 {
@@ -206,7 +207,7 @@ bool Enemy::Update()
 					if (current_animation != &attack1)
 					{
 						attacking = true;
-						colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+						colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 10, 45, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
 						attack1.Reset();
 						current_animation = &attack1;
 					}
@@ -257,6 +258,7 @@ bool Enemy::Update()
 						{
 							if (current_animation != &attack2)
 							{
+								App->particles->AddParticle(App->particles->star, position.x + 25, position.y+10, 3, COLLIDER_ENEMY_SHOT);
 								attacking = true;
 								attack2.Reset();
 								colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
@@ -267,6 +269,7 @@ bool Enemy::Update()
 						{
 							if (current_animation != &attack2Left)
 							{
+								App->particles->AddParticle(App->particles->star, position.x - 25, position.y+10, -3, COLLIDER_ENEMY_SHOT);
 								attacking = true;
 								attack2Left.Reset();
 								colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);

@@ -446,7 +446,7 @@ update_status ModulePlayer::Update()
 					attack1.Reset();
 					current_animation = &attack1;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
@@ -454,7 +454,7 @@ update_status ModulePlayer::Update()
 					attack2.Reset();
 					current_animation = &attack2;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 
@@ -466,7 +466,7 @@ update_status ModulePlayer::Update()
 					attack1Left.Reset();
 					current_animation = &attack1Left;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x -7, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x -7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
@@ -474,7 +474,7 @@ update_status ModulePlayer::Update()
 					attack2Left.Reset();
 					current_animation = &attack2Left;
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 			}
@@ -848,7 +848,7 @@ update_status ModulePlayer::Update()
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	
-	if (c2->type == COLLIDER_ENEMY_WEAPON)
+	if (c2->type == COLLIDER_ENEMY_WEAPON || c2->type == COLLIDER_ENEMY_SHOT)
 	{
 		if (currentState == ATTACKING)
 		{
