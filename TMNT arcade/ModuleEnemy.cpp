@@ -238,27 +238,27 @@ ModuleEnemy::ModuleEnemy()
 	enemy2.attack1Left.loop = false;
 	enemy2.attack1Left.speed = 0.07f;
 
-	//attack2
-	enemy2.attack2.frames.push_back({ 417, 478, 60, 64 });
-	enemy2.attack2.frames.push_back({ 496, 478, 60, 64 });
-	enemy2.attack2.frames.push_back({ 571, 478, 60, 64 });
-	enemy2.attack2.frames.push_back({ 571, 478, 60, 64 });
-	enemy2.attack2.frames.push_back({ 571, 478, 60, 64 });
-	enemy2.attack2.frames.push_back({ 571, 478, 60, 64 });
-	enemy2.attack2.pivotY = -10;
-	enemy2.attack2.loop = false;
-	enemy2.attack2.speed = 0.15f;
-
 	//attack2Left
-	enemy2.attack2Left.frames.push_back({ 326, 478, 60, 64 });
-	enemy2.attack2Left.frames.push_back({ 242, 478, 60, 64 });
-	enemy2.attack2Left.frames.push_back({ 160, 478, 60, 64 });
-	enemy2.attack2Left.frames.push_back({ 160, 478, 60, 64 });
-	enemy2.attack2Left.frames.push_back({ 160, 478, 60, 64 });
-	enemy2.attack2Left.frames.push_back({ 160, 478, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 251, 1749, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 166, 1749, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 16, 643, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 16, 643, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 16, 643, 60, 64 });
+	enemy2.attack2Left.frames.push_back({ 16, 643, 60, 64 });
 	enemy2.attack2Left.pivotY = -10;
 	enemy2.attack2Left.loop = false;
-	enemy2.attack2Left.speed = 0.15f;
+	enemy2.attack2Left.speed = 0.1f;
+
+	//attack2
+	enemy2.attack2.frames.push_back({ 317, 1749, 60, 64 });
+	enemy2.attack2.frames.push_back({ 397, 1749, 60, 64 });
+	enemy2.attack2.frames.push_back({ 753, 643, 60, 64 });
+	enemy2.attack2.frames.push_back({ 753, 643, 60, 64 });
+	enemy2.attack2.frames.push_back({ 753, 643, 60, 64 });
+	enemy2.attack2.frames.push_back({ 753, 643, 60, 64 });
+	enemy2.attack2.pivotY = -10;
+	enemy2.attack2.loop = false;
+	enemy2.attack2.speed = 0.1f;
 
 	//reciveDamage
 	enemy2.reciveDamage.frames.push_back({ 250, 800, 60, 64 });

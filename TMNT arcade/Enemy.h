@@ -14,8 +14,7 @@ struct SDL_Texture;
 enum EnemyType
 {
 	TYPE1,
-	TYPE2,
-	TYPE3
+	TYPE2
 };
 
 enum EnemyState

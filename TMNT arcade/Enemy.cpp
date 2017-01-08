@@ -30,7 +30,6 @@ bool Enemy::Update()
 
 	walk.x = 0;
 	walk.y = 0;
-
 	switch (currentState)
 	{
 	case ENEMYIDLE:
@@ -198,7 +197,7 @@ bool Enemy::Update()
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 			}
 		}
-		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0 )
+		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0 && current_animation != &attack2 && current_animation != &attack2Left )
 		{
 			if ((abs(App->player->position.x - position.x) <= 25))
 			{
@@ -227,35 +226,61 @@ bool Enemy::Update()
 			{
 				if ((abs(App->player->position.x - position.x) <= 100) && (abs(App->player->position.x - position.x) > 90))
 				{
-					if (faceRight)
+					if (eType == TYPE1)
 					{
-						if (current_animation != &attack2)
+						if (faceRight)
 						{
-							attacking = true;
-							jumped = true;
-							colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
-							attack2.Reset();
-							current_animation = &attack2;
+							if (current_animation != &attack2)
+							{
+								attacking = true;
+								jumped = true;
+								colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+								attack2.Reset();
+								current_animation = &attack2;
+							}
+						}
+						else
+						{
+							if (current_animation != &attack2Left)
+							{
+								attacking = true;
+								jumped = true;
+								colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+								attack2Left.Reset();
+								current_animation = &attack2Left;
+							}
 						}
 					}
 					else
 					{
-						if (current_animation != &attack2Left)
+						if (faceRight)
 						{
-							attacking = true;
-							jumped = true;
-							colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
-							attack2Left.Reset();
-							current_animation = &attack2Left;
+							if (current_animation != &attack2)
+							{
+								attacking = true;
+								attack2.Reset();
+								colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+								current_animation = &attack2;
+							}
 						}
-					}
+						else
+						{
+							if (current_animation != &attack2Left)
+							{
+								attacking = true;
+								attack2Left.Reset();
+								colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
+								current_animation = &attack2Left;
+							}
+						}
+					}	
 				}
 			}
 			
 		}
 		else
 		{
-			if(!jumped)
+			if(!jumped && !attacking)
 				currentState = ENEMYIDLE;
 		}
 			
