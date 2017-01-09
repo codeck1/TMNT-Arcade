@@ -76,6 +76,7 @@ public:
 	Collider* collider = NULL;
 	int hits = 0;
 	bool toDelete = false;
+	bool shootImpact = false;
 
 };
 

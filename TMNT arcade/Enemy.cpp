@@ -34,26 +34,27 @@ bool Enemy::Update()
 	switch (currentState)
 	{
 	case ENEMYIDLE:
-
-	if (abs(App->player->position.x - position.x) > SCREEN_WIDTH/4)
-		{
-			currentState = GOINGX;
-		}
-		else
-		{
-			if (abs(App->player->position.y - position.y) > 0)
+		if (shootImpact)
+			shootImpact = false;
+		if (abs(App->player->position.x - position.x) > SCREEN_WIDTH/4)
 			{
-				currentState = GOINGY;
+				currentState = GOINGX;
 			}
 			else
 			{
-				if (abs(App->player->position.x - position.x) > 0)
+				if (abs(App->player->position.y - position.y) > 0)
 				{
-					currentState = GOINGX;
+					currentState = GOINGY;
+				}
+				else
+				{
+					if (abs(App->player->position.x - position.x) > 0)
+					{
+						currentState = GOINGX;
+					}
 				}
 			}
-		}
-		break;
+			break;
 
 	case ENEMYJUMPING:
 		break;
@@ -256,9 +257,9 @@ bool Enemy::Update()
 					{
 						if (faceRight)
 						{
-							if (current_animation != &attack2)
+							if (current_animation != &attack2 && App->player->currentState != TAKEDDOWN)
 							{
-								App->particles->AddParticle(App->particles->star, position.x + 25, position.y+10, 3, COLLIDER_ENEMY_SHOT);
+								App->particles->AddParticle(App->particles->star, position.x + 25, position.y+10, 3, this, COLLIDER_ENEMY_SHOT);
 								attacking = true;
 								attack2.Reset();
 								colliderWeapon = App->collision->AddCollider({ position.x + 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
@@ -267,9 +268,9 @@ bool Enemy::Update()
 						}
 						else
 						{
-							if (current_animation != &attack2Left)
+							if (current_animation != &attack2Left && App->player->currentState != TAKEDDOWN)
 							{
-								App->particles->AddParticle(App->particles->star, position.x - 25, position.y+10, -3, COLLIDER_ENEMY_SHOT);
+								App->particles->AddParticle(App->particles->star, position.x - 25, position.y+10, -3, this, COLLIDER_ENEMY_SHOT);
 								attacking = true;
 								attack2Left.Reset();
 								colliderWeapon = App->collision->AddCollider({ position.x - 30, position.y + 20, 30, 15 }, COLLIDER_ENEMY_WEAPON, (Module*)App->enemy);
@@ -384,7 +385,7 @@ bool Enemy::Update()
 			{
 				if (App->player->sameDirection)
 				{
-					position.x += 2;
+					position.x += 3;
 					if (current_animation != &reciveDamage3Left)
 					{
 						reciveDamage3Left.Reset();
@@ -393,7 +394,7 @@ bool Enemy::Update()
 				}
 				else
 				{
-					position.x -= 2;
+					position.x -= 3;
 					if (current_animation != &reciveDamage2Left)
 					{
 						reciveDamage2Left.Reset();

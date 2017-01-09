@@ -79,7 +79,14 @@ update_status ModuleParticles::Update()
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
 		Particle* p = *it;
-
+		if(p->e != nullptr)
+			if (p->e->shootImpact)
+			{
+				p->collider = App->collision->DeleteCollider(p->collider);
+				delete p;
+				active.remove(p);
+				break;
+			}
 		if(p->Update() == false)
 		{
 			RELEASE(*it);
@@ -100,12 +107,13 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const int speed, COLLIDER_TYPE collider_type)
+void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const int speed, Enemy* enemy , COLLIDER_TYPE collider_type)
 {
 	Particle* p = new Particle(particle);
 	p->position.x = x;
 	p->position.y = y;
 	p->speed.x = speed;
+	p->e = enemy;
 	if (collider_type != COLLIDER_NONE)
 	{
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
@@ -120,7 +128,7 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const 
 Particle::Particle()
 {}
 
-Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider)
+Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider), e(p.e)
 {
 	fx = p.fx;
 	to_delete = p.to_delete;
@@ -151,10 +159,10 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{	
 		Particle* aux = *it;
-		if (aux->collider == c1 && c2->type == COLLIDER_PLAYER_BODY)
+		if (aux->collider == c1 && (c2->type == COLLIDER_PLAYER_BODY || c2->type == COLLIDER_BORDER))
 		{
-			delete aux;
-			active.remove(aux);
+			aux->e->shootImpact = true;
+			
 			break;
 		}
 		++it;

@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Point.h"
 #include "ModuleCollision.h"
+#include "Enemy.h"
 
 struct SDL_Texture;
 
@@ -19,7 +20,7 @@ struct Particle
 	Animation anim;
 	bool fx_played;
 	Collider* collider = NULL;
-
+	Enemy* e;
 
 	Particle();
 	Particle(const Particle& p);
@@ -37,7 +38,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(const Particle& particle, int x, int y, const int speed,  COLLIDER_TYPE = COLLIDER_NONE ); // feel free to expand this call
+	void AddParticle(const Particle& particle, int x, int y, const int speed, Enemy* enemy = nullptr,  COLLIDER_TYPE = COLLIDER_NONE ); // feel free to expand this call
 
 private:
 

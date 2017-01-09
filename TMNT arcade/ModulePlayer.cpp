@@ -861,28 +861,28 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		currentState = BEINGATTACKED;
 	}
 	//left
-	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_BORDER))
 	{
 		position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
 	}
 	else
 	{
 		//right
-		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_BORDER))
 		{
 			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
 		}
 		else
 		{
 			//down
-			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && c2->type == COLLIDER_WALL)
+			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_BORDER))
 			{
 				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
 			}
 			else
 			{
 				//up
-				if (c1->rect.h + c1->rect.y > c2->rect.y && c2->type == COLLIDER_WALL)
+				if (c1->rect.h + c1->rect.y > c2->rect.y && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_BORDER))
 				{
 					position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
 				}
