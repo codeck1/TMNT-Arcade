@@ -368,8 +368,7 @@ update_status ModuleEnemy::Update()
 				App->renderer->Blit(e->graphics, e->position.x, e->position.y - e->current_animation->pivotY, &(e->current_animation->GetCurrentFrame()));
 				++it;
 			}
-		}
-		
+		}		
 	}
 	return UPDATE_CONTINUE;
 }
@@ -408,7 +407,7 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 	{
 		Enemy* aux = *it;
 
-		if (c2->type == COLLIDER_PLAYER_WEAPON && c1 == aux->colliderBody && abs(App->player->position.y - aux->position.y)<15)
+		if (c2->type == COLLIDER_PLAYER_WEAPON && c1 == aux->colliderBody && abs(App->player->position.y - aux->position.y)<15 && aux->currentState != TAKEDDOWN)
 		{
 			aux->currentState = ENEMYBEINGATTACKED;
 		}
