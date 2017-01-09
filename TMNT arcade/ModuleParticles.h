@@ -21,6 +21,9 @@ struct Particle
 	bool fx_played;
 	Collider* collider = NULL;
 	Enemy* e;
+	bool active = true;
+	SDL_Rect firstFrame;
+	bool door = false;
 
 	Particle();
 	Particle(const Particle& p);
@@ -49,7 +52,7 @@ public:
 	Particle star;
 	Particle fire;
 	Particle fire2;
-
+	Particle door;
 };
 
 #endif // __MODULEPARTICLES_H__

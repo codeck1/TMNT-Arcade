@@ -34,6 +34,7 @@ bool ModuleStage1::Start()
 	lala.y = 150;
 	wallLeftLimit = 0;
 	wallRightLimit = SCREEN_WIDTH;
+	blockCamera = 400;
 	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 127 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
 	wallLeft = App->collision->AddCollider({ wallLeftLimit,0,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
@@ -44,6 +45,7 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->fire2, 0, 168, 0);
 	App->particles->AddParticle(App->particles->fire2, 301, 168, 0);
 	App->particles->AddParticle(App->particles->fire2, 602, 168, 0);
+	App->particles->AddParticle(App->particles->door, 411, 48, 0);
 	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
 	lala.x = 100;
 	lala.y = 100;
@@ -74,6 +76,11 @@ bool ModuleStage1::CleanUp()
 // Update: draw background
 update_status ModuleStage1::Update()
 {
+	if (App->enemy->enemiesClear)
+	{
+		blockCamera += 400;
+		App->enemy->enemiesClear = false;
+	}
 	if (blockCamera - (App->player->position.x) >=stageCamera && (-App->renderer->camera.x / 3 + SCREEN_WIDTH) - (App->player->position.x) <=(stageCamera))
 		{
 			App->renderer->camera.x -= 6;

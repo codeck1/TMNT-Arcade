@@ -129,7 +129,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
 	enemy1.reciveDamage2.frames.push_back({ 253, 1855, 60, 64 });
 	enemy1.reciveDamage2.frames.push_back({ 329, 1855, 60, 64 });
-	enemy1.reciveDamage2.pivotY = -10;
+	enemy1.reciveDamage2.pivotY = -20;
 	enemy1.reciveDamage2.loop = false;
 	enemy1.reciveDamage2.speed = 0.2f;
 
@@ -141,7 +141,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
 	enemy1.reciveDamage2Left.frames.push_back({ 498, 1855, 60, 64 });
 	enemy1.reciveDamage2Left.frames.push_back({ 414, 1855, 60, 64 });
-	enemy1.reciveDamage2Left.pivotY = -10;
+	enemy1.reciveDamage2Left.pivotY = -20;
 	enemy1.reciveDamage2Left.loop = false;
 	enemy1.reciveDamage2Left.speed = 0.2f;
 
@@ -152,7 +152,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.reciveDamage3.frames.push_back({ 17, 2016, 60, 64 });
 	enemy1.reciveDamage3.frames.push_back({ 91, 2016, 60, 64 });
 	enemy1.reciveDamage3.frames.push_back({ 159, 1998, 60, 64 });
-	enemy1.reciveDamage3.pivotY = -10;
+	enemy1.reciveDamage3.pivotY = -20;
 	enemy1.reciveDamage3.loop = false;
 	enemy1.reciveDamage3.speed = 0.2f;
 
@@ -163,7 +163,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.reciveDamage3Left.frames.push_back({ 565, 2016, 60, 64 });
 	enemy1.reciveDamage3Left.frames.push_back({ 657, 2016, 60, 64 });
 	enemy1.reciveDamage3Left.frames.push_back({ 740, 1998, 60, 64 });
-	enemy1.reciveDamage3Left.pivotY = -10;
+	enemy1.reciveDamage3Left.pivotY = -20;
 	enemy1.reciveDamage3Left.loop = false;
 	enemy1.reciveDamage3Left.speed = 0.2f;
 
@@ -286,7 +286,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy2.reciveDamage2.frames.push_back({ 99, 1940, 60, 64 });
 	enemy2.reciveDamage2.frames.push_back({ 253, 1855, 60, 64 });
 	enemy2.reciveDamage2.frames.push_back({ 329, 1855, 60, 64 });
-	enemy2.reciveDamage2.pivotY = -10;
+	enemy2.reciveDamage2.pivotY = -20;
 	enemy2.reciveDamage2.loop = false;
 	enemy2.reciveDamage2.speed = 0.2f;
 
@@ -298,7 +298,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy2.reciveDamage2Left.frames.push_back({ 663, 1940, 60, 64 });
 	enemy2.reciveDamage2Left.frames.push_back({ 498, 1855, 60, 64 });
 	enemy2.reciveDamage2Left.frames.push_back({ 414, 1855, 60, 64 });
-	enemy2.reciveDamage2Left.pivotY = -10;
+	enemy2.reciveDamage2Left.pivotY = -20;
 	enemy2.reciveDamage2Left.loop = false;
 	enemy2.reciveDamage2Left.speed = 0.2f;
 
@@ -309,7 +309,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy2.reciveDamage3.frames.push_back({ 17, 2016, 60, 64 });
 	enemy2.reciveDamage3.frames.push_back({ 91, 2016, 60, 64 });
 	enemy2.reciveDamage3.frames.push_back({ 159, 1998, 60, 64 });
-	enemy2.reciveDamage3.pivotY = -10;
+	enemy2.reciveDamage3.pivotY = -20;
 	enemy2.reciveDamage3.loop = false;
 	enemy2.reciveDamage3.speed = 0.2f;
 
@@ -320,7 +320,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy2.reciveDamage3Left.frames.push_back({ 565, 2016, 60, 64 });
 	enemy2.reciveDamage3Left.frames.push_back({ 657, 2016, 60, 64 });
 	enemy2.reciveDamage3Left.frames.push_back({ 740, 1998, 60, 64 });
-	enemy2.reciveDamage3Left.pivotY = -10;
+	enemy2.reciveDamage3Left.pivotY = -20;
 	enemy2.reciveDamage3Left.loop = false;
 	enemy2.reciveDamage3Left.speed = 0.2f;
 
@@ -342,6 +342,7 @@ bool ModuleEnemy::Start()
 
 update_status ModuleEnemy::Update()
 {
+
 	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
 	{
 		Enemy* e = *it;
@@ -352,6 +353,10 @@ update_status ModuleEnemy::Update()
 			e->colliderFeet = App->collision->DeleteCollider(e->colliderFeet);
 			active.remove(e);
 			delete e;
+			if (active.empty())
+			{
+				enemiesClear = true;
+			}
 			break;
 		}
 		else
@@ -395,7 +400,6 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, EnemyType type)
 	e->eType = type;
 	e->colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
 	e->colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_ENEMY_BODY, this);
-
 	active.push_back(e);
 }
 
@@ -406,10 +410,19 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
 	{
 		Enemy* aux = *it;
-
-		if (c2->type == COLLIDER_PLAYER_WEAPON && c1 == aux->colliderBody && abs(App->player->position.y - aux->position.y)<15 && aux->currentState != TAKEDDOWN)
+		if (App->player->jumped)
 		{
-			aux->currentState = ENEMYBEINGATTACKED;
+			if (c2->type == COLLIDER_PLAYER_WEAPON && c1 == aux->colliderBody && aux->currentState != TAKEDDOWN)
+			{
+				aux->currentState = ENEMYBEINGATTACKED;
+			}
+		}
+		else
+		{
+			if (c2->type == COLLIDER_PLAYER_WEAPON && c1 == aux->colliderBody && abs(App->player->position.y - aux->position.y)<15 && aux->currentState != TAKEDDOWN)
+			{
+				aux->currentState = ENEMYBEINGATTACKED;
+			}
 		}
 		//left
 		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL))
@@ -443,4 +456,3 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 		++it;
 	}
 }
-

@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
+#include "ModulePlayer.h"
 
 #include "SDL/include/SDL_timer.h"
 
@@ -56,6 +57,19 @@ bool ModuleParticles::Start()
 	star.speed.y = 0;
 	star.anim.loop = true;
 	star.anim.speed = 0.2f;
+
+	//door
+	door.anim.frames.push_back({ 269, 242, 34, 79 });
+	door.anim.frames.push_back({ 309, 242, 34, 79 });
+	door.anim.frames.push_back({ 349, 242, 34, 79 });
+	door.anim.frames.push_back({ 401, 242, 56, 79 });
+	door.speed.x = 0;
+	door.speed.y = 0;
+	door.anim.loop = false;
+	door.anim.speed = 0.2f;
+	door.active = false;
+	door.door = true;
+
 	return true;
 }
 
@@ -79,14 +93,22 @@ update_status ModuleParticles::Update()
 	for (list<Particle*>::iterator it = active.begin(); it != active.end();)
 	{
 		Particle* p = *it;
-		if(p->e != nullptr)
-			if (p->e->shootImpact)
-			{
-				p->collider = App->collision->DeleteCollider(p->collider);
-				delete p;
-				active.remove(p);
-				break;
-			}
+
+		if (p->e != nullptr && p->e->shootImpact)
+		{
+			p->collider = App->collision->DeleteCollider(p->collider);
+			delete p;
+			active.remove(p);
+			break;
+		}
+		if (p->door && p->anim.Finished())
+		{
+			delete p;
+			active.remove(p);
+			break;
+		}
+		if (abs(App->player->position.x - p->position.x) < 40)
+			p->active = true;
 		if(p->Update() == false)
 		{
 			RELEASE(*it);
@@ -94,7 +116,10 @@ update_status ModuleParticles::Update()
 		}
 		else
 		{
-			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			if(p->active)
+				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			else
+				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->firstFrame));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -114,9 +139,11 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const 
 	p->position.y = y;
 	p->speed.x = speed;
 	p->e = enemy;
+	p->firstFrame = p->anim.frames[0];
 	if (collider_type != COLLIDER_NONE)
 	{
-		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
+		if(p != &door)
+			p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
 	}
 
 	active.push_back(p);
@@ -128,7 +155,7 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const 
 Particle::Particle()
 {}
 
-Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider), e(p.e)
+Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider), e(p.e), active(p.active), firstFrame(p.firstFrame), door(p.door)
 {
 	fx = p.fx;
 	to_delete = p.to_delete;

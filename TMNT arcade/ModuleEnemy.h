@@ -32,6 +32,7 @@ private:
 public:
 
 	Enemy enemy1, enemy2, enemy3;
+	bool enemiesClear = false;
 };
 
 
