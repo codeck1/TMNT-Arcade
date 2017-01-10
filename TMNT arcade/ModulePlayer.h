@@ -82,6 +82,7 @@ public:
 	bool sameDirection = false;
 
 
+
 };
 
 #endif

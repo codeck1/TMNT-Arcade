@@ -7,6 +7,7 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include "ModuleAudio.h"
 
 
 
@@ -431,7 +432,6 @@ update_status ModulePlayer::Update()
 		case ATTACKING:
 		{
 
-			
 			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
 
 			timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -443,6 +443,7 @@ update_status ModulePlayer::Update()
 			{
 				if (randomVar >= 0.5)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 					attack1.Reset();
 					current_animation = &attack1;
 					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
@@ -451,6 +452,7 @@ update_status ModulePlayer::Update()
 				}
 				else
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 					attack2.Reset();
 					current_animation = &attack2;
 					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
@@ -463,6 +465,7 @@ update_status ModulePlayer::Update()
 			{
 				if (randomVar >= 0.5)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 					attack1Left.Reset();
 					current_animation = &attack1Left;
 					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
@@ -471,6 +474,7 @@ update_status ModulePlayer::Update()
 				}
 				else
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 					attack2Left.Reset();
 					current_animation = &attack2Left;
 					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
@@ -486,6 +490,7 @@ update_status ModulePlayer::Update()
 					{
 						if (faceRight && current_animation != &attackAir)
 						{
+							App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 							attackAir.Reset();
 							current_animation = &attackAir;
 							attacking = true;
@@ -497,6 +502,7 @@ update_status ModulePlayer::Update()
 						}
 						if (!faceRight && current_animation != &attackAirLeft)
 						{
+							App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 							attackAirLeft.Reset();
 							current_animation = &attackAirLeft;
 							attacking = true;
@@ -510,6 +516,7 @@ update_status ModulePlayer::Update()
 					{
 						if (faceRight && current_animation != &attackAir2)
 						{
+							App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 							attackAir2.Reset();
 							current_animation = &attackAir2;
 							attacking = true;
@@ -520,6 +527,7 @@ update_status ModulePlayer::Update()
 						}
 						if (!faceRight && current_animation != &attackAir2Left)
 						{
+							App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 							attackAir2Left.Reset();
 							current_animation = &attackAir2Left;
 							attacking = true;
@@ -538,6 +546,7 @@ update_status ModulePlayer::Update()
 						{
 							if (faceRight && current_animation != &attackAir)
 							{
+								App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 								attackAir.Reset();
 								current_animation = &attackAir;
 								attacking = true;
@@ -549,6 +558,7 @@ update_status ModulePlayer::Update()
 							}
 							if (!faceRight && current_animation != &attackAirLeft)
 							{
+								App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 								attackAirLeft.Reset();
 								current_animation = &attackAirLeft;
 								attacking = true;
@@ -563,6 +573,7 @@ update_status ModulePlayer::Update()
 						{
 							if (faceRight && current_animation != &attackAir2)
 							{
+								App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 								attackAir2.Reset();
 								current_animation = &attackAir2;
 								attacking = true;
@@ -573,6 +584,7 @@ update_status ModulePlayer::Update()
 							}
 							if (!faceRight && current_animation != &attackAir2Left)
 							{
+								App->audio->PlayFx(App->audio->LoadFx("rtype/attack.wav"));
 								attackAir2Left.Reset();
 								current_animation = &attackAir2Left;
 								attacking = true;
@@ -626,6 +638,7 @@ update_status ModulePlayer::Update()
 				position.x += 1;
 				if (current_animation != &reciveDamage2)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage2.Reset();
 					current_animation = &reciveDamage2;
 				}
@@ -635,6 +648,7 @@ update_status ModulePlayer::Update()
 				position.x -= 1;
 				if (current_animation != &reciveDamage1)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage1.Reset();
 					current_animation = &reciveDamage1;
 				}
@@ -648,6 +662,7 @@ update_status ModulePlayer::Update()
 				position.x -= 1;
 				if (current_animation != &reciveDamage2Left)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage2Left.Reset();
 					current_animation = &reciveDamage2Left;
 				}
@@ -657,6 +672,7 @@ update_status ModulePlayer::Update()
 				position.x += 1;
 				if (current_animation != &reciveDamage1Left)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage1Left.Reset();
 					current_animation = &reciveDamage1Left;
 				}
@@ -673,6 +689,7 @@ update_status ModulePlayer::Update()
 		break;
 
 	case TAKEDDOWN:
+
 		if (faceRight)
 		{
 			if (sameDirection)
@@ -680,6 +697,7 @@ update_status ModulePlayer::Update()
 				position.x += 2;
 				if (current_animation != &reciveDamage4)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage4.Reset();
 					current_animation = &reciveDamage4;
 				}
@@ -689,6 +707,7 @@ update_status ModulePlayer::Update()
 				position.x -= 2;
 				if (current_animation != &reciveDamage3)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage3.Reset();
 					current_animation = &reciveDamage3;
 				}
@@ -701,6 +720,7 @@ update_status ModulePlayer::Update()
 				position.x -= 2;
 				if (current_animation != &reciveDamage4Left)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage4Left.Reset();
 					current_animation = &reciveDamage4Left;
 				}
@@ -710,6 +730,7 @@ update_status ModulePlayer::Update()
 				position.x += 2;
 				if (current_animation != &reciveDamage3Left)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage3Left.Reset();
 					current_animation = &reciveDamage3Left;
 				}

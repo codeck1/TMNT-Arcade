@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "ModuleParticles.h"
+#include "ModuleAudio.h"
+
 
 Enemy::Enemy()
 {
@@ -359,6 +361,7 @@ bool Enemy::Update()
 				walk.x -= 1;
 				if (current_animation != &reciveDamage)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit.wav"));
 					hits += 1;
 					reciveDamage.Reset();
 					current_animation = &reciveDamage;
@@ -370,6 +373,7 @@ bool Enemy::Update()
 
 				if (current_animation != &reciveDamageLeft)
 				{
+					App->audio->PlayFx(App->audio->LoadFx("rtype/hit.wav"));
 					hits += 1;
 					reciveDamageLeft.Reset();
 					current_animation = &reciveDamageLeft;

@@ -19,6 +19,7 @@ class ModulePlayer;
 class ModuleEnemy;
 class ModuleSceneIntro;
 class ModuleStage1;
+class ModuleFonts;
 
 class Application
 {
@@ -46,6 +47,7 @@ public:
 	ModuleEnemy* enemy;
 	ModuleSceneIntro* scene_intro;
 	ModuleStage1* scene_space;
+	ModuleFonts* fonts;
 
 private:
 

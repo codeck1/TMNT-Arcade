@@ -36,8 +36,8 @@ bool ModuleStage1::Start()
 	blockCamera = 450;
 	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 127 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
-	wallLeft = App->collision->AddCollider({ wallLeftLimit,0,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
-	wallRight = App->collision->AddCollider({ wallRightLimit,0,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
+	wallLeft = App->collision->AddCollider({ wallLeftLimit,-20,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
+	wallRight = App->collision->AddCollider({ wallRightLimit,-20,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
 	App->particles->AddParticle(App->particles->fire, 0, 157, 0);
 	App->particles->AddParticle(App->particles->fire, 301, 157, 0);
 	App->particles->AddParticle(App->particles->fire, 602, 157, 0);
@@ -63,11 +63,7 @@ bool ModuleStage1::Start()
 	positionEnemy.x = 500;
 	positionEnemy.y = 100;
 	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
-
-	
-	
-
-
+	started = true;
 
 	return true;
 }
@@ -99,9 +95,9 @@ update_status ModuleStage1::Update()
 			positionEnemy.x = 1000;
 			positionEnemy.y = 150;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 1000;
-			positionEnemy.y = 120;
-			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			//positionEnemy.x = 1000;
+			//positionEnemy.y = 120;
+			//App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
 			positionEnemy.x = 50;
 			positionEnemy.y = 100;
 			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
@@ -117,9 +113,9 @@ update_status ModuleStage1::Update()
 			positionEnemy.x = 1400;
 			positionEnemy.y = 150;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 400;
-			positionEnemy.y = 150;
-			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			//positionEnemy.x = 400;
+			//positionEnemy.y = 150;
+			//App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
 			positionEnemy.x = 400;
 			positionEnemy.y = 100;
 			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
@@ -137,9 +133,9 @@ update_status ModuleStage1::Update()
 				positionEnemy.x = 600;
 				positionEnemy.y = 150;
 				App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-				positionEnemy.x = 600;
-				positionEnemy.y = 100;
-				App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+				//positionEnemy.x = 600;
+				//positionEnemy.y = 100;
+				//App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
 
 				App->enemy->enemiesClear = false;
 			}
