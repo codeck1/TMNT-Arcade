@@ -20,14 +20,19 @@ bool ModuleFonts::Start()
 	LOG("Loading fonts");
 
 	fonts = App->textures->Load("rtype/UI.png");
-
+	life = App->textures->Load("rtype/life.png");
 	return true;
 }
 
 update_status ModuleFonts::Update()
 {
-	if(App->scene_space->started)
-		App->renderer->Blit(fonts, -App->renderer->camera.x/3, 0, NULL);
+
+	if (App->scene_space->started)
+	{
+		App->renderer->Blit(fonts, -App->renderer->camera.x / 3, 0, NULL);
+		Life();
+	}
+		
 	
 	return UPDATE_CONTINUE;
 }
@@ -41,12 +46,14 @@ bool ModuleFonts::CleanUp()
 	return true;
 }
 
-bool ModuleFonts::Life()
+void ModuleFonts::Life()
 {
-	for (std::list<int>::iterator it = lifeRest.begin(); it != lifeRest.end();)
+	if (lifeRest == 0)
 	{
-
+		lifeRest = 8;
 	}
-	return true;
+	SDL_Rect section = { 0,0,lifeRest*5,11 };
+	App->renderer->Blit(life, -App->renderer->camera.x /3 +220, 16, &section);
+	return;
 }
 

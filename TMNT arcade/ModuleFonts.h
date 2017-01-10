@@ -13,12 +13,13 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	bool Life();
+	void Life();
 
 public:
 
 	SDL_Texture* fonts = nullptr;
-	std::list<int> lifeRest;
+	SDL_Texture* life = nullptr;
+	int lifeRest = 8;
 };
 
 #endif // __ModuleFonts_H_

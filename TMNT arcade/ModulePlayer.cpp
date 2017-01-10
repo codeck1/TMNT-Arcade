@@ -8,6 +8,8 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "ModuleAudio.h"
+#include "ModuleFonts.h"
+
 
 
 
@@ -638,6 +640,7 @@ update_status ModulePlayer::Update()
 				position.x += 1;
 				if (current_animation != &reciveDamage2)
 				{
+					App->fonts->lifeRest -= 1;
 					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage2.Reset();
 					current_animation = &reciveDamage2;
@@ -648,6 +651,7 @@ update_status ModulePlayer::Update()
 				position.x -= 1;
 				if (current_animation != &reciveDamage1)
 				{
+					App->fonts->lifeRest -= 1;
 					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage1.Reset();
 					current_animation = &reciveDamage1;
@@ -662,6 +666,7 @@ update_status ModulePlayer::Update()
 				position.x -= 1;
 				if (current_animation != &reciveDamage2Left)
 				{
+					App->fonts->lifeRest -= 1;
 					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage2Left.Reset();
 					current_animation = &reciveDamage2Left;
@@ -672,6 +677,7 @@ update_status ModulePlayer::Update()
 				position.x += 1;
 				if (current_animation != &reciveDamage1Left)
 				{
+					App->fonts->lifeRest -= 1;
 					App->audio->PlayFx(App->audio->LoadFx("rtype/hit2.wav"));
 					reciveDamage1Left.Reset();
 					current_animation = &reciveDamage1Left;
