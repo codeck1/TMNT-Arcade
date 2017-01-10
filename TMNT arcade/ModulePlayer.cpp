@@ -445,16 +445,16 @@ update_status ModulePlayer::Update()
 				{
 					attack1.Reset();
 					current_animation = &attack1;
+					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x+42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
 				{
 					attack2.Reset();
 					current_animation = &attack2;
-					attacking = true;
 					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					attacking = true;
 
 				}
 
@@ -465,16 +465,16 @@ update_status ModulePlayer::Update()
 				{
 					attack1Left.Reset();
 					current_animation = &attack1Left;
+					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-					colliderWeapon = App->collision->AddCollider({ position.x -7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 
 				}
 				else
 				{
 					attack2Left.Reset();
 					current_animation = &attack2Left;
-					attacking = true;
 					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
+					attacking = true;
 
 				}
 			}
@@ -673,7 +673,6 @@ update_status ModulePlayer::Update()
 		break;
 
 	case TAKEDDOWN:
-		hits = 0;
 		if (faceRight)
 		{
 			if (sameDirection)
@@ -724,6 +723,8 @@ update_status ModulePlayer::Update()
 				current_animation = &idleLeft;
 			currentState = IDLE;
 		}
+		hits = 0;
+
 		break;
 	}
 
@@ -806,7 +807,6 @@ update_status ModulePlayer::Update()
 					if (colliderWeapon != NULL)
 						colliderWeapon->SetPos(position.x - 40, position.y + 40);
 			}
-				
 		}
 	}
 
@@ -858,6 +858,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 			}
 		}
+		hits += 1;
 		currentState = BEINGATTACKED;
 	}
 	//left

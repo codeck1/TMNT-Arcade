@@ -53,6 +53,8 @@ public:
 	Particle fire;
 	Particle fire2;
 	Particle door;
+	Particle door2;
+
 };
 
 #endif // __MODULEPARTICLES_H__

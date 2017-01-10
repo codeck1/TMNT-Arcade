@@ -72,6 +72,17 @@ bool ModuleParticles::Start()
 	door.active = false;
 	door.door = true;
 
+	//door2
+	door2.anim.frames.push_back({ 269, 336, 43, 79 });
+	door2.anim.frames.push_back({ 314, 336, 43, 79 });
+	door2.anim.frames.push_back({ 362, 336, 43, 79 });
+	door2.speed.x = 0;
+	door2.speed.y = 0;
+	door2.anim.loop = false;
+	door2.anim.speed = 0.1f;
+	door2.active = false;
+	door2.door = true;
+
 	return true;
 }
 

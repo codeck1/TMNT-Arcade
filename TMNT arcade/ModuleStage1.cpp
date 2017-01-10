@@ -41,10 +41,18 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->fire, 0, 157, 0);
 	App->particles->AddParticle(App->particles->fire, 301, 157, 0);
 	App->particles->AddParticle(App->particles->fire, 602, 157, 0);
+	App->particles->AddParticle(App->particles->fire, 903, 157, 0);
+	App->particles->AddParticle(App->particles->fire, 1204, 157, 0);
 	App->particles->AddParticle(App->particles->fire2, 0, 168, 0);
 	App->particles->AddParticle(App->particles->fire2, 301, 168, 0);
 	App->particles->AddParticle(App->particles->fire2, 602, 168, 0);
+	App->particles->AddParticle(App->particles->fire2, 903, 168, 0);
+	App->particles->AddParticle(App->particles->fire2, 1204, 168, 0);
 	App->particles->AddParticle(App->particles->door, 411, 48, 0);
+	App->particles->AddParticle(App->particles->door, 700, 49, 0);
+	App->particles->AddParticle(App->particles->door, 828, 49, 0);
+	App->particles->AddParticle(App->particles->door2, 949, 50, 0);
+	App->particles->AddParticle(App->particles->door2, 1078, 50, 0);
 	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
 	positionEnemy.x = -20;
 	positionEnemy.y = 160;

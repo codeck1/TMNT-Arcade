@@ -185,8 +185,6 @@ bool Enemy::Update()
 					else
 						App->player->sameDirection = false;
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
-				App->player->hits += 1;
-				
 			}
 				
 			break;
@@ -226,7 +224,7 @@ bool Enemy::Update()
 			}
 			else
 			{
-				if ((abs(App->player->position.x - position.x) <= 100) && (abs(App->player->position.x - position.x) > 90))
+				if ((abs(App->player->position.x - position.x) <= 130) && (abs(App->player->position.x - position.x) > 70))
 				{
 					if (eType == TYPE1)
 					{

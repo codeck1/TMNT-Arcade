@@ -342,7 +342,7 @@ bool ModuleEnemy::Start()
 
 update_status ModuleEnemy::Update()
 {
-
+	RadixSortList(active, active.size(), 100);
 	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
 	{
 		Enemy* e = *it;
@@ -401,6 +401,49 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, EnemyType type)
 	e->colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_ENEMY_FEET, this);
 	e->colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_ENEMY_BODY, this);
 	active.push_back(e);
+}
+
+void ModuleEnemy::RadixSortList(list<Enemy*>& v, int length, int numMax)
+{
+	vector <Enemy*> v2;
+	vector <vector<Enemy*>> c(10);
+	int d;
+
+	for (int i = 0; i <= log10(numMax); ++i)
+	{
+		for (int j = 0; j < 10; ++j)
+		{
+			v2.clear();
+			c[j].clear();
+		}
+
+		for (auto& k : v)
+		{
+			d = Digit(i, k->position.y);
+			c[d].push_back(k);
+		}
+
+		for (int l = 0; l < c.size(); ++l)
+			for (int m = 0; m < c[l].size(); ++m)
+				v2.push_back(c[l][m]);
+
+		v.clear();
+
+		for (auto& l : v2)
+			v.push_back(l);
+	}
+}
+
+int ModuleEnemy::Digit(int index, int num)
+{
+	int aux = 1;
+	for (int i = index; i > 0; --i)
+		aux *= 10;
+
+	num = num / aux;
+	num = num % 10;
+
+	return num;
 }
 
 void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)

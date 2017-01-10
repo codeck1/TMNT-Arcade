@@ -24,7 +24,8 @@ public:
 	void OnCollision(Collider*, Collider*);
 
 	void AddEnemy(const Enemy& enemy, iPoint position, EnemyType type);
-
+	void RadixSortList(std::list<Enemy*>& v, int length, int numMax);
+	int Digit(int index, int num);
 
 private:
 	std::list<Enemy*> active;

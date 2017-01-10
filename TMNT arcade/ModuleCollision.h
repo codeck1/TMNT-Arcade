@@ -4,9 +4,6 @@
 #include<list>
 #include "Module.h"
 
-// TODO 9: Create a matrix of game specific types of collision for early discard
-// Example: lasers should not collide with lasers but should collider with walls
-// enemy shots will collide with other enemies ? and against walls ?
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
