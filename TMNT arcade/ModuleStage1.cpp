@@ -28,7 +28,7 @@ bool ModuleStage1::Start()
 	App->particles->Enable();
 	App->collision->Enable();
 
-	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
+	App->audio->PlayMusic("rtype/stage1.wav", 1.0f);
 	positionEnemy.x = -20;
 	positionEnemy.y = 100;
 	wallLeftLimit = 0;
