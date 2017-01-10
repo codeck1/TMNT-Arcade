@@ -398,7 +398,7 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, EnemyType type)
 	e->position.x = position.x;
 	e->position.y = position.y;
 	e->eType = type;
-	e->colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
+	e->colliderFeet = App->collision->AddCollider({ position.x, position.y + 50, 32, 14 }, COLLIDER_ENEMY_FEET, this);
 	e->colliderBody = App->collision->AddCollider({ position.x, position.y + 10, 32, 45 }, COLLIDER_ENEMY_BODY, this);
 	active.push_back(e);
 }

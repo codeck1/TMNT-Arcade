@@ -29,12 +29,11 @@ bool ModuleStage1::Start()
 	App->collision->Enable();
 
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
-	iPoint lala;
-	lala.x = 200;
-	lala.y = 150;
+	positionEnemy.x = -20;
+	positionEnemy.y = 100;
 	wallLeftLimit = 0;
 	wallRightLimit = SCREEN_WIDTH;
-	blockCamera = 400;
+	blockCamera = 450;
 	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 127 }, COLLIDER_WALL, this);
 	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
 	wallLeft = App->collision->AddCollider({ wallLeftLimit,0,2,SCREEN_HEIGHT*2 }, COLLIDER_BORDER, this);
@@ -46,13 +45,18 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->fire2, 301, 168, 0);
 	App->particles->AddParticle(App->particles->fire2, 602, 168, 0);
 	App->particles->AddParticle(App->particles->door, 411, 48, 0);
-	App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
-	lala.x = 100;
-	lala.y = 100;
-	//App->enemy->AddEnemy(App->enemy->enemy2, lala, TYPE2);
-	lala.x = 50;
-	lala.y = 100;
-	//App->enemy->AddEnemy(App->enemy->enemy1, lala, TYPE1);
+	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+	positionEnemy.x = -20;
+	positionEnemy.y = 160;
+	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+	positionEnemy.x = 500;
+	positionEnemy.y = 150;
+	App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+	positionEnemy.x = 500;
+	positionEnemy.y = 100;
+	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+
+	
 	
 
 
@@ -76,19 +80,58 @@ bool ModuleStage1::CleanUp()
 // Update: draw background
 update_status ModuleStage1::Update()
 {
-	if (App->enemy->enemiesClear)
+	if (blockCamera - (App->player->position.x) <= stageCamera && App->enemy->enemiesClear)
 	{
-		blockCamera += 400;
-		App->enemy->enemiesClear = false;
-	}
-	if (blockCamera - (App->player->position.x) >=stageCamera && (-App->renderer->camera.x / 3 + SCREEN_WIDTH) - (App->player->position.x) <=(stageCamera))
+		switch (state)
 		{
-			App->renderer->camera.x -= 6;
-			wallLeftLimit += 2;
-			wallRightLimit += 2;
-			wallLeft->SetPos(wallLeftLimit, 0);
-			wallRight->SetPos(wallRightLimit, 0);
+		case 1:
+
+			blockCamera = 900;
+			state++;
+			positionEnemy.x = 1400;
+			positionEnemy.y = 150;
+			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			positionEnemy.x = 600;
+			positionEnemy.y = 120;
+			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			positionEnemy.x = 600;
+			positionEnemy.y = 100;
+			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+			App->enemy->enemiesClear = false;
+
+			break;
+
+		case 2:
+
+			blockCamera = 1350;
+			state++;
+			positionEnemy.x = 600;
+			positionEnemy.y = 150;
+			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			positionEnemy.x = 600;
+			positionEnemy.y = 120;
+			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+			positionEnemy.x = 400;
+			positionEnemy.y = 100;
+			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+			App->enemy->enemiesClear = false;
+
+
+			break;
 		}
+	}
+
+
+	
+	if (blockCamera - (App->player->position.x) >= stageCamera && (-App->renderer->camera.x / 3 + SCREEN_WIDTH) - (App->player->position.x) <= (stageCamera))
+	{
+		App->renderer->camera.x -= 6;
+		wallLeftLimit += 2;
+		wallRightLimit += 2;
+		wallLeft->SetPos(wallLeftLimit, 0);
+		wallRight->SetPos(wallRightLimit, 0);
+	}
+	
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);

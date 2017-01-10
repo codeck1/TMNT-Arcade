@@ -6,6 +6,8 @@
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
 #include "ModulePlayer.h"
+#include "ModuleEnemy.h"
+
 
 #include "SDL/include/SDL_timer.h"
 
@@ -103,12 +105,18 @@ update_status ModuleParticles::Update()
 		}
 		if (p->door && p->anim.Finished())
 		{
+			iPoint move = p->position;
+			move.y += 30;
+			App->enemy->AddEnemy(App->enemy->enemy1, move, TYPE1);
 			delete p;
 			active.remove(p);
 			break;
 		}
 		if (abs(App->player->position.x - p->position.x) < 40)
+		{
 			p->active = true;
+		}
+			
 		if(p->Update() == false)
 		{
 			RELEASE(*it);

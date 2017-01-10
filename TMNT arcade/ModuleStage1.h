@@ -20,6 +20,10 @@ public:
 	Collider* wallLeft;
 	Collider* wallRight;
 	int wallRightLimit, wallLeftLimit;
+	iPoint positionEnemy;
+	int state = 1;
+
+
 public:
 	
 	SDL_Texture* background = nullptr;
