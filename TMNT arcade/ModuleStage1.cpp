@@ -88,13 +88,13 @@ update_status ModuleStage1::Update()
 
 			blockCamera = 900;
 			state++;
-			positionEnemy.x = 1400;
+			positionEnemy.x = 1000;
 			positionEnemy.y = 150;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 600;
+			positionEnemy.x = 1000;
 			positionEnemy.y = 120;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 600;
+			positionEnemy.x = 50;
 			positionEnemy.y = 100;
 			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
 			App->enemy->enemiesClear = false;
@@ -105,19 +105,39 @@ update_status ModuleStage1::Update()
 
 			blockCamera = 1350;
 			state++;
-			positionEnemy.x = 600;
+
+			positionEnemy.x = 1400;
 			positionEnemy.y = 150;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 600;
-			positionEnemy.y = 120;
+			positionEnemy.x = 400;
+			positionEnemy.y = 150;
 			App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
 			positionEnemy.x = 400;
 			positionEnemy.y = 100;
 			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+			
 			App->enemy->enemiesClear = false;
-
-
 			break;
+
+		case 3:
+			if (blockCamera == 1350)
+			{
+				state++;
+				positionEnemy.x = 1400;
+				positionEnemy.y = 150;
+				App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+				positionEnemy.x = 600;
+				positionEnemy.y = 150;
+				App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+				positionEnemy.x = 600;
+				positionEnemy.y = 100;
+				App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+
+				App->enemy->enemiesClear = false;
+			}
+				break;
+
+			
 		}
 	}
 

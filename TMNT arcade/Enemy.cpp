@@ -115,7 +115,7 @@ bool Enemy::Update()
 				{
 					faceRight = true;
 					current_animation = &right;
-					walk.x = +1;
+					walk.x = +2;
 					break;
 				}
 				else
@@ -129,7 +129,7 @@ bool Enemy::Update()
 					currentState = ENEMYATTACKING;
 					break;
 				}
-				walk.x = -1;
+				walk.x = -2;
 				if (current_animation != &left)
 				{
 					current_animation = &left;
@@ -143,7 +143,7 @@ bool Enemy::Update()
 					if (App->player->currentState == TAKEDDOWN && abs(App->player->position.x - position.x) <= 150)
 					{
 						faceRight = false;
-						walk.x = -1;
+						walk.x = -2;
 						current_animation = &left;
 						break;
 					}
@@ -158,7 +158,7 @@ bool Enemy::Update()
 						currentState = ENEMYATTACKING;
 						break;
 					}
-					walk.x = 1;
+					walk.x = +2;
 					if (current_animation != &right)
 					{
 						current_animation = &right;
@@ -351,13 +351,14 @@ bool Enemy::Update()
 				else
 					App->player->sameDirection = false;
 
-			if (hits >= 2)
+			if (hits >= 3)
 			{
 				currentState = ENEMYTAKEDOWN;
 				break;
 			}
 			if (faceRight)
 			{
+				walk.x -= 1;
 				if (current_animation != &reciveDamage)
 				{
 					hits += 1;
@@ -367,6 +368,8 @@ bool Enemy::Update()
 			}
 			else
 			{
+				walk.x += 1;
+
 				if (current_animation != &reciveDamageLeft)
 				{
 					hits += 1;
@@ -385,7 +388,7 @@ bool Enemy::Update()
 			{
 				if (App->player->sameDirection)
 				{
-					position.x += 3;
+					walk.x += 3;
 					if (current_animation != &reciveDamage3Left)
 					{
 						reciveDamage3Left.Reset();
@@ -394,7 +397,7 @@ bool Enemy::Update()
 				}
 				else
 				{
-					position.x -= 3;
+					walk.x -= 3;
 					if (current_animation != &reciveDamage2Left)
 					{
 						reciveDamage2Left.Reset();
@@ -407,7 +410,7 @@ bool Enemy::Update()
 			{
 				if (App->player->sameDirection)
 				{
-					position.x -= 2;
+					walk.x -= 3;
 					if (current_animation != &reciveDamage3)
 					{
 						reciveDamage3.Reset();
@@ -416,7 +419,7 @@ bool Enemy::Update()
 				}
 				else
 				{
-					position.x += 2;
+					walk.x += 3;
 					if (current_animation != &reciveDamage2)
 					{
 						reciveDamage2.Reset();
