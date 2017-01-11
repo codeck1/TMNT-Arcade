@@ -1,9 +1,9 @@
 # TMNT ARCADE
 Welcome to my tribute of Teenage Mutant Ninja Turtles Arcade Game (1989)
 
-##Author:
+## Author:
 Marc Domingo Costa.
-##Github repository:
+## Github repository:
 [Github repository](https://github.com/codeck1/TMNT-ARCADE)
 
 
@@ -16,10 +16,10 @@ As the player progresses enemies will break doors or go out of elevators and doo
 
 ## CONTROLS
 ![alt tag](http://i.imgur.com/IklSanH.png)
- * WASD to move the player
- * N to jump
- * M to attack
- * N+M combines jump with attack
+-  WASD to move the player
+-  N to jump
+-  M to attack
+-  N+M combines jump with attack
 
 ## Enemies
 ***Purple***
