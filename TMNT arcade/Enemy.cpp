@@ -199,7 +199,7 @@ bool Enemy::Update()
 				colliderWeapon = App->collision->DeleteCollider(colliderWeapon);
 			}
 		}
-		if ((abs(App->player->position.x - position.x) <= 150)&& abs(App->player->position.y - position.y) == 0 && current_animation != &attack2 && current_animation != &attack2Left )
+		if ((abs(App->player->position.x - position.x) <= 150) && current_animation != &attack2 && current_animation != &attack2Left )
 		{
 			if ((abs(App->player->position.x - position.x) <= 25))
 			{
@@ -284,6 +284,7 @@ bool Enemy::Update()
 		}
 		else
 		{
+
 			if(!jumped && !attacking)
 				currentState = ENEMYIDLE;
 		}

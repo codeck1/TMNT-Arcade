@@ -71,7 +71,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.attack1.frames.push_back({ 753, 643, 60, 64 });
 	enemy1.attack1.pivotY = -10;
 	enemy1.attack1.loop = false;
-	enemy1.attack1.speed = 0.07f;
+	enemy1.attack1.speed = 0.12f;
 
 	//attack1Left
 	enemy1.attack1Left.frames.push_back({ 161, 643, 60, 64 });
@@ -79,7 +79,7 @@ ModuleEnemy::ModuleEnemy()
 	enemy1.attack1Left.frames.push_back({ 16, 643, 60, 64 });
 	enemy1.attack1Left.pivotY = -10;
 	enemy1.attack1Left.loop = false;
-	enemy1.attack1Left.speed = 0.07f;
+	enemy1.attack1Left.speed = 0.12f;
 
 	//attack2
 	enemy1.attack2.frames.push_back({ 417, 478, 60, 64 });
