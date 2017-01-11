@@ -4,7 +4,8 @@ Welcome to my tribute of Teenage Mutant Ninja Turtles Arcade Game (1989)
 ##Author:
 Marc Domingo Costa.
 ##Github repository:
-https://github.com/codeck1/TMNT-ARCADE
+[Github repository](https://github.com/codeck1/TMNT-ARCADE)
+
 
 This is the first level of the Teenage Mutant Ninja Turtles Arcade game released on 1989. 
 This game is made entirely in C++ using the SLD library 
@@ -15,18 +16,20 @@ As the player progresses enemies will break doors or go out of elevators and doo
 
 ## CONTROLS
 ![alt tag](http://i.imgur.com/IklSanH.png)
-* WASD to move the player
-* N to jump
-* M to attack
-* N+M combines jump with attack
+ * WASD to move the player
+ * N to jump
+ * M to attack
+ * N+M combines jump with attack
 
 ## Enemies
-###Purple
+***Purple***
+
 This enemy attacks you when you are close and drops a kick when is far
 
 ![alt tag](http://i.imgur.com/XwOJBO4.png)
 
-###Orange
+***Orange***
+
 This enemy attacks you when you are close and shoots ninja stars when is far
 
 ![alt tag](http://i.imgur.com/0H73DJb.png)
