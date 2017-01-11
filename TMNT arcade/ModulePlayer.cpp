@@ -317,6 +317,7 @@ bool ModulePlayer::Start()
 	colliderFeet = App->collision->AddCollider({ position.x, position.y+50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
 	colliderBody = App->collision->AddCollider({ position.x, position.y +10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
 	currentState = IDLE;
+	random = new Random();
 
 	return true;
 }
@@ -325,7 +326,8 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-
+	RELEASE(random);
+	delete (random);
 	App->textures->Unload(graphics);
 
 	return true;
@@ -426,12 +428,7 @@ update_status ModulePlayer::Update()
 			
 		case ATTACKING:
 		{
-			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
-
-			timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
-			range2.seed(ss);
-			uniform_real_distribution<double> unif(0, 1);
-			randomVar = unif(range2);
+			randomVar = random->GetRandom(0,1);
 
 			if (current_animation != &attack2 && current_animation != &attack1 && !jumped && faceRight == true)
 			{

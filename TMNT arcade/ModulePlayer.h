@@ -4,9 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-#include <random>
-#include <chrono>
-#include <time.h>
+#include "Random.h"
 
 struct SDL_Texture;
 
@@ -77,11 +75,10 @@ public:
 	iPoint jumpInit;
 	State currentState = IDLE;
 	int hits = 0;
-	uint64_t timeSeed2;
-	mt19937_64 range2;
 	double randomVar;
 	bool sameDirection = false;
 	bool end = false;
+	Random* random = nullptr;
 
 
 };

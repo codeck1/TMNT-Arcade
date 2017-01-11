@@ -34,7 +34,7 @@ public:
 	Enemy(const Enemy& e);
 	~Enemy();
 	bool Start();
-	bool Update();
+	bool Update(); 
 
 public:
 
