@@ -19,8 +19,8 @@ public:
 
 	SDL_Texture* fonts = nullptr;
 	SDL_Texture* life = nullptr;
-	int lifeRest = 8;
-	int lives = 3;
+	int lifeRest;
+	int lives;
 };
 
 #endif // __ModuleFonts_H_

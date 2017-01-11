@@ -21,6 +21,8 @@ bool ModuleFonts::Start()
 
 	fonts = App->textures->Load("rtype/UI.png");
 	life = App->textures->Load("rtype/life.png");
+	lifeRest = 8;
+	lives = 3;
 	return true;
 }
 

@@ -891,7 +891,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
 		end = true;
-		//App->fonts->CleanUp();
 	}
 	if (c2->type == COLLIDER_ENEMY_WEAPON || c2->type == COLLIDER_ENEMY_SHOT)
 	{

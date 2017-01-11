@@ -12,17 +12,7 @@
 #include "SDL/include/SDL_timer.h"
 
 ModuleParticles::ModuleParticles()
-{}
-
-ModuleParticles::~ModuleParticles()
-{}
-
-// Load assets
-bool ModuleParticles::Start()
 {
-	LOG("Loading particles");
-	graphics = App->textures->Load("rtype/stagepart.png");
-
 	// Explosion particle
 	//explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
 	// Fire particle
@@ -82,6 +72,18 @@ bool ModuleParticles::Start()
 	door2.anim.speed = 0.1f;
 	door2.active = false;
 	door2.door = true;
+}
+
+ModuleParticles::~ModuleParticles()
+{}
+
+// Load assets
+bool ModuleParticles::Start()
+{
+	LOG("Loading particles");
+	graphics = App->textures->Load("rtype/stagepart.png");
+
+	
 
 	return true;
 }
