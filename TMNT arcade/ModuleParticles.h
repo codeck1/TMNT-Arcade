@@ -11,10 +11,20 @@
 
 struct SDL_Texture;
 
+enum particleType
+{
+	fire,
+	star,
+	doorType,
+	elevatorType,
+
+	none
+};
+
 struct Particle
 {
 	bool to_delete = false;
-	unsigned int fx;
+	unsigned int fx2;
 	iPoint position;
 	iPoint speed;
 	Animation anim;
@@ -24,6 +34,7 @@ struct Particle
 	bool active = true;
 	SDL_Rect firstFrame;
 	bool door = false;
+	particleType ptype = none;
 
 	Particle();
 	Particle(const Particle& p);

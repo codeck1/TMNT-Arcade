@@ -23,8 +23,8 @@ bool ModuleSceneIntro::Start()
 	background = App->textures->Load("rtype/intro.png");
 
 	App->audio->PlayMusic("rtype/introMusic.wav", 1.0f);
-	if(fx == 0)
-		fx = App->audio->LoadFx("rtype/cowabonga.wav");
+	
+	fxI = App->audio->LoadFx("rtype/cowabonga.wav");
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	
@@ -49,7 +49,7 @@ update_status ModuleSceneIntro::Update()
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_space, this);
-		App->audio->PlayFx(fx);
+		App->audio->PlayFx(fxI);
 	}
 
 	return UPDATE_CONTINUE;

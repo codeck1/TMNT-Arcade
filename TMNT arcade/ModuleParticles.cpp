@@ -14,6 +14,7 @@
 ModuleParticles::ModuleParticles()
 {
 	// Explosion particle
+
 	//explosion.fx = App->audio->LoadFx("rtype/explosion.wav");
 	// Fire particle
 	fire.anim.frames.push_back({ 17, 430, 304, 65 });
@@ -57,6 +58,7 @@ ModuleParticles::ModuleParticles()
 	door.anim.frames.push_back({ 401, 242, 56, 79 });
 	door.speed.x = 0;
 	door.speed.y = 0;
+	door.ptype = doorType;
 	door.anim.loop = false;
 	door.anim.speed = 0.2f;
 	door.active = false;
@@ -68,6 +70,7 @@ ModuleParticles::ModuleParticles()
 	door2.anim.frames.push_back({ 362, 336, 43, 79 });
 	door2.speed.x = 0;
 	door2.speed.y = 0;
+	door2.ptype = elevatorType;
 	door2.anim.loop = false;
 	door2.anim.speed = 0.1f;
 	door2.active = false;
@@ -82,8 +85,6 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 	graphics = App->textures->Load("rtype/stagepart.png");
-	door.fx = App->audio->LoadFx("rtype/breakdoor.wav");
-	door2.fx = App->audio->LoadFx("rtype/elevator.wav");
 
 	return true;
 }
@@ -125,14 +126,10 @@ update_status ModuleParticles::Update()
 			active.remove(p);
 			break;
 		}
-		if (abs(App->player->position.x - p->position.x) < 40)
+		if (abs(App->player->position.x - p->position.x) < 40 && (p->ptype == doorType || p->ptype == elevatorType) && p->active == false)
 		{
 			p->active = true;
-			if (p->fx_played == false)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
+			App->audio->PlayFx(p->fx2);
 		}
 			
 		if(p->Update() == false)
@@ -146,11 +143,7 @@ update_status ModuleParticles::Update()
 				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			else
 				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->firstFrame));
-			if (p->fx_played == false && !p->door)
-			{
-				p->fx_played = true;
-				App->audio->PlayFx(p->fx);
-			}
+			
 			++it;
 		}
 	}
@@ -179,12 +172,23 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, const 
 // -------------------------------------------------------------
 
 Particle::Particle()
-{}
-
-Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider), e(p.e), active(p.active), firstFrame(p.firstFrame), door(p.door)
 {
-	fx = p.fx;
+	
+}
+
+Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider), e(p.e), active(p.active), firstFrame(p.firstFrame), door(p.door), ptype(p.ptype)
+{
+	//fx2 = p.fx2;
 	to_delete = p.to_delete;
+	if (ptype == doorType)
+	{
+		fx2 = App->audio->LoadFx("rtype/breakDoor.wav");
+	}
+	else
+		if (ptype == elevatorType)
+		{
+			fx2 = App->audio->LoadFx("rtype/elevator.wav");
+		}
 }
 
 Particle::~Particle()
