@@ -184,22 +184,28 @@ void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
 	{
-		if ((*it)->type == COLLIDER_PLAYER_FEET)
+		if ((*it)->type == COLLIDER_PLAYER_FEET || (*it)->type == COLLIDER_ENEMY_FEET)
 		{
 			App->renderer->DrawQuad((*it)->rect, 0, 0, 0, 80);
 		}
 		else
-		{
 			if ((*it)->type == COLLIDER_PLAYER_WEAPON || (*it)->type == COLLIDER_ENEMY_WEAPON)
 			{
 				App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
 			}
 			else
-				App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+				if ((*it)->type == COLLIDER_PLAYER_JUMP)
+				{
+					App->renderer->DrawQuad((*it)->rect, 255, 255, 0, 80);
+				}
+				else
+					if ((*it)->type == COLLIDER_ENEMY_SHOT)
+					{
+						App->renderer->DrawQuad((*it)->rect, 87, 35, 100, 80);
+					}
+					else
+						App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
 
-		}
-			
-		
 	}
 		
 }

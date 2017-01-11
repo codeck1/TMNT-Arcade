@@ -82,8 +82,8 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 	graphics = App->textures->Load("rtype/stagepart.png");
-
-	
+	door.fx = App->audio->LoadFx("rtype/breakdoor.wav");
+	door2.fx = App->audio->LoadFx("rtype/elevator.wav");
 
 	return true;
 }
@@ -128,6 +128,11 @@ update_status ModuleParticles::Update()
 		if (abs(App->player->position.x - p->position.x) < 40)
 		{
 			p->active = true;
+			if (p->fx_played == false)
+			{
+				p->fx_played = true;
+				App->audio->PlayFx(p->fx);
+			}
 		}
 			
 		if(p->Update() == false)
@@ -141,7 +146,7 @@ update_status ModuleParticles::Update()
 				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			else
 				App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->firstFrame));
-			if (p->fx_played == false)
+			if (p->fx_played == false && !p->door)
 			{
 				p->fx_played = true;
 				App->audio->PlayFx(p->fx);
