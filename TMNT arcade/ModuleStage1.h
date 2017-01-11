@@ -24,7 +24,6 @@ public:
 	int state = 1;
 	bool end = false;
 
-
 public:
 	
 	SDL_Texture* background = nullptr;

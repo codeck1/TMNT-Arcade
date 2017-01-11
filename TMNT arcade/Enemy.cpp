@@ -12,10 +12,10 @@ Enemy::Enemy()
 Enemy::Enemy(const Enemy & e) : up(e.up), upLeft(e.upLeft),right(e.right), left(e.left),
 attack1(e.attack1), attack1Left(e.attack1Left), attack2(e.attack2),attack2Left(e.attack2Left),
 position(e.position),eliminated(e.eliminated), colliderFeet(e.colliderFeet), colliderBody(e.colliderBody),
-colliderWeapon(e.colliderWeapon),colliderJump(e.colliderJump), faceRight(e.faceRight), inAir(e.inAir),
-jumped(e.jumped), goingDown(e.goingDown),attacking(e.attacking), jumpPos(e.jumpPos), jumpInit(e.jumpInit),
-currentState(e.currentState), graphics(e.graphics), reciveDamage(e.reciveDamage), reciveDamageLeft(e.reciveDamageLeft),
-reciveDamage2(e.reciveDamage2), reciveDamage2Left(e.reciveDamage2Left), reciveDamage3(e.reciveDamage3), reciveDamage3Left(e.reciveDamage3Left)
+colliderWeapon(e.colliderWeapon),colliderJump(e.colliderJump), faceRight(e.faceRight),
+jumped(e.jumped),attacking(e.attacking),currentState(e.currentState), graphics(e.graphics),
+reciveDamage(e.reciveDamage), reciveDamageLeft(e.reciveDamageLeft),reciveDamage2(e.reciveDamage2),
+reciveDamage2Left(e.reciveDamage2Left), reciveDamage3(e.reciveDamage3), reciveDamage3Left(e.reciveDamage3Left)
 {
 }
 
@@ -58,10 +58,9 @@ bool Enemy::Update()
 			}
 			break;
 
-	case ENEMYJUMPING:
-		break;
 	case GOINGY:
-		
+		if (App->player->jumped)
+			currentState = GOINGX;
 		if(abs(App->player->position.x - position.x) <= SCREEN_WIDTH / 4)
 		{
 			if ((App->player->position.y - position.y) < 0)
@@ -108,6 +107,7 @@ bool Enemy::Update()
 			currentState = ENEMYIDLE;
 		
 		break;
+
 	case GOINGX:
 		if(abs(App->player->position.y - position.y) == 0 || abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 		{
@@ -290,7 +290,6 @@ bool Enemy::Update()
 				currentState = ENEMYIDLE;
 		}
 			
-
 		if (jumped)
 		{
 			if (faceRight)
@@ -323,9 +322,7 @@ bool Enemy::Update()
 					colliderWeapon->SetPos(position.x - 15, position.y + 20);
 				}
 				walk.x -= 3;
-			}
-				
-			
+			}	
 		}
 		if ((current_animation == &attack1 || current_animation == &attack1Left || current_animation == &attack2 || current_animation == &attack2Left) && current_animation->Finished() )
 		{
@@ -437,7 +434,7 @@ bool Enemy::Update()
 			}
 			break;
 	}
-	
+
 	position += walk;
 	return true;
 }

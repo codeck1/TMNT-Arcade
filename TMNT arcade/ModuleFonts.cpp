@@ -58,7 +58,7 @@ void ModuleFonts::Life()
 			lifeRest = 8;
 		}
 		SDL_Rect section = { 0,0,lifeRest * 5,11 };
-		App->renderer->Blit(life, -App->renderer->camera.x / 3 + 220, 16, &section);
+		App->renderer->Blit(life, -App->renderer->camera.x/SCREEN_SIZE + 220, 16, &section);
 	}
 	
 	return;

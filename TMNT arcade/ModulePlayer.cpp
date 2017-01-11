@@ -10,7 +10,6 @@
 #include "ModuleAudio.h"
 #include "ModuleFonts.h"
 #include "ModuleFadeToBlack.h"
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModulePlayer::ModulePlayer(bool active) : Module(active)
 {
@@ -341,7 +340,6 @@ update_status ModulePlayer::Update()
 	{
 		case IDLE:
 		{
-
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 			{
 				faceRight = false;
@@ -353,7 +351,6 @@ update_status ModulePlayer::Update()
 						left.Reset();
 						current_animation = &left;
 					}
-
 				}
 			}
 
@@ -368,7 +365,6 @@ update_status ModulePlayer::Update()
 						right.Reset();
 						current_animation = &right;
 					}
-
 				}
 			}
 
@@ -420,7 +416,6 @@ update_status ModulePlayer::Update()
 				jumped = true;
 			}
 
-
 			if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 			{
 				currentState = ATTACKING;
@@ -431,7 +426,6 @@ update_status ModulePlayer::Update()
 			
 		case ATTACKING:
 		{
-
 			seed_seq ss{ uint32_t(timeSeed2 & 0xffffffff), uint32_t(timeSeed2 >> 32) };
 
 			timeSeed2 = chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -448,7 +442,6 @@ update_status ModulePlayer::Update()
 					current_animation = &attack1;
 					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-
 				}
 				else
 				{
@@ -457,7 +450,6 @@ update_status ModulePlayer::Update()
 					current_animation = &attack2;
 					colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-
 				}
 
 			}
@@ -470,7 +462,6 @@ update_status ModulePlayer::Update()
 					current_animation = &attack1Left;
 					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-
 				}
 				else
 				{
@@ -479,7 +470,6 @@ update_status ModulePlayer::Update()
 					current_animation = &attack2Left;
 					colliderWeapon = App->collision->AddCollider({ position.x - 7, position.y + 20, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
 					attacking = true;
-
 				}
 			}
 			if (current_animation != &attackAir && jumped)
@@ -498,7 +488,6 @@ update_status ModulePlayer::Update()
 							jumpPos = position.y;
 							attackingAirX = 3;
 							colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 15, 15 }, COLLIDER_PLAYER_WEAPON, this);
-
 						}
 						if (!faceRight && current_animation != &attackAirLeft)
 						{
@@ -536,7 +525,6 @@ update_status ModulePlayer::Update()
 							colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
 						}
 					}
-
 				}
 				else
 				{
@@ -554,7 +542,6 @@ update_status ModulePlayer::Update()
 								jumpPos = position.y;
 								attackingAirX = 3;
 								colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
-
 							}
 							if (!faceRight && current_animation != &attackAirLeft)
 							{
@@ -566,7 +553,6 @@ update_status ModulePlayer::Update()
 								jumpPos = position.y;
 								attackingAirX = -3;
 								colliderWeapon = App->collision->AddCollider({ position.x - 40, position.y + 60, 30, 15 }, COLLIDER_PLAYER_WEAPON, this);
-
 							}
 						}
 						else
@@ -580,7 +566,6 @@ update_status ModulePlayer::Update()
 								goingDown = true;
 								jumpPos = position.y;
 								colliderWeapon = App->collision->AddCollider({ position.x + 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
-
 							}
 							if (!faceRight && current_animation != &attackAir2Left)
 							{
@@ -591,7 +576,6 @@ update_status ModulePlayer::Update()
 								goingDown = true;
 								jumpPos = position.y;
 								colliderWeapon = App->collision->AddCollider({ position.x - 42, position.y + 40, 50, 15 }, COLLIDER_PLAYER_WEAPON, this);
-
 							}
 						}
 					}
@@ -620,6 +604,7 @@ update_status ModulePlayer::Update()
 		}
 			
 	case BEINGATTACKED:
+
 		if (attacking)
 		{
 			attacking = false;
@@ -753,6 +738,7 @@ update_status ModulePlayer::Update()
 		break;
 
 	case END:
+
 		if (abs(position.x - 1350) > 0 && !end)
 		{
 			position.x += 1;
@@ -767,9 +753,7 @@ update_status ModulePlayer::Update()
 		}
 		break;
 	}
-
 	
-
 	//ending of actions
 	if ((current_animation == &attack1 || current_animation == &attack2 || current_animation == &attack2Left || current_animation == &attack1Left || current_animation == &attackAir || current_animation == &attackAirLeft || current_animation == &attackAir2 || current_animation == &attackAir2Left) && current_animation->Finished())
 	{
@@ -850,7 +834,6 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE
 		&& App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE
@@ -871,7 +854,6 @@ update_status ModulePlayer::Update()
 		}
 	}
 	
-
 	// Draw everything --------------------------------------
 	if(eliminated == false)
 		App->renderer->Blit(graphics, position.x-current_animation->pivot, position.y- current_animation->pivotY, &(current_animation->GetCurrentFrame()));

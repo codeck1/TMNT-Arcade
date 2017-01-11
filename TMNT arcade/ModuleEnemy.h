@@ -1,7 +1,6 @@
 #ifndef __ModuleEnemy_H__
 #define __ModuleEnemy_H__
 
-#include<list>
 #include "Globals.h"
 #include "Module.h"
 #include "Animation.h"

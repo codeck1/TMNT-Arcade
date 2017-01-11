@@ -10,7 +10,6 @@ ModuleEnemy::ModuleEnemy()
 {
 
 	//Animaciones de cada enemigo y sonidos. Prototipos
-
 	//ENEMY 1
 
 	//going left
@@ -492,6 +491,7 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 					if (c1->rect.h + c1->rect.y > c2->rect.y && (c2->type == COLLIDER_WALL))
 					{
 						aux->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+
 					}
 				}
 			}

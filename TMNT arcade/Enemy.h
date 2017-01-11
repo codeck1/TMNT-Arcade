@@ -20,7 +20,6 @@ enum EnemyType
 enum EnemyState
 {
 	ENEMYIDLE,
-	ENEMYJUMPING,
 	ENEMYATTACKING, 
 	ENEMYBEINGATTACKED,
 	ENEMYTAKEDOWN,
@@ -36,7 +35,6 @@ public:
 	~Enemy();
 	bool Start();
 	bool Update();
-
 
 public:
 
@@ -63,13 +61,9 @@ public:
 	Collider* colliderWeapon;
 	Collider* colliderJump;
 	bool faceRight = true;
-	bool inAir = false;
 	bool jumped = false;
-	bool goingDown = false;
 	bool attacking = false;
-	int jumpPos;
 	int attackingAirX = 0;
-	iPoint jumpInit;
 	EnemyState currentState = ENEMYIDLE;
 	EnemyType eType;
 	iPoint walk;
