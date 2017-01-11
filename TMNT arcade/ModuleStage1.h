@@ -22,7 +22,7 @@ public:
 	int wallRightLimit, wallLeftLimit;
 	iPoint positionEnemy;
 	int state = 1;
-	bool started = false;
+	bool end = false;
 
 
 public:

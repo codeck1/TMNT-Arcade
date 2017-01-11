@@ -54,16 +54,15 @@ bool ModuleStage1::Start()
 	App->particles->AddParticle(App->particles->door2, 949, 50, 0);
 	App->particles->AddParticle(App->particles->door2, 1078, 50, 0);
 	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
-	positionEnemy.x = -20;
+	positionEnemy.x = -50;
 	positionEnemy.y = 160;
 	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
-	positionEnemy.x = 500;
-	positionEnemy.y = 150;
-	App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
+	//positionEnemy.x = 500;
+	//positionEnemy.y = 150;
+	//App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
 	positionEnemy.x = 500;
 	positionEnemy.y = 100;
 	App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
-	started = true;
 
 	return true;
 }
@@ -98,9 +97,9 @@ update_status ModuleStage1::Update()
 			//positionEnemy.x = 1000;
 			//positionEnemy.y = 120;
 			//App->enemy->AddEnemy(App->enemy->enemy2, positionEnemy, TYPE2);
-			positionEnemy.x = 50;
-			positionEnemy.y = 100;
-			App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
+			//positionEnemy.x = 50;
+			//positionEnemy.y = 100;
+			//App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
 			App->enemy->enemiesClear = false;
 
 			break;
@@ -136,13 +135,17 @@ update_status ModuleStage1::Update()
 				//positionEnemy.x = 600;
 				//positionEnemy.y = 100;
 				//App->enemy->AddEnemy(App->enemy->enemy1, positionEnemy, TYPE1);
-
+				end = true;
 				App->enemy->enemiesClear = false;
 			}
-				break;
+			break;
 
-			
+		case 4:
+			state++;
+			App->player->currentState = END;
+			break;
 		}
+		
 	}
 
 

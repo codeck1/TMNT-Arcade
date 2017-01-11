@@ -27,7 +27,7 @@ bool ModuleFonts::Start()
 update_status ModuleFonts::Update()
 {
 
-	if (App->scene_space->started)
+	if (App->scene_space->IsEnabled())
 	{
 		App->renderer->Blit(fonts, -App->renderer->camera.x / 3, 0, NULL);
 		Life();
@@ -48,12 +48,17 @@ bool ModuleFonts::CleanUp()
 
 void ModuleFonts::Life()
 {
-	if (lifeRest == 0)
+	if (lives != 0)
 	{
-		lifeRest = 8;
+		if (lifeRest == 0)
+		{
+			lives -= 1;
+			lifeRest = 8;
+		}
+		SDL_Rect section = { 0,0,lifeRest * 5,11 };
+		App->renderer->Blit(life, -App->renderer->camera.x / 3 + 220, 16, &section);
 	}
-	SDL_Rect section = { 0,0,lifeRest*5,11 };
-	App->renderer->Blit(life, -App->renderer->camera.x /3 +220, 16, &section);
+	
 	return;
 }
 

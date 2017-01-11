@@ -61,6 +61,7 @@ bool Enemy::Update()
 	case ENEMYJUMPING:
 		break;
 	case GOINGY:
+		
 		if(abs(App->player->position.x - position.x) <= SCREEN_WIDTH / 4)
 		{
 			if ((App->player->position.y - position.y) < 0)

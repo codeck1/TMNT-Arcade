@@ -16,7 +16,8 @@ enum State
 	JUMPING,
 	ATTACKING,
 	BEINGATTACKED,
-	TAKEDDOWN
+	TAKEDDOWN,
+	END
 };
 
 class ModulePlayer : public Module
@@ -80,7 +81,7 @@ public:
 	mt19937_64 range2;
 	double randomVar;
 	bool sameDirection = false;
-
+	bool end = false;
 
 
 };

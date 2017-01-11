@@ -9,10 +9,7 @@
 #include "ModulePlayer.h"
 #include "ModuleAudio.h"
 #include "ModuleFonts.h"
-
-
-
-
+#include "ModuleFadeToBlack.h"
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 ModulePlayer::ModulePlayer(bool active) : Module(active)
@@ -320,6 +317,7 @@ bool ModulePlayer::Start()
 	position.y = 150;
 	colliderFeet = App->collision->AddCollider({ position.x, position.y+50, 32, 14 }, COLLIDER_PLAYER_FEET, this);
 	colliderBody = App->collision->AddCollider({ position.x, position.y +10, 32, 45 }, COLLIDER_PLAYER_BODY, this);
+	currentState = IDLE;
 
 	return true;
 }
@@ -753,6 +751,21 @@ update_status ModulePlayer::Update()
 		hits = 0;
 
 		break;
+
+	case END:
+		if (abs(position.x - 1350) > 0 && !end)
+		{
+			position.x += 1;
+			current_animation = &right;
+			if (abs(position.y - 100) > 0)
+			{
+				if (position.y > 100)
+					position.y -= 1;
+				else
+					position.y += 1;
+			}
+		}
+		break;
 	}
 
 	
@@ -874,7 +887,12 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	
+	if (currentState == END && c2->type == COLLIDER_BORDER)
+	{
+		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
+		end = true;
+		//App->fonts->CleanUp();
+	}
 	if (c2->type == COLLIDER_ENEMY_WEAPON || c2->type == COLLIDER_ENEMY_SHOT)
 	{
 		if (currentState == ATTACKING)
