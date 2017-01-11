@@ -16,6 +16,7 @@ As the player progresses enemies will break doors or go out of elevators and doo
 
 ## CONTROLS
 ![alt tag](http://i.imgur.com/IklSanH.png)
+
 - WASD to move
 - N to jump
 - M to attack
