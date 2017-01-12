@@ -46,4 +46,4 @@ This enemy attacks you when you are close and shoots ninja stars when is far
 [Link to video](https://www.youtube.com/watch?v=az5EWQ1Av4o)
 
 ## DOWNLOAD RELEASE
-[DOWNLOAD](https://github.com/codeck1/TMNT-Arcade/releases)
+[DOWNLOAD](https://github.com/codeck1/TMNT-Arcade/releases/tag/V1.1)
